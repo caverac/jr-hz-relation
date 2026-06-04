@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jr-hz-relation"
+version = "0.1.0"
+description = "An analytic provenance bias and the spiral J_R-h_Z relation"
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+dependencies = [
+    "numpy>=2.1",
+    "scipy>=1.14",
+    "matplotlib>=3.9",
+    "galpy>=1.11",
+]
+
+[project.scripts]
+jr-hz-relation = "jr_hz_relation.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+jr_hz_relation = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["jr_hz_relation"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100

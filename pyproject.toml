@@ -1,0 +1,87 @@
+[project]
+name = "jr-hz-relation-workspace"
+version = "0.0.0"
+description = "uv workspace root -- not a real package"
+requires-python = ">=3.14"
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/jr_hz_relation"]
+
+[tool.uv.sources]
+jr-hz-relation = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "jr-hz-relation",
+    "pytest>=8.0",
+    "pytest-cov>=7.0.0",
+    "mypy>=1.15",
+    "black>=24.0.0",
+    "flake8>=7.0.0",
+    "flake8-docstrings>=1.7.0",
+    "pylint>=3.0.0",
+    "pydocstyle>=6.3.0",
+    "isort>=5.13.0",
+    "pre-commit>=4.0.0",
+    "build>=1.4.0",
+]
+
+# =============================================================================
+# Tool configuration
+# No lint rule is ignored anywhere in this project. Where a rule is configured
+# below (e.g. pylint good-names) that tunes the rule to the project's notation;
+# it does not disable it. The mypy ignore_missing_imports entries cover third-
+# party libraries that ship no type stubs -- they do not disable a check.
+# =============================================================================
+
+[tool.black]
+line-length = 120
+target-version = ["py314"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+known_first_party = ["jr_hz_relation"]
+
+[tool.pylint.format]
+max-line-length = 120
+
+# Galactic-dynamics notation: whitelist the canonical symbols used in the
+# derivation -- single letters (vertical form factor F, spiral wavenumber k,
+# height z, vertical energy E, gravitational constant G, radius R, spiral strength
+# s, arm number m, sample sizes n/p, dimensionless duration x, slope a) and the
+# standard subscripted constants (radial dispersion sigma_R, solar radius R0 and
+# speed V0, radial AVR exponent beta_R). This configures the naming rule; it does
+# not disable it.
+[tool.pylint.basic]
+good-names = ["F", "k", "z", "E", "G", "R", "s", "m", "n", "p", "x", "f", "a", "sigma_R", "R0", "V0", "beta_R"]
+
+[tool.pydocstyle]
+convention = "numpy"
+
+[tool.mypy]
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+explicit_package_bases = true
+mypy_path = ["packages/jr_hz_relation/src"]
+
+[[tool.mypy.overrides]]
+module = "scipy.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "matplotlib.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "galpy.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks slow tests (deselect with '-m \"not slow\"')",
+]

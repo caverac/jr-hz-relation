@@ -1,0 +1,4 @@
+packages/pre-print/
+notebooks/
+**/.docusaurus/
+**/build/
