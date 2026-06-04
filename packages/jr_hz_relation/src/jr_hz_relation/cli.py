@@ -7,6 +7,10 @@ its age-running, and figure generation::
     jr-hz-relation bias --alpha 0.84 --strength 0.9
     jr-hz-relation slope --c-max 1.0
     jr-hz-relation age-running --age 8 --ref 1 --beta-r 0.35 --beta-z 0.5
+    jr-hz-relation trapping --alpha 0.84 --island-width 1.0
+    jr-hz-relation crossover --alpha 0.84 --overlap 2.0
+    jr-hz-relation thickness --alpha 0.84 --thickness 0.5
+    jr-hz-relation diffusion --alpha 0.84 --broadening 3.0
     jr-hz-relation overlap --strength 0.02 --form-factor 1.0
     jr-hz-relation figures --outdir packages/pre-print
 """
@@ -16,10 +20,14 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from jr_hz_relation.balescu_lenard import bl_dispersion_ratio
+from jr_hz_relation.crossover import crossover_dispersion_ratio
 from jr_hz_relation.figures import make_all_figures
 from jr_hz_relation.form_factor import dispersion_ratio, strength_matching_anchor, vertical_form_factor
 from jr_hz_relation.overlap import milky_way_overlap
 from jr_hz_relation.slope import AVRExponents, SolarNeighbourhood, slope_age_factor, slope_in_lsun_per_kpc
+from jr_hz_relation.thickness import softened_dispersion_ratio
+from jr_hz_relation.trapping import trapping_dispersion_ratio
 
 
 def _cmd_form_factor(args: argparse.Namespace) -> int:
@@ -59,6 +67,38 @@ def _cmd_anchor(args: argparse.Namespace) -> int:
     """Print the spiral strength that reproduces the measured Milky-Way bias."""
     strength = strength_matching_anchor(args.alpha, args.target)
     print(f"spiral strength matching ratio {args.target:.2f} at alpha={args.alpha:.2f}: s={strength:.3f}")
+    return 0
+
+
+def _cmd_trapping(args: argparse.Namespace) -> int:
+    """Print the provenance bias from the exact corotation trapped fraction."""
+    ratio = trapping_dispersion_ratio(args.alpha, args.island_width)
+    print(f"trapped-fraction bias(alpha={args.alpha:.3f}, kappa={args.island_width:.3f}): ratio={ratio:.4f}")
+    print(f"=> {100.0 * (1.0 - ratio):.1f}% colder (single-resonance; capped near 7% at the MW thickness)")
+    return 0
+
+
+def _cmd_crossover(args: argparse.Namespace) -> int:
+    """Print the provenance bias from the trapping-to-diffusion crossover weight."""
+    ratio = crossover_dispersion_ratio(args.alpha, args.overlap)
+    print(f"crossover bias(alpha={args.alpha:.3f}, S0={args.overlap:.3f}): ratio={ratio:.4f}")
+    print(f"=> {100.0 * (1.0 - ratio):.1f}% colder (between the 7% trapping floor and 24% diffusion ceiling)")
+    return 0
+
+
+def _cmd_diffusion(args: argparse.Namespace) -> int:
+    """Print the diffusive provenance bias from the Balescu-Lenard weight."""
+    ratio = bl_dispersion_ratio(args.alpha, args.broadening)
+    print(f"Balescu-Lenard bias(alpha={args.alpha:.3f}, b={args.broadening:.3f}): ratio={ratio:.4f}")
+    print(f"=> {100.0 * (1.0 - ratio):.1f}% colder (diffusive band ~19-24%, derived; F^2 at b=0, F^1.5 at large b)")
+    return 0
+
+
+def _cmd_thickness(args: argparse.Namespace) -> int:
+    """Print the single-resonance bias with the finite-thickness form factor."""
+    ratio = softened_dispersion_ratio(args.alpha, args.thickness)
+    print(f"finite-thickness bias(alpha={args.alpha:.3f}, h={args.thickness:.3f}): ratio={ratio:.4f}")
+    print(f"=> {100.0 * (1.0 - ratio):.1f}% colder (razor-thin h=0 gives ~7%; softens as the spiral thickens)")
     return 0
 
 
@@ -113,6 +153,26 @@ def build_parser() -> argparse.ArgumentParser:
     anchor.add_argument("--alpha", type=float, default=0.84)
     anchor.add_argument("--target", type=float, default=0.80)
     anchor.set_defaults(func=_cmd_anchor)
+
+    trapping = sub.add_parser("trapping", help="provenance bias from the exact trapped fraction")
+    trapping.add_argument("--alpha", type=float, default=0.84)
+    trapping.add_argument("--island-width", type=float, default=1.0, dest="island_width")
+    trapping.set_defaults(func=_cmd_trapping)
+
+    crossover = sub.add_parser("crossover", help="provenance bias across the overlap transition")
+    crossover.add_argument("--alpha", type=float, default=0.84)
+    crossover.add_argument("--overlap", type=float, default=2.0)
+    crossover.set_defaults(func=_cmd_crossover)
+
+    thickness = sub.add_parser("thickness", help="single-resonance bias with finite spiral thickness")
+    thickness.add_argument("--alpha", type=float, default=0.84)
+    thickness.add_argument("--thickness", type=float, default=0.5)
+    thickness.set_defaults(func=_cmd_thickness)
+
+    diffusion = sub.add_parser("diffusion", help="diffusive bias from the Balescu-Lenard weight")
+    diffusion.add_argument("--alpha", type=float, default=0.84)
+    diffusion.add_argument("--broadening", type=float, default=3.0)
+    diffusion.set_defaults(func=_cmd_diffusion)
 
     overlap = sub.add_parser("overlap", help="bar-spiral Chirikov resonance overlap")
     overlap.add_argument("--strength", type=float, default=0.02)

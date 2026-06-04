@@ -36,6 +36,26 @@ def test_anchor_command() -> None:
     assert main(["anchor", "--alpha", "0.84", "--target", "0.80"]) == 0
 
 
+def test_trapping_command() -> None:
+    """The trapping subcommand runs and returns success."""
+    assert main(["trapping", "--alpha", "0.84", "--island-width", "1.0"]) == 0
+
+
+def test_crossover_command() -> None:
+    """The crossover subcommand runs and returns success."""
+    assert main(["crossover", "--alpha", "0.84", "--overlap", "2.0"]) == 0
+
+
+def test_thickness_command() -> None:
+    """The thickness subcommand runs and returns success."""
+    assert main(["thickness", "--alpha", "0.84", "--thickness", "0.5"]) == 0
+
+
+def test_diffusion_command() -> None:
+    """The diffusion subcommand runs and returns success."""
+    assert main(["diffusion", "--alpha", "0.84", "--broadening", "3.0"]) == 0
+
+
 def test_overlap_command() -> None:
     """The overlap subcommand runs and returns success."""
     assert main(["overlap", "--strength", "0.02", "--form-factor", "1.0"]) == 0

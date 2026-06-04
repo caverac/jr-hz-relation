@@ -13,9 +13,13 @@ import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
+from jr_hz_relation.balescu_lenard import diffusion_weight
+from jr_hz_relation.crossover import crossover_weight
 from jr_hz_relation.form_factor import dispersion_ratio, strength_matching_anchor, vertical_form_factor
 from jr_hz_relation.overlap import milky_way_overlap
-from jr_hz_relation.sheet import vertical_action
+from jr_hz_relation.sheet import vertical_action, vertical_frequency
+from jr_hz_relation.thickness import softened_dispersion_ratio
+from jr_hz_relation.trapping import trapped_fraction
 from jr_hz_relation.validate import form_factor_orbit
 
 #: k z0 for the Milky Way (lambda_R ~ 3 kpc, z0 ~ 0.4 kpc).
@@ -188,6 +192,207 @@ def figure_resonance_overlap(path: Path, n_strength: int = 60) -> Path:
     return _save(fig, path)
 
 
+def figure_trapped_weight(path: Path, n_energy: int = 60) -> Path:
+    r"""Plot the exact trapped weight versus vertical action for several island widths.
+
+    The normalised trapped weight ``W/W_0`` interpolates between the dilute
+    ``\sqrt{F}`` law (narrow islands) and a flat, saturated profile (wide islands)
+    as the island-width parameter ``kappa`` grows.
+
+    Parameters
+    ----------
+    path :
+        Output PDF path.
+    n_energy :
+        Number of vertical-energy samples.
+
+    Returns
+    -------
+    pathlib.Path
+        The written path.
+    """
+    energies = np.linspace(0.05, 4.0, n_energy)
+    actions = np.array([vertical_action(float(e)) for e in energies])
+    forms = np.array([vertical_form_factor(float(e), MW_ALPHA) for e in energies])
+    fig = Figure(figsize=(6.0, 4.0))
+    axes = fig.add_subplot(1, 1, 1)
+    for kappa, colour in ((0.3, "C0"), (1.0, "C1"), (3.0, "C3")):
+        weight = np.array([trapped_fraction(float(value), kappa) for value in forms])
+        axes.plot(actions, weight / weight[0], "-", color=colour, label=rf"$\kappa={kappa:g}$")
+    axes.plot(actions, np.sqrt(forms), "k--", label=r"$\sqrt{F}$ (dilute limit)")
+    axes.set_xlabel(r"vertical action $J_z$ (sheet units)")
+    axes.set_ylabel(r"trapped weight $W/W_0$")
+    axes.set_ylim(0.0, 1.02)
+    axes.legend()
+    return _save(fig, path)
+
+
+def figure_trapping_cap(path: Path, n_kappa: int = 20, n_energy: int = 60) -> Path:
+    r"""Plot the provenance bias from the exact trapped fraction versus island width.
+
+    The single-resonance bias rises to the ``\sqrt{F}`` cap as ``kappa -> 0`` and
+    falls toward zero for wide islands; the measured bias lies above the cap,
+    showing single-resonance trapping cannot reproduce it.
+
+    Parameters
+    ----------
+    path :
+        Output PDF path.
+    n_kappa :
+        Number of island-width samples.
+    n_energy :
+        Number of vertical-energy quadrature points.
+
+    Returns
+    -------
+    pathlib.Path
+        The written path.
+    """
+    energies = np.linspace(1e-3, 12.0, n_energy)
+    forms = np.array([vertical_form_factor(float(e), MW_ALPHA) for e in energies])
+    base = np.exp(-energies) * (2.0 * np.pi / np.array([vertical_frequency(float(e)) for e in energies]))
+
+    def _bias(kappa: float) -> float:
+        """Percentage migrator coldness for island-width ``kappa`` at the MW thickness."""
+        weight = np.array([trapped_fraction(float(value), kappa) for value in forms])
+        mean_all = np.trapezoid(energies * base, energies) / np.trapezoid(base, energies)
+        mean_mig = np.trapezoid(energies * base * weight, energies) / np.trapezoid(base * weight, energies)
+        return float(100.0 * (1.0 - np.sqrt(mean_mig / mean_all)))
+
+    kappas = np.logspace(-1.0, 1.0, n_kappa)
+    fig = Figure(figsize=(6.0, 4.0))
+    axes = fig.add_subplot(1, 1, 1)
+    axes.semilogx(kappas, [_bias(float(k)) for k in kappas], "C2-o", markersize=3, label="single-resonance trapping")
+    axes.axhline(_bias(1e-3), color="0.4", linestyle=":", label=r"$\sqrt{F}$ cap")
+    axes.axhline(100.0 * (1.0 - MEASURED_RATIO), color="k", linestyle="--", label="measured (Vera-Ciro+2016)")
+    axes.set_xlabel(r"island-width parameter $\kappa$")
+    axes.set_ylabel(r"migrator coldness $1-\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$ (\%)")
+    axes.legend()
+    return _save(fig, path)
+
+
+def figure_crossover_bias(path: Path, n_overlap: int = 24, n_energy: int = 120) -> Path:
+    r"""Plot the provenance bias across the trapping-to-diffusion overlap transition.
+
+    The bias from the crossover weight ``W = F^{p(S_0 \sqrt{F})}`` rises from the
+    ``\sqrt{F}`` trapping floor toward the ``F^2`` diffusion ceiling as the effective
+    overlap ``S_0`` grows; the measured value is reached near the overlap expected
+    once transient spirals supplement the bar and spiral.
+
+    Parameters
+    ----------
+    path :
+        Output PDF path.
+    n_overlap :
+        Number of overlap-strength samples.
+    n_energy :
+        Number of vertical-energy quadrature points.
+
+    Returns
+    -------
+    pathlib.Path
+        The written path.
+    """
+    energies = np.linspace(1e-3, 12.0, n_energy)
+    forms = np.array([vertical_form_factor(float(e), MW_ALPHA) for e in energies])
+    base = np.exp(-energies) * (2.0 * np.pi / np.array([vertical_frequency(float(e)) for e in energies]))
+
+    def _bias(overlap_strength: float) -> float:
+        """Percentage migrator coldness at overlap ``overlap_strength``."""
+        weight = np.array([crossover_weight(float(value), overlap_strength) for value in forms])
+        mean_all = np.trapezoid(energies * base, energies) / np.trapezoid(base, energies)
+        mean_mig = np.trapezoid(energies * base * weight, energies) / np.trapezoid(base * weight, energies)
+        return float(100.0 * (1.0 - np.sqrt(mean_mig / mean_all)))
+
+    overlaps = np.linspace(0.0, 4.0, n_overlap)
+    fig = Figure(figsize=(6.0, 4.0))
+    axes = fig.add_subplot(1, 1, 1)
+    axes.plot(overlaps, [_bias(float(s)) for s in overlaps], "C4-o", markersize=3, label="overlap crossover")
+    axes.axhline(_bias(0.0), color="0.4", linestyle=":", label=r"$\sqrt{F}$ trapping floor")
+    axes.axhline(_bias(50.0), color="0.6", linestyle=":", label=r"$F^2$ diffusion ceiling")
+    axes.axhline(100.0 * (1.0 - MEASURED_RATIO), color="k", linestyle="--", label="measured (Vera-Ciro+2016)")
+    axes.axvspan(0.9, 1.1, color="0.9", label="bar+spiral overlap")
+    axes.set_xlabel(r"effective resonance overlap $S_0$")
+    axes.set_ylabel(r"migrator coldness $1-\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$ (\%)")
+    axes.legend()
+    return _save(fig, path)
+
+
+def figure_finite_thickness(path: Path, n_thickness: int = 20) -> Path:
+    """Plot the single-resonance bias versus spiral thickness with finite-thickness F.
+
+    The razor-thin form factor softens as the spiral acquires a finite vertical scale
+    ``h=h_s/z_0``, weakening the bias by an order-unity factor in the Milky-Way
+    regime ``h`` ~ 0.5--1.
+
+    Parameters
+    ----------
+    path :
+        Output PDF path.
+    n_thickness :
+        Number of spiral-thickness samples.
+
+    Returns
+    -------
+    pathlib.Path
+        The written path.
+    """
+    thicknesses = np.linspace(0.0, 1.5, n_thickness)
+    biases = np.array([100.0 * (1.0 - softened_dispersion_ratio(MW_ALPHA, float(h))) for h in thicknesses])
+    fig = Figure(figsize=(6.0, 4.0))
+    axes = fig.add_subplot(1, 1, 1)
+    axes.plot(thicknesses, biases, "C5-o", markersize=3, label="single-resonance bias")
+    axes.axvspan(0.5, 1.0, color="0.9", label="spiral thickness (MW)")
+    axes.set_xlabel(r"spiral thickness $h=h_s/z_0$")
+    axes.set_ylabel(r"migrator coldness $1-\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$ (\%)")
+    axes.legend()
+    return _save(fig, path)
+
+
+def figure_balescu_lenard(path: Path, n_b: int = 24, n_energy: int = 120) -> Path:
+    r"""Plot the diffusive provenance bias versus the resonance-broadening parameter.
+
+    The Balescu-Lenard weight ``W=F^2/(1+b\sqrt{F})`` pins the diffusive bias to a
+    narrow band between the ``F^2`` and ``F^{3/2}`` limits, nearly independent of the
+    broadening ``b``; the measured value sits inside it.
+
+    Parameters
+    ----------
+    path :
+        Output PDF path.
+    n_b :
+        Number of broadening-parameter samples.
+    n_energy :
+        Number of vertical-energy quadrature points.
+
+    Returns
+    -------
+    pathlib.Path
+        The written path.
+    """
+    energies = np.linspace(1e-3, 12.0, n_energy)
+    forms = np.array([vertical_form_factor(float(e), MW_ALPHA) for e in energies])
+    base = np.exp(-energies) * (2.0 * np.pi / np.array([vertical_frequency(float(e)) for e in energies]))
+
+    def _bias(broadening: float) -> float:
+        """Percentage migrator coldness at broadening ``broadening``."""
+        weight = np.array([diffusion_weight(float(value), broadening) for value in forms])
+        mean_all = np.trapezoid(energies * base, energies) / np.trapezoid(base, energies)
+        mean_mig = np.trapezoid(energies * base * weight, energies) / np.trapezoid(base * weight, energies)
+        return float(100.0 * (1.0 - np.sqrt(mean_mig / mean_all)))
+
+    broadenings = np.linspace(0.0, 20.0, n_b)
+    fig = Figure(figsize=(6.0, 4.0))
+    axes = fig.add_subplot(1, 1, 1)
+    axes.axhspan(_bias(1e6), _bias(0.0), color="0.92", label=r"diffusive band ($F^{3/2}$ to $F^2$)")
+    axes.plot(broadenings, [_bias(float(b)) for b in broadenings], "C6-o", markersize=3, label="resonance-broadened")
+    axes.axhline(100.0 * (1.0 - MEASURED_RATIO), color="k", linestyle="--", label="measured (Vera-Ciro+2016)")
+    axes.set_xlabel(r"broadening parameter $b$")
+    axes.set_ylabel(r"migrator coldness $1-\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$ (\%)")
+    axes.legend()
+    return _save(fig, path)
+
+
 def make_all_figures(outdir: Path) -> dict[str, Path]:
     """Write the full figure set to ``outdir`` and return a name-to-path mapping.
 
@@ -207,4 +412,9 @@ def make_all_figures(outdir: Path) -> dict[str, Path]:
         "provenance-bias": figure_provenance_bias(outdir / "provenance-bias.pdf"),
         "form-factor-validation": figure_form_factor_validation(outdir / "form-factor-validation.pdf"),
         "resonance-overlap": figure_resonance_overlap(outdir / "resonance-overlap.pdf"),
+        "trapped-weight": figure_trapped_weight(outdir / "trapped-weight.pdf"),
+        "trapping-cap": figure_trapping_cap(outdir / "trapping-cap.pdf"),
+        "crossover-bias": figure_crossover_bias(outdir / "crossover-bias.pdf"),
+        "finite-thickness": figure_finite_thickness(outdir / "finite-thickness.pdf"),
+        "balescu-lenard": figure_balescu_lenard(outdir / "balescu-lenard.pdf"),
     }
