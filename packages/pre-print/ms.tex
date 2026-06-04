@@ -1,13 +1,11 @@
 % ============================================================================
 %  An analytic origin for the provenance bias in radial migration
-%  MNRAS pre-print
+%  ApJ -- AASTeX v7
 % ============================================================================
-\documentclass[fleqn,usenatbib]{mnras}
+\documentclass[twocolumn]{aastex701}
 
-\usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{txfonts}
 
 \newcommand{\Jz}{J_z}
 \newcommand{\Lz}{L_z}
@@ -18,84 +16,89 @@
 \newcommand{\Lsun}{L_\odot}
 \newcommand{\kpc}{\,\mathrm{kpc}}
 
-\title[An analytic origin for the provenance bias]{An analytic origin for the
-provenance bias in radial migration, and the spiral $\JR$--$\hZ$ relation}
-
-\author[C. Vera-Ciro]{Carlos Vera-Ciro$^{1}$\thanks{E-mail: caverac@gmail.com}\\
-$^{1}$Independent Researcher}
-
-\date{Draft. Received YYY; in original form ZZZ}
-\pubyear{2026}
+\shorttitle{An analytic origin for the provenance bias}
+\shortauthors{Vera-Ciro}
 
 \begin{document}
-\label{firstpage}
-\maketitle
+
+\title{An Analytic Origin for the Provenance Bias in Radial Migration: A Vertical
+Form Factor, Corotation Trapping, and the Spiral $\JR$--$\hZ$ Relation}
+
+\author{Carlos Vera-Ciro}
+\affiliation{Independent Researcher}
+\email{caverac@gmail.com}
 
 \begin{abstract}
-Radial migration in disc galaxies is observed in $N$-body simulations to act
-preferentially on stars with small vertical excursions -- the ``provenance
-bias'' \citep{VeraCiro2016imprint,Mikkola2020}. The effect is established only
-qualitatively (cold stars spend more time near the mid-plane and couple more
-readily to the plane-concentrated spiral) and lacks a first-principles
-description. We supply one. The coupling of a star to a spiral of radial
-wavenumber $k$ is set by the angle-average over its vertical orbit of the
-spiral potential's $e^{-k|z|}$ fall-off above the plane -- a \emph{vertical form
-factor} $F(\Jz,k)=\langle e^{-k|z|}\rangle$, which equals unity for a mid-plane
-orbit and decreases monotonically with vertical action. Inserting $F$ into the
-\citet{DanielWyse2015,DanielWyse2018} corotation-capture criterion yields the
-provenance bias analytically: with a single physical spiral strength
-$s=\sigR^2/|\Phi_s|\approx0.9$ the model reproduces the measured ${\sim}20$ per
-cent vertical cooling of migrators at the Milky-Way thickness $\alpha\equiv k\hZ
-\approx0.84$, and predicts its dependence on disc thickness and spiral strength
-in agreement with the simulations. Because $F$ depends on $k$ and $\hZ$ only
-through $\alpha$, the same object links the bias to the empirical spiral-arm
-$\JR^{\max}$--$\hZ$ relation \citep{Palicio2024}; the structural slope
-$a=c_{\max}(\pi G\Sigma/\kappa)(\sigR/\sigz)^2$ reproduces the measured
-$3.7\times10^{-2}\,\Lsun/\kpc$, and is predicted to flatten with population age
-as $\mathrm{age}^{2(\beta_R-\beta_z)}$, halving from $1$ to $8\,$Gyr for
-literature age--velocity-dispersion exponents -- a falsifiable test with
-mono-age samples.
+Radial migration in disc galaxies acts preferentially on stars with small vertical
+excursions -- the ``provenance bias'' established in $N$-body simulations
+\citep{VeraCiro2016imprint,Mikkola2020} but never derived. We supply the analytic
+theory. The coupling of a star to a spiral of radial wavenumber $k$ is set by the
+angle-average over its vertical orbit of the potential's $e^{-k|z|}$ fall-off above
+the plane, a \emph{vertical form factor}
+$F(\Jz,k)=\langle e^{-k|z|}\rangle$, which equals unity for a mid-plane orbit and
+decreases with vertical action. We show that $F$ is not an \emph{ad hoc} weight but
+the exact vertical Fourier coefficient of the spiral in the corotation-resonant
+Hamiltonian: the resonant coupling factorises as
+$\Psi=\Phi_0\,J_0(k a_R)\,F(\Jz,k)$, the product of the classical radial reduction
+factor and $F$. The corotation pendulum then traps stars in a libration island
+whose width scales as $\sqrt{F}$, so vertically cold stars are captured
+preferentially -- the provenance bias, derived. Single-resonance trapping yields a
+weight $W\propto F^{1/2}$ and a ${\sim}7$ per cent bias; the larger measured
+${\sim}20$ per cent requires resonance overlap, and we show with the Chirikov
+criterion that the Milky Way bar and spiral corotation resonances sit at the
+overlap threshold for physical spiral strengths, with cold stars crossing it first
+-- so the diffusive churning channel is itself biased toward vertically cold stars.
+Because $F$ depends on $k$ and $\hZ$ only through $\alpha\equiv k\hZ$, the same
+object links the bias to the empirical spiral $\JR^{\max}$--$\hZ$ relation
+\citep{Palicio2024}; the structural slope reproduces the measured
+$3.7\times10^{-2}\,\Lsun/\kpc$ and is predicted to flatten with population age. We
+validate $F$ against independent orbit integration and provide the open-source
+engine that derives every number and figure.
 \end{abstract}
 
-\begin{keywords}
-Galaxy: disc -- Galaxy: kinematics and dynamics -- galaxies: spiral
-\end{keywords}
+\keywords{Galaxy dynamics (591) --- Galaxy structure (622) --- Milky Way dynamics
+(1051) --- Stellar dynamics (1596) --- Spiral galaxies (1560)}
 
-% ---------------------------------------------------------------------------
+% ===========================================================================
 \section{Introduction}
 \label{sec:intro}
 
-Transient, recurrent spiral arms \citep{DOnghia2013} churn stellar angular
-momentum at the corotation resonance, moving stars radially with little heating
-\citep{SellwoodBinney2002}. A robust but unexplained feature of this
-process is its \emph{vertical selectivity}: in $N$-body discs the stars that
-migrate are preferentially those on nearly circular orbits confined to the
-plane. \citet{VeraCiro2016imprint} named this the ``provenance bias'' and showed
-that it -- rather than vertical heating -- sets the vertical structure of
-migrators, with migrating stars some $20$ per cent cooler in $\sigz$ than the
-parent population. \citet{Mikkola2020} confirmed that the importance of
-migration at large vertical action depends on the spiral strength. Both works
-state the mechanism only qualitatively -- cold stars spend more time near the
-mid-plane and couple more readily to the spiral -- and \citet{Mikkola2020}
-explicitly flag an analytic description as future work.
+Transient, recurrent spiral arms \citep{DOnghia2013} churn stellar angular momentum
+at the corotation resonance, moving stars radially with little heating
+\citep{SellwoodBinney2002}. A robust but unexplained feature of this process is its
+\emph{vertical selectivity}: in $N$-body discs the stars that migrate are
+preferentially those on nearly circular orbits confined to the plane.
+\citet{VeraCiro2016imprint} named this the ``provenance bias'' and showed that it --
+rather than vertical heating -- sets the vertical structure of migrators, with
+migrating stars some $20$ per cent cooler in $\sigz$ than the parent population.
+\citet{Mikkola2020} confirmed that the importance of migration at large vertical
+action depends on spiral strength, and explicitly flagged an analytic description
+as outstanding.
 
-Independently, \citet{Palicio2024} report a linear relation, found across
-simulated spiral galaxies and satisfied by the Milky Way, between the maximum
-radial action of spiral-arm stars and the disc vertical scale $\hZ$ -- which they
-measure as an exponential vertical scale-length --
-$\JR^{\max}=a\,\hZ+b$ with $a\approx3.7\times10^{-2}\,\Lsun/\kpc$
-(see also \citealt{Jia2024}); the slope is not derived from first principles.
+Independently, \citet{Palicio2024} report a linear relation, found across simulated
+spiral galaxies and satisfied by the Milky Way, between the maximum radial action
+of spiral-arm stars and the disc vertical scale $\hZ$ -- measured there as an
+exponential vertical scale-length -- $\JR^{\max}=a\,\hZ+b$ with
+$a\approx3.7\times10^{-2}\,\Lsun/\kpc$ (see also \citealt{Jia2024}); the slope is
+not derived from first principles.
 
-This Letter provides the missing analytic glue. \citet{DanielWyse2015,
-DanielWyse2018} already derived an analytic corotation-capture criterion in
-which the captured fraction declines with radial random energy as
-$\exp(-\sigR^2/|\Phi_s|)$ -- low-dispersion stars migrate preferentially -- but
-their criterion is strictly in-plane. We extend it to the third dimension with a
-vertical form factor (Section~\ref{sec:formfactor}), recover the provenance bias
-and its trends (Section~\ref{sec:bias}), and tie the same object to the
-$\JR^{\max}$--$\hZ$ slope and its age dependence (Section~\ref{sec:slope}).
+This paper provides the missing dynamics. \citet{DanielWyse2015,DanielWyse2018}
+derived an analytic corotation-capture criterion in which the maximum random energy
+for capture scales with the spiral amplitude $|\Phi_s|$, so that low-dispersion
+stars migrate preferentially -- but their criterion is strictly in-plane. We extend
+the problem to three dimensions and show that the vertical structure enters through
+a single object, the vertical form factor $F(\Jz,k)$
+(Section~\ref{sec:formfactor}), which we then identify as the exact vertical
+Fourier coefficient of the spiral in the corotation-resonant Hamiltonian
+(Section~\ref{sec:trapping}). The resulting pendulum traps vertically cold stars
+preferentially; single-resonance trapping is too weak to explain the measured bias,
+and we show (Section~\ref{sec:overlap}) that the Milky Way sits at the
+\citet{Chirikov1979} resonance-overlap threshold, placing the churning in the
+diffusive regime. We then recover the provenance-bias magnitude and the
+$\JR^{\max}$--$\hZ$ slope and its age dependence (Section~\ref{sec:bias}) and
+discuss the synthesis (Section~\ref{sec:discussion}).
 
-% ---------------------------------------------------------------------------
+% ===========================================================================
 \section{The vertical form factor}
 \label{sec:formfactor}
 
@@ -113,93 +116,203 @@ $z(\theta_z;\Jz)$ samples the spiral through the angle-average of that decay,
 with $z_m$ the turning point, $\nu_z$ the vertical frequency and
 $v_z=\sqrt{2[E-\Phi(z)]}$. We evaluate \eqref{eq:formfactor} on the
 self-consistent isothermal sheet \citep{Spitzer1942}, $\Phi(z)=2\ln\cosh z$ in
-units $G=\sigz=z_0=1$, for which the only parameter is the dimensionless
-thickness $\alpha\equiv kz_0$. By construction $F(0,k)=1$ -- a mid-plane orbit
-feels the full in-plane amplitude -- and $F$ decreases monotonically with
-vertical action (Fig.~\ref{fig:formfactor}). This is the quantitative content of
-``cold stars couple more readily'': $F$ is precisely the time the orbit spends
-near the plane, weighted by the spiral's reach.
+units $G=\sigz=z_0=1$, for which the only parameter is the dimensionless thickness
+$\alpha\equiv kz_0$. By construction $F(0,k)=1$ -- a mid-plane orbit feels the full
+in-plane amplitude -- and $F$ decreases monotonically with vertical action
+(Figure~\ref{fig:formfactor}). This is the quantitative content of ``cold stars
+couple more readily'': $F$ is the time the orbit spends near the plane, weighted by
+the spiral's reach.
 
 For the Milky Way a radial wavelength $\lambda_R\sim3\kpc$
-($k=2\pi/\lambda_R\sim2\kpc^{-1}$) and $z_0\sim0.4\kpc$ give $\alpha\sim0.84$ --
-of order unity, which is why the bias is an order-$20$ per cent effect rather
-than negligible.
+($k=2\pi/\lambda_R\sim2\kpc^{-1}$) and $z_0\sim0.4\kpc$ give $\alpha\sim0.84$ -- of
+order unity, which is why the bias is an order-$20$ per cent effect rather than
+negligible.
 
 The quadrature~\eqref{eq:formfactor} is confirmed by an independent route:
 integrating the vertical orbit with the \textsc{galpy} integrator
 \citep{Bovy2015} in its isothermal-disc potential and time-averaging $e^{-k|z|}$
 over a whole number of vertical periods reproduces $F$ to better than
-$2\times10^{-4}$ across the relevant range (Fig.~\ref{fig:validation}).
+$2\times10^{-4}$ across the relevant range (Figure~\ref{fig:validation}).
 
 \begin{figure}
-  \includegraphics[width=\columnwidth]{form-factor.pdf}
+  \plotone{form-factor.pdf}
   \caption{The vertical form factor $F(\Jz,k)=\langle e^{-k|z|}\rangle$,
-  equation~\eqref{eq:formfactor}, versus vertical action for three spiral
+  Equation~\eqref{eq:formfactor}, versus vertical action for three spiral
   wavenumbers $\alpha=kz_0$. $F\to1$ for mid-plane orbits and falls monotonically
-  with $\Jz$: vertically hot stars couple weakly to the spiral. The suppression
-  steepens with $\alpha$.}
+  with $\Jz$: vertically hot stars couple weakly to the spiral.}
   \label{fig:formfactor}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[width=\columnwidth]{form-factor-validation.pdf}
+  \plotone{form-factor-validation.pdf}
   \caption{Independent validation of the vertical form
-  factor~\eqref{eq:formfactor}. The scipy quadrature (curves) and the
-  \textsc{galpy} orbit-integrated time-average (markers) agree across vertical
-  action for three disc thicknesses $\alpha$; the residual (lower panel) stays
-  below $2\times10^{-4}$.}
+  factor~\eqref{eq:formfactor}. The quadrature (curves) and the \textsc{galpy}
+  orbit-integrated time-average (markers) agree across vertical action for three
+  disc thicknesses $\alpha$; the residual (lower panel) stays below
+  $2\times10^{-4}$.}
   \label{fig:validation}
 \end{figure}
 
-% ---------------------------------------------------------------------------
-\section{The provenance bias}
-\label{sec:bias}
+% ===========================================================================
+\section{The corotation-resonant Hamiltonian and the trapped weight}
+\label{sec:trapping}
 
-\citet{DanielWyse2015,DanielWyse2018} show the corotation-capture fraction of an
-in-plane population scales as $\exp(-\sigR^2/|\Phi_s|)$. Reducing the felt well
-depth by the vertical form factor, $|\Phi_s|\to|\Phi_s|F(\Jz,k)$, gives the
-migration weight of a star of vertical energy $E$,
+We now show that $F$ is not an inserted weight but the vertical structure factor of
+corotation capture. Write the background in action-angle variables
+$(\JR,\Lz,\Jz;\theta_R,\theta_\phi,\theta_z)$ with frequencies
+$(\kappa,\Omega,\nu_z)$. A steady $m$-armed, tightly wound spiral of pattern speed
+$\Omega_p$ is
 %
 \begin{equation}
-  W(\Jz) \;=\; \exp\!\Big[-s\big(1/F(\Jz,k)-1\big)\Big], \qquad
-  s \equiv \frac{\sigR^2}{|\Phi_s|},
-  \label{eq:weight}
+  \Phi_s = \mathrm{Re}\!\left[\Phi_0(R)\,e^{-k|z|}\,
+  e^{\,i(m\phi + \int\! k\,\mathrm{d}R - m\Omega_p t)}\right],
 \end{equation}
 %
-normalised to unity at $F=1$. The single new parameter $s$ is the spiral
-strength; $s\sim1$ is the \citet{DanielWyse2015} efficient-capture regime, and
-$|\Phi_s|\sim1$--$3$ per cent of $v_c^2$ gives $s\sim0.8$--$2$. Reweighting the
-equilibrium vertical distribution $\mathrm{d}N/\mathrm{d}E\propto e^{-E}/\nu_z$
-by $W$ yields the migrator dispersion ratio $\sigz^{\rm mig}/\sigz^{\rm all}$.
+whose Fourier expansion in the background angles has coefficients that factorise
+into independent radial and vertical fast-angle averages. At corotation,
+$\Omega(\Lz)=\Omega_p$, the resonance engages the $n_R=n_z=0$ harmonic, so the
+resonant coupling is
+%
+\begin{equation}
+  \Psi(\JR,\Jz) \;=\; \Phi_0(R_{\rm CR})\;\underbrace{J_0(k a_R)}_{G(\JR)}\;
+  \underbrace{F(\Jz,k)}_{\text{vertical}},
+  \qquad a_R=\sqrt{2\JR/\kappa},
+  \label{eq:coupling}
+\end{equation}
+%
+the product of the classical radial reduction factor $G(\JR)=J_0(ka_R)$
+\citep[the Kalnajs/Bessel factor;][]{BinneyTremaine2008} and the vertical form
+factor $F$. \emph{The provenance bias is the $F$-factor of this coupling; the
+\citet{DanielWyse2015} radial selectivity is the $G$-factor.} Equation
+\eqref{eq:coupling} is the central identification of this paper: $F(\Jz,k)$ is the
+exact vertical Fourier coefficient of the spiral at corotation.
 
-At the Milky-Way thickness $\alpha=0.84$ the measured $20$ per cent cooling
-($\sigz^{\rm mig}/\sigz^{\rm all}\approx0.80$) is reproduced by $s=0.90$ -- well
-inside the physical range, with no further freedom. The model predicts a
-two-parameter trend (Fig.~\ref{fig:bias}): the bias \emph{weakens} as the spiral
-strengthens (small $s$), matching \citet{Mikkola2020} and the morphology
-independence of \citet{VeraCiro2016imprint}, and \emph{strengthens} with disc
-thickness $\alpha$. A zero-free-parameter test is available: predicting the
-relative bias of disc models of different $\alpha$ and $s$ once those are
-measured.
+Transforming to the rotating frame (the Jacobi integral $H_J=H_0-\Omega_p\Lz+
+\Phi_s$ is conserved) and averaging over the fast angles $\theta_R,\theta_z$ -- for
+which $\JR,\Jz$ are adiabatic invariants -- leaves the slow Hamiltonian. Expanding
+about corotation in $p\equiv\Lz-L_{\rm CR}$, where $\mathrm{d}H_0/\mathrm{d}\Lz=
+\Omega-\Omega_p$ vanishes, gives a pendulum
+%
+\begin{equation}
+  \bar H(p,\theta_r) = \tfrac{1}{2}\,g\,p^2 + \Psi\cos\theta_r,
+  \qquad g\equiv\left.\frac{\mathrm{d}\Omega}{\mathrm{d}\Lz}\right|_{\rm CR},
+  \label{eq:pendulum}
+\end{equation}
+%
+following the action-angle resonant-trapping construction of \citet{Monari2017},
+here extended to carry the vertical degree of freedom through $\Psi$. The libration
+(trapped, migrating) island has half-width in $p$
+%
+\begin{equation}
+  \Delta p = 2\sqrt{\Psi/|g|} \;\propto\; \sqrt{\,F(\Jz,k)\,},
+  \label{eq:width}
+\end{equation}
+%
+so vertically cold stars (large $F$) sit in wider libration islands and are trapped
+preferentially. Counting the trapped phase-space area gives a single-resonance
+migration weight
+%
+\begin{equation}
+  W(\Jz) \;\propto\; F(\Jz,k)^{1/2},
+  \label{eq:wsqrtf}
+\end{equation}
+%
+the rigorous version of the heuristic capture weight used below. A complementary
+estimate -- integrating a thermal radial-energy distribution over the
+$F$-reduced capture threshold $E_R\lesssim\Psi$ of \citet{DanielWyse2018} -- gives a
+weight that steepens from \eqref{eq:wsqrtf} toward $W\propto F$ as the spiral
+weakens; the effective form $W=\exp[-s(1/F-1)]$ used in
+Section~\ref{sec:bias}, with $s\equiv\sigR^2/|\Phi_s|$, interpolates this family.
+
+% ===========================================================================
+\section{Resonance overlap and the diffusive regime}
+\label{sec:overlap}
+
+Equation~\eqref{eq:wsqrtf} gives only a ${\sim}7$ per cent bias at the Milky-Way
+thickness (Section~\ref{sec:bias}), well short of the measured ${\sim}20$ per cent.
+Single isolated corotation trapping is therefore not the operative regime. We test
+whether the Milky Way is instead in the resonance-overlap (stochastic, diffusive)
+regime with the \citet{Chirikov1979} criterion.
+
+For a flat rotation curve ($\Omega=V_c/R$, $|g|=1/R^2$) the corotation libration
+half-width~\eqref{eq:width} is a fixed fraction of the corotation radius,
+%
+\begin{equation}
+  \Delta R / R = 2\sqrt{\epsilon\,G\,F},
+  \qquad \epsilon \equiv |\Phi_s|/V_c^2 ,
+\end{equation}
+%
+and two patterns with corotation radii $R_{\rm in}<R_{\rm out}$ overlap when the sum
+of their island half-widths exceeds their separation,
+%
+\begin{equation}
+  S \equiv \frac{\Delta R_{\rm in}+\Delta R_{\rm out}}{R_{\rm out}-R_{\rm in}}
+  = 2\sqrt{\epsilon\,G\,F}\,\frac{\Omega_{\rm in}+\Omega_{\rm out}}
+                                  {\Omega_{\rm in}-\Omega_{\rm out}} \ge 1 .
+  \label{eq:chirikov}
+\end{equation}
+%
+For the Milky Way bar ($\Omega_p\approx38\,\mathrm{km\,s^{-1}\,kpc^{-1}}$,
+$R_{\rm CR}\approx6.0\kpc$) and spiral
+($\Omega_p\approx20\,\mathrm{km\,s^{-1}\,kpc^{-1}}$, $R_{\rm CR}\approx11.5\kpc$),
+Equation~\eqref{eq:chirikov} gives $S=0.64$, $0.91$, $1.12$ at $\epsilon=0.01$,
+$0.02$, $0.03$ -- so at the physical spiral strength ($|\Phi_s|\sim1$--$3\%\,V_c^2$)
+the bar and spiral corotation resonances sit at the overlap threshold $S\sim1$, the
+mechanism of \citet{Minchev2010}.
+
+Crucially, since $\Delta R\propto\sqrt{F}$, the overlap parameter scales as
+$S\propto\sqrt{F}$: vertically cold stars cross the threshold first
+(Figure~\ref{fig:overlap}). At the fiducial parameters the cold ($F=1$) population
+overlaps at $\epsilon\approx0.024$, inside the physical band, while the hot
+($F=0.5$) population stays in regular libration until $\epsilon\approx0.05$. The
+diffusive churning channel is therefore itself biased toward vertically cold stars,
+steepening the provenance bias beyond the single-resonance $F^{1/2}$ law toward the
+$F^2$ diffusive limit and the measured ${\sim}20$ per cent. The Milky Way spiral
+sector lives at the crossover between regular trapping and overlap diffusion, and
+that crossover is vertical-action selective.
 
 \begin{figure}
-  \includegraphics[width=\columnwidth]{provenance-bias.pdf}
+  \plotone{resonance-overlap.pdf}
+  \caption{Chirikov overlap parameter $S$ of the Milky Way bar and spiral
+  corotation resonances, Equation~\eqref{eq:chirikov}, versus spiral strength
+  $\epsilon=|\Phi_s|/V_c^2$, for vertically cold ($F=1$) and hot ($F=0.5$) stars.
+  Overlap (diffusive churning) sets in at $S=1$; cold stars cross first, and within
+  the physical strength band (shaded) only the cold population is in the diffusive
+  regime.}
+  \label{fig:overlap}
+\end{figure}
+
+% ===========================================================================
+\section{The provenance bias and the $\JR^{\max}$--$\hZ$ relation}
+\label{sec:bias}
+
+\paragraph{Bias magnitude.} Reweighting the equilibrium vertical distribution
+$\mathrm{d}N/\mathrm{d}E\propto e^{-E}/\nu_z$ by the effective weight
+$W=\exp[-s(1/F-1)]$ of Section~\ref{sec:trapping} yields the migrator dispersion
+ratio $\sigz^{\rm mig}/\sigz^{\rm all}$. At the Milky-Way thickness $\alpha=0.84$
+the measured ${\sim}20$ per cent cooling
+($\sigz^{\rm mig}/\sigz^{\rm all}\approx0.80$) is reproduced by $s=0.90$ -- inside
+the physical range $s\sim0.8$--$2$ ($|\Phi_s|\sim1$--$3\%\,V_c^2$) -- and the model
+predicts the bias weakens as the spiral strengthens and strengthens with disc
+thickness $\alpha$ (Figure~\ref{fig:bias}), matching \citet{Mikkola2020} and the
+morphology independence of \citet{VeraCiro2016imprint}. As
+Section~\ref{sec:overlap} makes explicit, the steepness encoded in $s$ is the
+signature of the diffusive (overlap) regime rather than of clean single-resonance
+trapping.
+
+\begin{figure}
+  \plotone{provenance-bias.pdf}
   \caption{Predicted migrator vertical cooling
   $1-\sigz^{\rm mig}/\sigz^{\rm all}$ versus disc thickness $\alpha=k\hZ$ at the
   spiral strength $s=0.90$ fixed by the Milky-Way anchor (star;
-  \citealt{VeraCiro2016imprint}). The bias is an order-$20$ per cent effect at
-  the Galactic $\alpha$ and strengthens for thicker discs.}
+  \citealt{VeraCiro2016imprint}).}
   \label{fig:bias}
 \end{figure}
 
-% ---------------------------------------------------------------------------
-\section{The $\JR^{\max}$--$\hZ$ relation and its age-running}
-\label{sec:slope}
-
-The same form factor links the bias to the \citet{Palicio2024} relation.
-Combining the isothermal-sheet scale height $\hZ=\sigz^2/(\pi G\Sigma)$ with the
-epicyclic action $\JR^{\max}=c_{\max}\sigR^2/\kappa$ gives the slope as the
-squared radial-to-vertical heating-anisotropy ratio,
+\paragraph{Structural slope.} Combining the isothermal-sheet scale height
+$\hZ=\sigz^2/(\pi G\Sigma)$ with the epicyclic action
+$\JR^{\max}=c_{\max}\sigR^2/\kappa$ gives the slope as the squared
+radial-to-vertical heating-anisotropy ratio,
 %
 \begin{equation}
   a \;=\; \frac{\JR^{\max}}{\hZ}
@@ -209,69 +322,78 @@ squared radial-to-vertical heating-anisotropy ratio,
 %
 For solar-neighbourhood values ($\Sigma=50\,M_\odot\,\mathrm{pc}^{-2}$,
 $\kappa=0.037\,\mathrm{km\,s^{-1}\,pc^{-1}}$, $\sigR=35$, $\sigz=18\,
-\mathrm{km\,s^{-1}}$) and $c_{\max}=1$, equation~\eqref{eq:slope} gives
+\mathrm{km\,s^{-1}}$) and $c_{\max}=1$, Equation~\eqref{eq:slope} gives
 $3.6\times10^{-2}\,\Lsun/\kpc$, within a few per cent of the measured
-$3.7\times10^{-2}$ -- closer than the input uncertainties warrant, but the
-functional form and magnitude are secure. Equation~\eqref{eq:slope} uses the
-self-gravitating $\mathrm{sech}^2$ sheet, whereas \citet{Palicio2024} fit $\hZ$ as
-an exponential vertical scale-length; the two scales differ by an order-unity
-factor, which we absorb into $c_{\max}$.
+$3.7\times10^{-2}$. Equation~\eqref{eq:slope} uses the self-gravitating
+$\mathrm{sech}^2$ sheet, whereas \citet{Palicio2024} fit $\hZ$ as an exponential
+vertical scale-length; the two scales differ by an order-unity factor, which we
+absorb into $c_{\max}$.
 
-Because $\Sigma$ and $\kappa$ are structural, the slope's only population
-dependence is $(\sigR/\sigz)^2$. Each channel obeys an age--velocity-dispersion
-relation $\sigma\propto\mathrm{age}^\beta$, so
+\paragraph{Age-running.} Because $\Sigma$ and $\kappa$ are structural, the slope's
+only population dependence is $(\sigR/\sigz)^2$. Each channel obeys an
+age--velocity-dispersion relation $\sigma\propto\mathrm{age}^\beta$, so
 %
 \begin{equation}
   a(\mathrm{age}) \;\propto\; \mathrm{age}^{\,2(\beta_R-\beta_z)} .
   \label{eq:agerun}
 \end{equation}
 %
-With $\beta_z\approx0.5$ \citep{Sun2024} and $\beta_R\approx0.35$, the exponent
-is $-0.3$, so the slope of an $8\,$Gyr population is $\approx0.54$ times that of
-a $1\,$Gyr population: \emph{the relation should flatten with age}. Re-fitting
-the $\JR^{\max}$--$\hZ$ relation in mono-age or mono-abundance bins thus measures
-$\beta_R-\beta_z$ from spiral-arm kinematics; an age-independent slope would
-instead require $\beta_R=\beta_z$.
+With $\beta_z\approx0.5$ \citep{Sun2024} and $\beta_R\approx0.35$, the exponent is
+$-0.3$, so the slope of an $8\,$Gyr population is $\approx0.54$ times that of a
+$1\,$Gyr population: \emph{the relation should flatten with age}. Re-fitting the
+$\JR^{\max}$--$\hZ$ relation in mono-age or mono-abundance bins thus measures
+$\beta_R-\beta_z$ from spiral-arm kinematics; an age-independent slope would instead
+require $\beta_R=\beta_z$.
 
-% ---------------------------------------------------------------------------
+% ===========================================================================
 \section{Discussion}
 \label{sec:discussion}
 
 The provenance bias, the spiral $\JR^{\max}$--$\hZ$ relation, and the vertical
-selectivity of corotation capture are projections of a single analytic object,
-the vertical form factor $F(k\hZ)$. The contribution here is a synthesis: the
-in-plane capture selectivity is \citet{DanielWyse2015,DanielWyse2018}, the
-$e^{-k|z|}$ reduction factor is standard \citep{BinneyTremaine2008}, and the
-bias itself was found in simulations \citep{VeraCiro2016imprint,Mikkola2020};
-what was missing is the vertical extension that turns the verbal mechanism into
-equations~\eqref{eq:formfactor}--\eqref{eq:weight} and connects it to
+selectivity of corotation capture are projections of a single analytic object, the
+vertical form factor $F(k\hZ)$, which Equation~\eqref{eq:coupling} identifies as the
+exact vertical Fourier coefficient of the spiral in the corotation-resonant
+Hamiltonian. Its radial twin is the classical \citet{DanielWyse2015} in-plane
+selectivity; the $e^{-k|z|}$ reduction is standard \citep{BinneyTremaine2008}; and
+the bias was found in simulations \citep{VeraCiro2016imprint,Mikkola2020}. What was
+missing is the vertical extension that turns the verbal mechanism into
+Equations~\eqref{eq:coupling}--\eqref{eq:wsqrtf} and connects it to
 \citet{Palicio2024}.
 
 A complementary first-principles link between migration and vertical structure
 already exists: \citet{Roskar2013} show, from vertical-action conservation, that an
 outward migrator's scale height grows as $h_{Z,f}/h_{Z,i}=\exp(\Delta R/2R_d)$.
 That law governs the \emph{fate} of a star once it has migrated; the form factor
-governs the \emph{selectivity} of capture -- which stars migrate at all. The two
-are distinct and complementary, and only the latter produces the provenance bias.
+governs the \emph{selectivity} of capture -- which stars migrate at all. The two are
+distinct and complementary, and only the latter produces the provenance bias.
 
-Two caveats bound the present calculation. The $e^{-k|z|}$ fall-off is the
-razor-thin leading term; at the Galactic $\alpha\sim1$ a self-gravitating
-finite-thickness response softens it at the order-unity level, and that
-correction should be carried before quantitative use. And the high-$\JR$ tail
-that defines $\JR^{\max}$ is sampled from the (cold) migrator population, so the
-slope~\eqref{eq:slope} carries a selection factor of order the bias itself; we
-have assumed a vertical-only selection. Both are tractable extensions. The
-age-running of the slope~\eqref{eq:agerun} is, to our knowledge, an untested and
-clean prediction for the current Gaia--APOGEE--LAMOST data.
+The two dynamical regimes the form factor distinguishes -- single-resonance
+trapping ($W\propto F^{1/2}$) and resonance-overlap diffusion ($W$ steeper) -- are
+the two ends of one axis. The diffusive end is the inhomogeneous Balescu--Lenard
+description of secular evolution in tightly wound discs \citep{Fouvry2015}, and the
+linear-response perturbed distribution function of \citet{MonariFamaeySiebert2016}
+is its complement; a full treatment would compute $W(\Jz)$ as the phase-space
+trapped fraction across the overlap transition rather than in its two limits, which
+we defer.
+
+Two caveats bound the calculation. The $e^{-k|z|}$ fall-off is the razor-thin
+leading term; at the Galactic $\alpha\sim1$ a self-gravitating finite-thickness
+response softens it at the order-unity level. And the overlap parameter
+\eqref{eq:chirikov} is sensitive to the bar--spiral pattern-speed separation; the
+well-separated fiducial adopted here is conservative, and the Milky Way's recurrent
+transient spirals add resonances that only increase the overlap. The age-running of
+the slope \eqref{eq:agerun} is, to our knowledge, an untested and clean prediction
+for current Gaia--APOGEE--LAMOST data.
 
 \section*{Acknowledgements}
-This work used \textsc{numpy}, \textsc{scipy} and \textsc{matplotlib}.
+This work used \textsc{numpy}, \textsc{scipy}, \textsc{matplotlib} and
+\textsc{galpy}.
 
-\section*{Data availability}
-The code that derives every number and figure in this Letter is openly available.
+\section*{Data Availability}
+The open-source engine that derives every number and figure in this paper is
+available, with a full test suite.
 
-\bibliographystyle{mnras}
+\bibliographystyle{aasjournalv7}
 \bibliography{ms}
 
-\label{lastpage}
 \end{document}

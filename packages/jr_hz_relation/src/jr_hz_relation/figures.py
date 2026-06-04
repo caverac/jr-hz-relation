@@ -14,6 +14,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
 from jr_hz_relation.form_factor import dispersion_ratio, strength_matching_anchor, vertical_form_factor
+from jr_hz_relation.overlap import milky_way_overlap
 from jr_hz_relation.sheet import vertical_action
 from jr_hz_relation.validate import form_factor_orbit
 
@@ -153,6 +154,40 @@ def figure_form_factor_validation(
     return _save(fig, path)
 
 
+def figure_resonance_overlap(path: Path, n_strength: int = 60) -> Path:
+    """Plot the bar-spiral Chirikov overlap parameter versus spiral strength.
+
+    The Milky Way bar-spiral corotation overlap ``S`` is shown for vertically cold
+    (``F=1``) and hot (``F=0.5``) stars; ``S=1`` marks the onset of diffusive
+    churning. Cold stars cross the threshold at lower strength, so the diffusive
+    regime is biased toward them.
+
+    Parameters
+    ----------
+    path :
+        Output PDF path.
+    n_strength :
+        Number of spiral-strength samples.
+
+    Returns
+    -------
+    pathlib.Path
+        The written path.
+    """
+    strengths = np.linspace(0.005, 0.05, n_strength)
+    fig = Figure(figsize=(6.0, 4.0))
+    axes = fig.add_subplot(1, 1, 1)
+    for form, colour, label in ((1.0, "C0", "vertically cold"), (0.5, "C3", "vertically hot")):
+        overlaps = np.array([milky_way_overlap(float(s), form_factor=form) for s in strengths])
+        axes.plot(strengths, overlaps, "-", color=colour, label=rf"$F={form:g}$ ({label})")
+    axes.axhline(1.0, color="0.4", linestyle="--", label="overlap threshold")
+    axes.axvspan(0.01, 0.03, color="0.85", label="physical strength")
+    axes.set_xlabel(r"spiral strength $\epsilon=|\Phi_s|/V_c^2$")
+    axes.set_ylabel(r"Chirikov overlap $S$ (bar--spiral corotation)")
+    axes.legend()
+    return _save(fig, path)
+
+
 def make_all_figures(outdir: Path) -> dict[str, Path]:
     """Write the full figure set to ``outdir`` and return a name-to-path mapping.
 
@@ -171,4 +206,5 @@ def make_all_figures(outdir: Path) -> dict[str, Path]:
         "form-factor": figure_form_factor(outdir / "form-factor.pdf"),
         "provenance-bias": figure_provenance_bias(outdir / "provenance-bias.pdf"),
         "form-factor-validation": figure_form_factor_validation(outdir / "form-factor-validation.pdf"),
+        "resonance-overlap": figure_resonance_overlap(outdir / "resonance-overlap.pdf"),
     }

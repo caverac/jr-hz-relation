@@ -6,6 +6,7 @@ from jr_hz_relation.figures import (
     figure_form_factor,
     figure_form_factor_validation,
     figure_provenance_bias,
+    figure_resonance_overlap,
     make_all_figures,
 )
 
@@ -30,9 +31,15 @@ def test_figure_form_factor_validation_writes_pdf(tmp_path: Path) -> None:
     assert path.exists() and path.stat().st_size > 0
 
 
+def test_figure_resonance_overlap_writes_pdf(tmp_path: Path) -> None:
+    """The resonance-overlap figure writes a non-empty PDF."""
+    path = figure_resonance_overlap(tmp_path / "resonance-overlap.pdf", n_strength=8)
+    assert path.exists() and path.stat().st_size > 0
+
+
 def test_make_all_figures_writes_the_set(tmp_path: Path) -> None:
     """The full set has all figures and they all exist on disk."""
     outdir = tmp_path / "figs"
     paths = make_all_figures(outdir)
-    assert set(paths) == {"form-factor", "provenance-bias", "form-factor-validation"}
+    assert set(paths) == {"form-factor", "provenance-bias", "form-factor-validation", "resonance-overlap"}
     assert all(path.exists() for path in paths.values())

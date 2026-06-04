@@ -36,6 +36,11 @@ def test_anchor_command() -> None:
     assert main(["anchor", "--alpha", "0.84", "--target", "0.80"]) == 0
 
 
+def test_overlap_command() -> None:
+    """The overlap subcommand runs and returns success."""
+    assert main(["overlap", "--strength", "0.02", "--form-factor", "1.0"]) == 0
+
+
 def test_figures_command(tmp_path: Path) -> None:
     """The figures subcommand writes the figure set and returns success."""
     assert main(["figures", "--outdir", str(tmp_path)]) == 0

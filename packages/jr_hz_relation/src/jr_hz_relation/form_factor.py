@@ -9,9 +9,11 @@ its vertical orbit -- the vertical form factor
               = (2/pi) INT_0^{z_m} e^{-k z} (nu_z / |v_z|) dz,
 
 with F(0,k) = 1 and F decreasing monotonically in J_z. The migration efficiency
-follows the Daniel & Wyse (2015, 2018) capture fraction ~ exp(-sigma_R^2/|Phi_s|)
-with the felt well depth reduced by F, giving the migrator weight
-W(J_z) = exp[-s(1/F - 1)] where s = sigma_R^2/|Phi_s| is the spiral strength.
+follows the Daniel & Wyse (2015, 2018) corotation-capture criterion (capture
+requires the radial random energy within ~|Phi_s|), which we represent by an
+in-plane captured fraction ~ exp(-sigma_R^2/|Phi_s|); reducing the felt well depth
+by F gives the migrator weight W(J_z) = exp[-s(1/F - 1)] where s = sigma_R^2/|Phi_s|
+is the spiral strength.
 Reweighting the equilibrium vertical distribution by W yields the provenance bias
 sigma_z,mig / sigma_z,all.
 

@@ -7,6 +7,7 @@ its age-running, and figure generation::
     jr-hz-relation bias --alpha 0.84 --strength 0.9
     jr-hz-relation slope --c-max 1.0
     jr-hz-relation age-running --age 8 --ref 1 --beta-r 0.35 --beta-z 0.5
+    jr-hz-relation overlap --strength 0.02 --form-factor 1.0
     jr-hz-relation figures --outdir packages/pre-print
 """
 
@@ -17,6 +18,7 @@ from pathlib import Path
 
 from jr_hz_relation.figures import make_all_figures
 from jr_hz_relation.form_factor import dispersion_ratio, strength_matching_anchor, vertical_form_factor
+from jr_hz_relation.overlap import milky_way_overlap
 from jr_hz_relation.slope import AVRExponents, SolarNeighbourhood, slope_age_factor, slope_in_lsun_per_kpc
 
 
@@ -57,6 +59,14 @@ def _cmd_anchor(args: argparse.Namespace) -> int:
     """Print the spiral strength that reproduces the measured Milky-Way bias."""
     strength = strength_matching_anchor(args.alpha, args.target)
     print(f"spiral strength matching ratio {args.target:.2f} at alpha={args.alpha:.2f}: s={strength:.3f}")
+    return 0
+
+
+def _cmd_overlap(args: argparse.Namespace) -> int:
+    """Print the Milky Way bar-spiral Chirikov overlap parameter."""
+    overlap = milky_way_overlap(args.strength, form_factor=args.form_factor)
+    regime = "overlap (diffusive)" if overlap >= 1.0 else "regular (trapping)"
+    print(f"S(eps={args.strength:.3f}, F={args.form_factor:.2f}) = {overlap:.3f} -> {regime}")
     return 0
 
 
@@ -103,6 +113,11 @@ def build_parser() -> argparse.ArgumentParser:
     anchor.add_argument("--alpha", type=float, default=0.84)
     anchor.add_argument("--target", type=float, default=0.80)
     anchor.set_defaults(func=_cmd_anchor)
+
+    overlap = sub.add_parser("overlap", help="bar-spiral Chirikov resonance overlap")
+    overlap.add_argument("--strength", type=float, default=0.02)
+    overlap.add_argument("--form-factor", type=float, default=1.0, dest="form_factor")
+    overlap.set_defaults(func=_cmd_overlap)
 
     figs = sub.add_parser("figures", help="generate the PDF figure set")
     figs.add_argument("--outdir", default="build/figures")

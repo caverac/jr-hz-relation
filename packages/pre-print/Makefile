@@ -3,7 +3,7 @@ BIB      = bibtex
 MAIN     = ms
 UV       = uv
 
-FIGURES  = form-factor.pdf provenance-bias.pdf
+FIGURES  = form-factor.pdf provenance-bias.pdf form-factor-validation.pdf resonance-overlap.pdf
 
 .PHONY: all clean distclean figures submission
 
@@ -24,7 +24,7 @@ TARFILE = $(OUTDIR)/jr-hz-relation-preprint.tar
 
 submission: all
 	@mkdir -p $(OUTDIR)
-	@COPYFILE_DISABLE=1 tar cf $(TARFILE) $(MAIN).tex $(MAIN).bib $(MAIN).pdf mnras.cls mnras.bst $(FIGURES)
+	@COPYFILE_DISABLE=1 tar cf $(TARFILE) $(MAIN).tex $(MAIN).bbl $(MAIN).pdf $(FIGURES)
 	@echo "Created $(TARFILE)"
 
 clean:

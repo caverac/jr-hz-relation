@@ -21,9 +21,9 @@ principles, and ties the same `F(k h_Z)` to the empirical spiral-arm
 ## Layout
 
 - `packages/jr_hz_relation/` -- the Python engine (form factor, capture weight,
-  bias, structural slope, figures, CLI) with a full test suite (100% coverage,
-  no lint exceptions).
-- `packages/pre-print/` -- the MNRAS LaTeX pre-print and its figures.
+  corotation trapping, resonance overlap, structural slope, figures, CLI) with a
+  full test suite (100% coverage, no lint exceptions).
+- `packages/pre-print/` -- the ApJ paper (AASTeX v7) and its figures.
 - `notebooks/` -- the local-only research record (logs, notes, memory); git-ignored.
 
 ## Toolchain
