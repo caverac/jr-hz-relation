@@ -9,7 +9,7 @@ import remarkMath from 'remark-math'
 
 const baseUrl = process.env.DOCS_BASE_URL ?? '/jr-hz-relation/'
 
-const pyprojectPath = path.resolve(__dirname, '../jr_hz_relation/pyproject.toml')
+const pyprojectPath = path.resolve(__dirname, '../experiments/pyproject.toml')
 const pyprojectContent = fs.readFileSync(pyprojectPath, 'utf-8')
 const versionMatch = pyprojectContent.match(/^version\s*=\s*"([^"]+)"/m)
 const libraryVersion = versionMatch?.[1] ?? '0.0.0'
@@ -29,6 +29,14 @@ const config: Config = {
   projectName: 'jr-hz-relation',
 
   onBrokenLinks: 'warn',
+
+  // Serve the local `static/` (site chrome: logo, favicon) plus the
+  // repository-level `assets/` directory (generated figures). Files in
+  // `assets/figures/*.png` are then available at `/figures/*.png`, so the docs
+  // and the paper share one figure source.
+  staticDirectories: ['static', '../../assets'],
+
+  favicon: 'img/logo.svg',
 
   customFields: {
     libraryVersion,
@@ -90,7 +98,18 @@ const config: Config = {
   themeConfig: {
     navbar: {
       title: 'The Provenance Bias',
+      logo: {
+        alt: 'Spiral galaxy logo',
+        src: 'img/logo.svg'
+      },
       items: [
+        {
+          // Project version tag, fed from the root package.json version the
+          // config reads above. Rendered with the .version-badge class.
+          type: 'html',
+          position: 'left',
+          value: `<span class="version-badge">v${projectVersion}</span>`
+        },
         {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',

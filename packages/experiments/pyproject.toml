@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "experiments"
+version = "0.1.0"
+description = "An analytic provenance bias and the spiral J_R-h_Z relation"
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+dependencies = [
+    "numpy>=2.1",
+    "scipy>=1.14",
+    "matplotlib>=3.9",
+    "galpy>=1.11",
+    "click>=8.1",
+]
+
+[project.scripts]
+experiments = "experiments.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+experiments = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["experiments"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100

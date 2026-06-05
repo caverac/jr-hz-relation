@@ -8,14 +8,14 @@ requires-python = ">=3.14"
 package = false
 
 [tool.uv.workspace]
-members = ["packages/jr_hz_relation"]
+members = ["packages/experiments"]
 
 [tool.uv.sources]
-jr-hz-relation = { workspace = true }
+experiments = { workspace = true }
 
 [dependency-groups]
 dev = [
-    "jr-hz-relation",
+    "experiments",
     "pytest>=8.0",
     "pytest-cov>=7.0.0",
     "mypy>=1.15",
@@ -44,7 +44,7 @@ target-version = ["py314"]
 [tool.isort]
 profile = "black"
 line_length = 120
-known_first_party = ["jr_hz_relation"]
+known_first_party = ["experiments"]
 
 [tool.pylint.format]
 max-line-length = 120
@@ -67,7 +67,7 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 explicit_package_bases = true
-mypy_path = ["packages/jr_hz_relation/src"]
+mypy_path = ["packages/experiments/src"]
 
 [[tool.mypy.overrides]]
 module = "scipy.*"
@@ -80,6 +80,12 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = "galpy.*"
 ignore_missing_imports = true
+
+# Pylance/Pyright (editor only; not part of the gate): the IDE analogue of the mypy
+# ignore_missing_imports above. scipy and galpy ship no type stubs, so silence the
+# "stub file not found" nag rather than require stubs for untyped third-party libs.
+[tool.pyright]
+reportMissingTypeStubs = false
 
 [tool.pytest.ini_options]
 markers = [

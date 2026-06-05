@@ -6,6 +6,12 @@ node_modules/
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+# Nested per-package Yarn / build caches (e.g. packages/docs/.yarn/.cache from a
+# workspace install or docusaurus build) — anchored .yarn/* above misses these.
+**/.yarn/.cache/
+**/.yarn/cache/
+**/.yarn/unplugged/
+**/.yarn/install-state.gz
 .pnp.*
 coverage/
 

@@ -29,7 +29,7 @@ Form Factor, Corotation Trapping, and the Spiral $\JR$--$\hZ$ Relation}
 \email{caverac@gmail.com}
 
 \begin{abstract}
-Radial migration in disc galaxies acts preferentially on stars with small vertical
+Radial migration in disk galaxies acts preferentially on stars with small vertical
 excursions -- the ``provenance bias'' established in $N$-body simulations
 \citep{VeraCiro2016imprint,Mikkola2020} but never derived. We supply the analytic
 theory. The coupling of a star to a spiral of radial wavenumber $k$ is set by the
@@ -38,16 +38,19 @@ the plane, a \emph{vertical form factor}
 $F(\Jz,k)=\langle e^{-k|z|}\rangle$, which equals unity for a mid-plane orbit and
 decreases with vertical action. We show that $F$ is not an \emph{ad hoc} weight but
 the exact vertical Fourier coefficient of the spiral in the corotation-resonant
-Hamiltonian: the resonant coupling factorises as
+Hamiltonian: the resonant coupling factorizes as
 $\Psi=\Phi_0\,J_0(k a_R)\,F(\Jz,k)$, the product of the classical radial reduction
 factor and $F$. The corotation pendulum then traps stars in a libration island
 whose width scales as $\sqrt{F}$, so vertically cold stars are captured
-preferentially -- the provenance bias, derived. Single-resonance trapping yields a
-weight $W\propto F^{1/2}$ and a ${\sim}7$ per cent bias; the larger measured
-${\sim}20$ per cent requires resonance overlap, and we show with the Chirikov
-criterion that the Milky Way bar and spiral corotation resonances sit at the
-overlap threshold for physical spiral strengths, with cold stars crossing it first
--- so the diffusive churning channel is itself biased toward vertically cold stars.
+preferentially -- the provenance bias, derived. We measure the bias by the log
+dispersion ratio $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ (negative; more negative is
+stronger). Single-resonance trapping floors the bias near ${\sim}-7$ percent, whereas
+resonance overlap drives the disk into a diffusive regime with a predicted
+${\sim}-20$ to $-27$ percent band; we show with the
+Chirikov criterion that the Milky Way bar and spiral corotation resonances sit at
+the overlap threshold for physical spiral strengths, with cold stars crossing it
+first -- so the diffusive churning channel is itself biased toward vertically cold
+stars, matching the strong cold-migrator preference of the simulations.
 Because $F$ depends on $k$ and $\hZ$ only through $\alpha\equiv k\hZ$, the same
 object links the bias to the empirical spiral $\JR^{\max}$--$\hZ$ relation
 \citep{Palicio2024}; the structural slope reproduces the measured
@@ -63,21 +66,24 @@ engine that derives every number and figure.
 \section{Introduction}
 \label{sec:intro}
 
-Transient, recurrent spiral arms \citep{DOnghia2013} churn stellar angular momentum
-at the corotation resonance, moving stars radially with little heating
-\citep{SellwoodBinney2002}. A robust but unexplained feature of this process is its
-\emph{vertical selectivity}: in $N$-body discs the stars that migrate are
-preferentially those on nearly circular orbits confined to the plane.
+Transient, recurrent spiral arms
+\citep{SellwoodCarlberg1984,DOnghia2013,Baba2013,SellwoodCarlberg2014} churn stellar
+angular momentum at the corotation resonance, moving stars radially with little
+heating \citep{SellwoodBinney2002,Roskar2008}. A robust but only qualitatively
+understood feature of this process is its \emph{vertical selectivity}: in $N$-body
+disks the stars that migrate are preferentially those on nearly circular orbits
+confined to the plane.
 \citet{VeraCiro2016imprint} named this the ``provenance bias'' and showed that it --
-rather than vertical heating -- sets the vertical structure of migrators, with
-migrating stars some $20$ per cent cooler in $\sigz$ than the parent population.
+rather than vertical heating -- sets the vertical structure of migrators: the
+strongest migrators are preferentially the kinematically cool stars, those with
+vertical velocity dispersions below the local mean (their Fig.~4).
 \citet{Mikkola2020} confirmed that the importance of migration at large vertical
 action depends on spiral strength, and explicitly flagged an analytic description
 as outstanding.
 
 Independently, \citet{Palicio2024} report a linear relation, found across simulated
 spiral galaxies and satisfied by the Milky Way, between the maximum radial action
-of spiral-arm stars and the disc vertical scale $\hZ$ -- measured there as an
+of spiral-arm stars and the disk vertical scale $\hZ$ -- measured there as an
 exponential vertical scale-length -- $\JR^{\max}=a\,\hZ+b$ with
 $a\approx3.7\times10^{-2}\,\Lsun/\kpc$ (see also \citealt{Jia2024}); the slope is
 not derived from first principles.
@@ -91,8 +97,9 @@ a single object, the vertical form factor $F(\Jz,k)$
 (Section~\ref{sec:formfactor}), which we then identify as the exact vertical
 Fourier coefficient of the spiral in the corotation-resonant Hamiltonian
 (Section~\ref{sec:trapping}). The resulting pendulum traps vertically cold stars
-preferentially; single-resonance trapping is too weak to explain the measured bias,
-and we show (Section~\ref{sec:overlap}) that the Milky Way sits at the
+preferentially; single-resonance trapping is too weak to explain the strong
+cold-migrator preference of the simulations, and we show
+(Section~\ref{sec:overlap}) that the Milky Way sits at the
 \citet{Chirikov1979} resonance-overlap threshold, placing the churning in the
 diffusive regime. We then recover the provenance-bias magnitude and the
 $\JR^{\max}$--$\hZ$ slope and its age dependence (Section~\ref{sec:bias}) and
@@ -103,13 +110,13 @@ discuss the synthesis (Section~\ref{sec:discussion}).
 \label{sec:formfactor}
 
 A razor-thin spiral perturbation of radial wavenumber $k$ has a potential that
-satisfies Laplace's equation above the disc and therefore decays as $e^{-k|z|}$
+satisfies Laplace's equation above the disk and therefore decays as $e^{-k|z|}$
 \citep{BinneyTremaine2008}. A star executing a vertical oscillation
 $z(\theta_z;\Jz)$ samples the spiral through the angle-average of that decay,
 %
 \begin{equation}
-  F(\Jz,k) \;=\; \big\langle e^{-k|z(\theta_z,\Jz)|}\big\rangle_{\theta_z}
-  \;=\; \frac{2}{\pi}\int_0^{z_m} e^{-kz}\,\frac{\nu_z}{|v_z|}\,\mathrm{d}z,
+  F(\Jz,k) = \big\langle e^{-k|z(\theta_z,\Jz)|}\big\rangle_{\theta_z}
+  = \frac{2}{\pi}\int_0^{z_m} \mathrm{d}z\, e^{-kz}\,\frac{\nu_z}{|v_z|},
   \label{eq:formfactor}
 \end{equation}
 %
@@ -119,67 +126,49 @@ self-consistent isothermal sheet \citep{Spitzer1942}, $\Phi(z)=2\ln\cosh z$ in
 units $G=\sigz=z_0=1$, for which the only parameter is the dimensionless thickness
 $\alpha\equiv kz_0$. By construction $F(0,k)=1$ -- a mid-plane orbit feels the full
 in-plane amplitude -- and $F$ decreases monotonically with vertical action
-(Figure~\ref{fig:formfactor}). This is the quantitative content of ``cold stars
-couple more readily'': $F$ is the time the orbit spends near the plane, weighted by
-the spiral's reach.
+(Figure~\ref{fig:formfactor}). Physically, $F$ is the average amplitude a star
+feels -- the time its orbit spends near the plane, weighted by the spiral's
+$e^{-k|z|}$ reach. It makes precise the ``spend more time near the mid-plane'' half
+of the verbal mechanism; that this orbit-average is itself the coupling strength
+entering the corotation resonance is shown in Section~\ref{sec:trapping}.
 
 For the Milky Way a radial wavelength $\lambda_R\sim3\kpc$
-($k=2\pi/\lambda_R\sim2\kpc^{-1}$) and $z_0\sim0.4\kpc$ give $\alpha\sim0.84$ -- of
-order unity, which is why the bias is an order-$20$ per cent effect rather than
-negligible.
-
-The quadrature~\eqref{eq:formfactor} is confirmed by an independent route:
-integrating the vertical orbit with the \textsc{galpy} integrator
-\citep{Bovy2015} in its isothermal-disc potential and time-averaging $e^{-k|z|}$
-over a whole number of vertical periods reproduces $F$ to better than
-$2\times10^{-4}$ across the relevant range (Figure~\ref{fig:validation}).
+($k=2\pi/\lambda_R\sim2\kpc^{-1}$; \citealp{Reid2019}) and a vertical scale
+$z_0\sim0.4\kpc$ \citep{BlandHawthornGerhard2016} give $\alpha\sim0.84$ -- of order
+unity, so the vertical coupling is appreciably selective rather than negligible; we
+quantify the resulting bias in the trapping and overlap analyses below.
 
 \begin{figure}
   \plotone{form-factor.pdf}
-  \caption{The vertical form factor $F(\Jz,k)=\langle e^{-k|z|}\rangle$,
-  Equation~\eqref{eq:formfactor}, versus vertical action for three spiral
-  wavenumbers $\alpha=kz_0$. $F\to1$ for mid-plane orbits and falls monotonically
-  with $\Jz$: vertically hot stars couple weakly to the spiral.}
+  \caption{Vertical form factor $F(\Jz,k)=\langle e^{-k|z|}\rangle$ (Equation~\eqref{eq:formfactor}),
+  as a function of vertical action for three spiral
+  wavenumbers $\alpha=kz_0$. The value of $\alpha = 0.84$ is a rough approximation for the Milky Way. 
+  $F$ falls monotonically with $\Jz$ (vertically hot
+  stars feel a weaker orbit-averaged spiral amplitude) and the suppression
+  steepens with $\alpha$; $F\to1$ as $\Jz\to0$ by construction, a mid-plane orbit
+  feeling the full amplitude.}
   \label{fig:formfactor}
 \end{figure}
 
-\begin{figure}
-  \plotone{form-factor-validation.pdf}
-  \caption{Independent validation of the vertical form
-  factor~\eqref{eq:formfactor}. The quadrature (curves) and the \textsc{galpy}
-  orbit-integrated time-average (markers) agree across vertical action for three
-  disc thicknesses $\alpha$; the residual (lower panel) stays below
-  $2\times10^{-4}$.}
-  \label{fig:validation}
-\end{figure}
-
 \paragraph{Finite-thickness correction.} The $e^{-k|z|}$ kernel is the razor-thin
-leading term; a spiral of finite vertical scale height $h_s$ convolves it with its
-own vertical profile, rounding the mid-plane cusp. For an exponential spiral profile
-the softened kernel is $K(z)=[\beta e^{-k|z|}-k e^{-\beta|z|}]/(\beta-k)$ with
-$\beta=1/h_s$, whose orbit average is
+leading term; the arm overdensity is in fact disk material of finite vertical extent
+$h_s$ (comparable to the disk scale $z_0$), and convolving the thin-sheet kernel with
+that profile rounds the mid-plane cusp \citep{Toomre1964}. For an exponential arm
+profile $g(z)\propto e^{-|z|/h_s}$, with $h_s$ the arm's vertical scale height, the
+softened kernel is $K(z)=[\beta e^{-k|z|}-k e^{-\beta|z|}]/(\beta-k)$ with
+$\beta=1/h_s$ -- the thin-sheet kernel convolved with $g$ and normalized to $K(0)=1$,
+a direct solution of Poisson's equation \citep{BinneyTremaine2008}. Its orbit average
+is
 %
 \begin{equation}
   F_{\rm soft}(\Jz;\alpha,h)=\frac{F(\Jz,\alpha)-\alpha h\,F(\Jz,1/h)}{1-\alpha h},
-  \qquad h\equiv h_s/z_0,
+  \, h\equiv h_s/z_0,
   \label{eq:softened}
 \end{equation}
 %
 a combination of the bare form factor at the two wavenumbers. It recovers $F$ as
-$h\to0$ and tends to unity as $h\to\infty$. At the Galactic $\alpha\sim1$ and a
-spiral thickness $h\sim0.5$--$1$ the softening raises $F$ toward unity and weakens
-the single-resonance bias from ${\approx}7$ to ${\approx}4$--$5.5$ per cent
-(Figure~\ref{fig:thickness}) -- an order-unity correction that must be carried.
-
-\begin{figure}
-  \plotone{finite-thickness.pdf}
-  \caption{The single-resonance provenance bias at the Milky-Way thickness computed
-  with the finite-thickness form factor~\eqref{eq:softened}, versus the spiral
-  thickness $h=h_s/z_0$. The razor-thin value (${\approx}7$ per cent at $h=0$)
-  weakens by an order-unity factor across the plausible Milky-Way spiral thickness
-  (shaded).}
-  \label{fig:thickness}
-\end{figure}
+$h\to0$ and tends to unity as $h\to\infty$. We use $F_{\rm soft}$ in place of the razor-thin $F$ when evaluating the Milky-Way
+provenance bias in Section~\ref{sec:trapping}.
 
 % ===========================================================================
 \section{The corotation-resonant Hamiltonian and the trapped weight}
@@ -193,24 +182,38 @@ $\Omega_p$ is
 %
 \begin{equation}
   \Phi_s = \mathrm{Re}\!\left[\Phi_0(R)\,e^{-k|z|}\,
-  e^{\,i(m\phi + \int\! k\,\mathrm{d}R - m\Omega_p t)}\right],
+  e^{\,i(m\phi + \int\! \mathrm{d}R\, k - m\Omega_p t)}\right],
 \end{equation}
 %
-whose Fourier expansion in the background angles has coefficients that factorise
-into independent radial and vertical fast-angle averages. At corotation,
-$\Omega(\Lz)=\Omega_p$, the resonance engages the $n_R=n_z=0$ harmonic, so the
+whose Fourier expansion in the background angles,
+%
+\begin{equation}
+  \Phi_s = \sum_{n_R,\,n_z} \Phi_{n_R n_z}(\JR,\Lz,\Jz)\,
+  e^{\,i(n_R\theta_R + m\theta_\phi + n_z\theta_z - m\Omega_p t)},
+\end{equation}
+%
+has coefficients that factorize into independent radial and vertical fast-angle
+averages; here $n_R$ and $n_z$ are the integer harmonics of the radial and vertical
+angles (the azimuthal harmonic is fixed at the arm number $m$). The $(n_R,n_z)$ term
+is resonant when its phase is stationary, $n_R\kappa + n_z\nu_z + m(\Omega-\Omega_p)=0$.
+At corotation, $\Omega(\Lz)=\Omega_p$, this is the $n_R=n_z=0$ harmonic -- the part of
+the spiral averaged over both the radial epicycle and the vertical orbit -- so the
 resonant coupling is
 %
 \begin{equation}
   \Psi(\JR,\Jz) \;=\; \Phi_0(R_{\rm CR})\;\underbrace{J_0(k a_R)}_{G(\JR)}\;
   \underbrace{F(\Jz,k)}_{\text{vertical}},
-  \qquad a_R=\sqrt{2\JR/\kappa},
+  \,a_R=\sqrt{2\JR/\kappa},
   \label{eq:coupling}
 \end{equation}
 %
 the product of the classical radial reduction factor $G(\JR)=J_0(ka_R)$
 \citep[the Kalnajs/Bessel factor;][]{BinneyTremaine2008} and the vertical form
-factor $F$. \emph{The provenance bias is the $F$-factor of this coupling; the
+factor $F$. This coupling $\Psi$ is the amplitude of the corotation resonance -- the
+depth of the pendulum well that traps migrating stars
+(Equations~\ref{eq:pendulum}--\ref{eq:width} below) -- so its vertical factor $F$
+directly sets how strongly a star of given $\Jz$ is captured and migrates.
+\emph{The provenance bias is the $F$-factor of this coupling; the
 \citet{DanielWyse2015} radial selectivity is the $G$-factor.} Equation
 \eqref{eq:coupling} is the central identification of this paper: $F(\Jz,k)$ is the
 exact vertical Fourier coefficient of the spiral at corotation.
@@ -250,9 +253,8 @@ integrating a Gaussian parent distribution of the slow action $p$, of dispersion
 $\sigma_p$, over the separatrix:
 %
 \begin{equation}
-  W(\Jz) = \frac{1}{\pi}\int_0^\pi
-  \mathrm{erf}\!\left(\frac{\kappa\sqrt{F(\Jz,k)}}{\sqrt2}\,\sin u\right)
-  \mathrm{d}u,
+  W(\Jz) = \frac{1}{\pi}\int_0^\pi \mathrm{d}u\,
+  \mathrm{erf}\!\left(\frac{\kappa\sqrt{F(\Jz,k)}}{\sqrt2}\,\sin u\right),
   \label{eq:wexact}
 \end{equation}
 %
@@ -260,22 +262,33 @@ with a single dimensionless island-width parameter
 $\kappa\equiv p_{\max}(F{=}1)/\sigma_p\propto\sqrt{|\Phi_s|}$.
 Equation~\eqref{eq:wexact} reduces to the $\sqrt{F}$ law~\eqref{eq:wsqrtf} for
 narrow islands ($\kappa\to0$) and saturates to unity for wide ones
-(Figure~\ref{fig:trappedweight}). Crucially, the resulting provenance bias is
-\emph{maximised} in the dilute limit -- where $W\propto\sqrt{F}$ gives the steepest
-vertical weighting -- and weakens monotonically with $\kappa$: the exact trapped
-census therefore \emph{caps} the bias at the $\sqrt{F}$ value, ${\approx}7$ per cent
-at the Milky-Way thickness, for any spiral strength (Figure~\ref{fig:trappingcap}).
+(Figure~\ref{fig:trappedweight}). The provenance bias follows by reweighting the
+equilibrium vertical distribution $\mathrm{d}N/\mathrm{d}E\propto e^{-E}/\nu_z$ by the
+trapped weight $W(\Jz)$ and forming the migrator-to-parent dispersion ratio
+$\sigz^{\rm mig}/\sigz^{\rm all}$; Figure~\ref{fig:trappingcap} plots the resulting
+log dispersion ratio $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ (negative; more negative is
+stronger) at the Milky-Way thickness against the
+island-width $\kappa$. It is \emph{most negative} in the dilute limit -- where
+$W\propto\sqrt{F}$ gives the steepest vertical weighting -- and weakens (toward zero)
+monotonically with $\kappa$: the exact trapped census therefore \emph{floors} the bias
+at the $\sqrt{F}$ value, ${\approx}-7$ percent at the Milky-Way thickness, for any
+spiral strength.
+Finite spiral thickness softens this floor further: replacing $F$ by the
+finite-thickness $F_{\rm soft}$~\eqref{eq:softened} weakens the ${\approx}-7$ percent
+floor to ${\approx}-4$ to $-5.5$ percent across the plausible Milky-Way spiral thickness
+$h\sim0.5$--$1$ (Figure~\ref{fig:thickness}), a $20$--$45$ percent reduction in magnitude.
 Even the steeper \citet{DanielWyse2018} capture-fraction accounting, $W\propto F$,
-reaches only ${\approx}13$ per cent. Both single-resonance estimates fall below the
-measured ${\sim}20$ per cent, which therefore cannot arise from a single resonance
-and demands the resonance-overlap regime of Section~\ref{sec:overlap}, where $W$
-steepens toward the diffusive $F^2$ limit. The effective weight $W=\exp[-s(1/F-1)]$
-used in Section~\ref{sec:bias} (with $s\equiv\sigR^2/|\Phi_s|$) is accordingly a
-\emph{diffusive} effective model, not the single-resonance census.
+reaches only ${\approx}-14$ percent. Neither single-resonance estimate produces the
+strong cold-migrator preference seen in the simulations, in which the migrators are
+drawn overwhelmingly from the kinematically cool population
+\citep{VeraCiro2016imprint}; that preference points to the resonance-overlap regime
+of Section~\ref{sec:overlap}, where $W$ steepens toward the diffusive $F^2$ limit. The effective weight $W=\exp[-s(1/F-1)]$
+derived for the bias in Section~\ref{sec:bias} (Equation~\ref{eq:effweight}) is
+accordingly a \emph{diffusive} effective model, not the single-resonance census.
 
 \begin{figure}
   \plotone{trapped-weight.pdf}
-  \caption{The exact corotation trapped weight~\eqref{eq:wexact} (normalised to its
+  \caption{The exact corotation trapped weight~\eqref{eq:wexact} (normalized to its
   mid-plane value) versus vertical action for three island-width parameters
   $\kappa$. It interpolates between the dilute $\sqrt{F}$ law (dashed) for narrow
   islands and a flat, saturated profile for wide ones.}
@@ -284,12 +297,26 @@ used in Section~\ref{sec:bias} (with $s\equiv\sigR^2/|\Phi_s|$) is accordingly a
 
 \begin{figure}
   \plotone{trapping-cap.pdf}
-  \caption{Provenance bias from the exact trapped fraction~\eqref{eq:wexact} at the
+  \caption{Provenance bias $\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$ from the
+  exact trapped fraction~\eqref{eq:wexact} at the
   Milky-Way thickness versus island-width parameter $\kappa$. The single-resonance
-  bias is bounded by the $\sqrt{F}$ cap (${\approx}7$ per cent, dotted) and falls
-  for wide islands; the measured ${\sim}20$ per cent (dashed) lies above the cap,
-  so single-resonance trapping cannot produce it.}
+  bias is bounded by the $\sqrt{F}$ floor (${\approx}-7$ percent, dotted) and weakens
+  for wide islands, so single-resonance trapping cannot be more negative than
+  ${\approx}-7$ percent for any spiral strength.}
   \label{fig:trappingcap}
+\end{figure}
+
+\begin{figure}
+  \plotone{finite-thickness.pdf}
+  \caption{Finite-thickness softening of the single-resonance floor. The provenance
+  bias at the Milky-Way thickness ($\alpha=0.84$),
+  $\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$, computed from the trapped
+  census~\eqref{eq:wexact} with the softened form factor
+  $F_{\rm soft}$~\eqref{eq:softened} in place of $F$, versus the spiral vertical
+  thickness $h=h_s/z_0$. The razor-thin $\sqrt{F}$ floor (${\approx}-7$ percent at
+  $h=0$) weakens to ${\approx}-4$ to $-5.5$ percent across the plausible Milky-Way range
+  $h\sim0.5$--$1$ (shaded).}
+  \label{fig:thickness}
 \end{figure}
 
 % ===========================================================================
@@ -297,10 +324,11 @@ used in Section~\ref{sec:bias} (with $s\equiv\sigR^2/|\Phi_s|$) is accordingly a
 \label{sec:overlap}
 
 The single-resonance estimates of Section~\ref{sec:trapping} -- the exact trapped
-census ($\sqrt{F}$, ${\approx}7$ per cent; Figure~\ref{fig:trappingcap}) and the
-\citet{DanielWyse2018} capture fraction ($\propto F$, ${\approx}13$ per cent) --
-both fall short of the measured ${\sim}20$ per cent. Single isolated corotation
-trapping is therefore not the operative regime. We test whether the Milky Way is
+census ($\sqrt{F}$, ${\approx}-7$ percent; Figure~\ref{fig:trappingcap}) and the
+\citet{DanielWyse2018} capture fraction ($\propto F$, ${\approx}-14$ percent) --
+are both too weak to produce the strong cold-migrator preference of the
+simulations. Single isolated corotation trapping is therefore not the operative
+regime. We test whether the Milky Way is
 instead in the resonance-overlap (stochastic, diffusive) regime with the
 \citet{Chirikov1979} criterion.
 
@@ -337,9 +365,9 @@ overlaps at $\epsilon\approx0.024$, inside the physical band, while the hot
 ($F=0.5$) population stays in regular libration until $\epsilon\approx0.05$. The
 diffusive churning channel is therefore itself biased toward vertically cold stars,
 steepening the provenance bias beyond the single-resonance $F^{1/2}$ law toward the
-$F^2$ diffusive limit and the measured ${\sim}20$ per cent. The Milky Way spiral
-sector lives at the crossover between regular trapping and overlap diffusion, and
-that crossover is vertical-action selective.
+$F^2$ diffusive limit. The Milky Way spiral sector lives at the crossover between
+regular trapping and overlap diffusion, and that crossover is vertical-action
+selective.
 
 \begin{figure}
   \plotone{resonance-overlap.pdf}
@@ -356,8 +384,8 @@ that crossover is vertical-action selective.
 weight. Quasilinear churning diffusion gives an angular-momentum diffusion
 coefficient $D\propto|\Psi|^2\propto F^2$, so the diffusive weight is $W\propto F^2$
 where resonances overlap, while the trapped census gives $W\propto F^{1/2}$ where
-they do not. Modelling the weight as a power of the form factor whose exponent runs
-from the trapping value $\tfrac12$ to the diffusive value $2$ through a gate centred
+they do not. Modeling the weight as a power of the form factor whose exponent runs
+from the trapping value $\tfrac12$ to the diffusive value $2$ through a gate centered
 on the threshold $S=1$,
 %
 \begin{equation}
@@ -367,11 +395,12 @@ on the threshold $S=1$,
 \end{equation}
 %
 with the single physical parameter $S_0$ the effective overlap, the predicted bias
-rises monotonically from the $\sqrt{F}$ floor (${\approx}7$ per cent) to the $F^2$
-ceiling (${\approx}24$ per cent) as $S_0$ grows (Figure~\ref{fig:crossover}). The bar
-and spiral alone ($S_0\approx1$) give ${\approx}11$ per cent; the measured
-${\sim}20$ per cent is reached at $S_0\approx2$--$3$, consistent with the extra
-overlap contributed by the Milky Way's recurrent transient spirals. The crossover
+deepens monotonically from the $\sqrt{F}$ value (${\approx}-7$ percent) to the $F^2$
+value (${\approx}-27$ percent) as $S_0$ grows (Figure~\ref{fig:crossover}). The bar
+and spiral alone ($S_0\approx1$) give ${\approx}-11$ percent; a ${\sim}-22$ percent
+bias -- the level of the \citet{VeraCiro2016imprint} cool-migrator selection -- is
+reached at $S_0\approx2$--$3$, the extra overlap expected once the Milky Way's
+recurrent transient spirals are included. The crossover
 sits at the critical form factor $F_{\rm crit}=1/S_0^2$ -- a critical vertical
 action separating diffusive (cold) from confined (hot) migrators, a structural
 prediction. The endpoints are physical; the gate is the minimal model of the
@@ -379,18 +408,21 @@ crossover sharpness.
 
 \begin{figure}
   \plotone{crossover-bias.pdf}
-  \caption{Provenance bias from the crossover weight~\eqref{eq:crossover} at the
-  Milky-Way thickness versus effective resonance overlap $S_0$. It rises from the
-  $\sqrt{F}$ trapping floor to the $F^2$ diffusion ceiling; the bar-plus-spiral
-  overlap (shaded, $S_0\approx1$) gives ${\approx}11$ per cent, and the measured
-  bias is reached at $S_0\approx2$--$3$.}
+  \caption{Provenance bias $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ from the crossover
+  weight~\eqref{eq:crossover} at the
+  Milky-Way thickness versus effective resonance overlap $S_0$. It deepens from the
+  $\sqrt{F}$ value (${\approx}-7$ percent) to the $F^2$ value
+  (${\approx}-27$ percent); the bar-plus-spiral overlap (shaded, $S_0\approx1$) gives
+  ${\approx}-11$ percent, deepening toward the $F^2$ value as additional patterns deepen the
+  overlap.}
   \label{fig:crossover}
 \end{figure}
 
 \paragraph{First-principles diffusive weight.} The diffusive endpoint is not assumed
 but follows from kinetic theory. The inhomogeneous Balescu--Lenard corotation
 diffusion coefficient in angular momentum,
-$D_{\Lz}(J)=\pi\sum_m|\Psi_m(J)|^2 C_m(\Omega)$ \citep{Fouvry2015}, inherits the
+$D_{\Lz}(J)=\pi\sum_m|\Psi_m(J)|^2 C_m(\Omega)$
+\citep{Heyvaerts2010,Fouvry2015}, inherits the
 $|\Psi_m|^2\propto F^2$ of the resonant coupling~\eqref{eq:coupling}, so the diffusive
 migration weight is $W\propto F^2$. A finite libration width
 $\Delta\omega\propto\sqrt{\Psi}\propto\sqrt{F}$ broadens the resonant denominator
@@ -405,18 +437,19 @@ closed form
 interpolating the decorrelated quasilinear limit ($W\propto F^2$, $b\to0$) and the
 coherent, resonance-broadened limit ($W\propto F^{3/2}$, $b\to\infty$). The provenance
 bias in this diffusive regime is therefore confined to a narrow \emph{derived} band,
-${\approx}19$--$24$ per cent at the Galactic thickness, almost independent of $b$
-(Figure~\ref{fig:bl}): the observed bias follows from the disc being in the diffusive
+${\approx}-20$ to $-27$ percent at the Galactic thickness, almost independent of $b$
+(Figure~\ref{fig:bl}): the observed bias follows from the disk being in the diffusive
 (overlap) regime, with no tuned parameter. The crossover weight~\eqref{eq:crossover}
-thus bridges the derived trapping floor (${\approx}7$ per cent) and this derived
+thus bridges the derived $\sqrt{F}$ value (${\approx}-7$ percent) and this derived
 diffusive band.
 
 \begin{figure}
   \plotone{balescu-lenard.pdf}
-  \caption{Provenance bias from the Balescu--Lenard diffusive weight~\eqref{eq:bl} at
+  \caption{Provenance bias $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ from the Balescu--Lenard
+  diffusive weight~\eqref{eq:bl} at
   the Milky-Way thickness versus the resonance-broadening parameter $b$. The diffusive
-  regime is pinned to the narrow band between the $F^2$ and $F^{3/2}$ limits (shaded);
-  the measured value lies inside it, nearly independent of $b$.}
+  bias is pinned to the narrow band between the $F^2$ and $F^{3/2}$ limits (shaded),
+  ${\approx}-20$ to $-27$ percent, nearly independent of $b$.}
   \label{fig:bl}
 \end{figure}
 
@@ -427,7 +460,7 @@ off vertically over a scale height $H$, and weighting each star by its churning
 $|\Delta\Lz|$, recovers the provenance bias (Figure~\ref{fig:testparticle}):
 migrators are vertically colder, the bias strengthens with spiral thinness
 $\alpha\sim z_0/H$ in agreement with the single-resonance prediction -- reaching
-${\approx}6$ per cent near the Galactic $\alpha\sim1$ -- and stacking $M$ overlapping
+${\approx}6$ percent near the Galactic $\alpha\sim1$ -- and stacking $M$ overlapping
 patterns of different pattern speed raises the bias monotonically, directly
 confirming the resonance-overlap mechanism of Section~\ref{sec:overlap}.
 
@@ -438,7 +471,7 @@ confirming the resonance-overlap mechanism of Section~\ref{sec:overlap}.
   show the standard error). \textit{Left:} a single transient spiral; the
   churning-weighted migrator coldness rises with spiral thinness $\alpha\sim z_0/H$,
   tracking the analytic single-resonance prediction (curve) and reaching ${\approx}6$
-  per cent near the Galactic $\alpha\sim1$. \textit{Right:} stacking $M$ overlapping
+  percent near the Galactic $\alpha\sim1$. \textit{Right:} stacking $M$ overlapping
   transient patterns raises the bias monotonically, confirming the
   resonance-overlap mechanism.}
   \label{fig:testparticle}
@@ -448,16 +481,29 @@ confirming the resonance-overlap mechanism of Section~\ref{sec:overlap}.
 \section{The provenance bias and the $\JR^{\max}$--$\hZ$ relation}
 \label{sec:bias}
 
-\paragraph{Bias magnitude.} Reweighting the equilibrium vertical distribution
-$\mathrm{d}N/\mathrm{d}E\propto e^{-E}/\nu_z$ by the effective weight
-$W=\exp[-s(1/F-1)]$ of Section~\ref{sec:trapping} yields the migrator dispersion
-ratio $\sigz^{\rm mig}/\sigz^{\rm all}$. At the Milky-Way thickness $\alpha=0.84$
-the measured ${\sim}20$ per cent cooling
-($\sigz^{\rm mig}/\sigz^{\rm all}\approx0.80$) is reproduced by $s=0.90$ -- inside
-the physical range $s\sim0.8$--$2$ ($|\Phi_s|\sim1$--$3\%\,V_c^2$) -- and the model
-predicts the bias weakens as the spiral strengthens and strengthens with disc
-thickness $\alpha$ (Figure~\ref{fig:bias}), matching \citet{Mikkola2020} and the
-morphology independence of \citet{VeraCiro2016imprint}. As
+\paragraph{Bias magnitude.} In the diffusive regime a star is captured into
+migration with a probability set by the competition between its radial random energy
+$\sigR^2$ and the resonant coupling energy $|\Phi_s|\,F$ -- the spiral amplitude
+reduced by the vertical form factor (Equation~\ref{eq:coupling}). A Boltzmann capture
+probability $\propto\exp(-\sigR^2/|\Phi_s|F)$, normalized to a mid-plane orbit
+($F=1$), gives the effective migration weight
+%
+\begin{equation}
+  W(\Jz)=\exp\!\left[-s\left(\frac{1}{F(\Jz,k)}-1\right)\right],
+  \qquad s\equiv\frac{\sigR^2}{|\Phi_s|},
+  \label{eq:effweight}
+\end{equation}
+%
+the smooth, three-dimensional form of the \citet{DanielWyse2015} random-energy
+capture criterion. Applying the reweighting of Section~\ref{sec:trapping} with this
+$W$ yields the migrator dispersion ratio $\sigz^{\rm mig}/\sigz^{\rm all}$. At the Milky-Way thickness $\alpha=0.84$ a
+bias of ${\approx}-22$ percent ($\sigz^{\rm mig}/\sigz^{\rm all}\approx0.80$, i.e.
+$\ln\sigz^{\rm mig}/\sigz^{\rm all}\approx-0.22$, the cool-star
+threshold of \citealt{VeraCiro2016imprint}) corresponds to $s=0.90$ -- inside the
+physical range $s\sim0.8$--$2$ ($|\Phi_s|\sim1$--$3\%\,V_c^2$); the model predicts
+the bias weakens as the spiral strengthens and strengthens with disk thickness
+$\alpha$ (Figure~\ref{fig:bias}), matching the strength dependence of
+\citet{Mikkola2020} and the morphology independence of \citet{VeraCiro2016imprint}. As
 Section~\ref{sec:overlap} makes explicit, the steepness encoded in $s$ is the
 signature of the diffusive (overlap) regime rather than of clean single-resonance
 trapping: this effective weight is the phenomenological counterpart of the crossover
@@ -465,10 +511,11 @@ weight~\eqref{eq:crossover} at $S_0\approx2$--$3$.
 
 \begin{figure}
   \plotone{provenance-bias.pdf}
-  \caption{Predicted migrator vertical cooling
-  $1-\sigz^{\rm mig}/\sigz^{\rm all}$ versus disc thickness $\alpha=k\hZ$ at the
-  spiral strength $s=0.90$ fixed by the Milky-Way anchor (star;
-  \citealt{VeraCiro2016imprint}).}
+  \caption{Predicted migrator bias
+  $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ versus disk thickness $\alpha=k\hZ$, shown as a
+  band over the physical spiral-strength range $s=0.8$--$2$
+  ($|\Phi_s|\sim1$--$3\%\,V_c^2$). The bias deepens with thickness; at the Milky-Way
+  value $\alpha=0.84$ (dotted) it is ${\approx}-20$ to $-41$ percent.}
   \label{fig:bias}
 \end{figure}
 
@@ -483,10 +530,10 @@ radial-to-vertical heating-anisotropy ratio,
   \label{eq:slope}
 \end{equation}
 %
-For solar-neighbourhood values ($\Sigma=50\,M_\odot\,\mathrm{pc}^{-2}$,
+For solar-neighborhood values ($\Sigma=50\,M_\odot\,\mathrm{pc}^{-2}$,
 $\kappa=0.037\,\mathrm{km\,s^{-1}\,pc^{-1}}$, $\sigR=35$, $\sigz=18\,
 \mathrm{km\,s^{-1}}$) and $c_{\max}=1$, Equation~\eqref{eq:slope} gives
-$3.6\times10^{-2}\,\Lsun/\kpc$, within a few per cent of the measured
+$3.6\times10^{-2}\,\Lsun/\kpc$, within a few percent of the measured
 $3.7\times10^{-2}$. Equation~\eqref{eq:slope} uses the self-gravitating
 $\mathrm{sech}^2$ sheet, whereas \citet{Palicio2024} fit $\hZ$ as an exponential
 vertical scale-length; the two scales differ by an order-unity factor, which we
@@ -501,7 +548,8 @@ age--velocity-dispersion relation $\sigma\propto\mathrm{age}^\beta$, so
   \label{eq:agerun}
 \end{equation}
 %
-With $\beta_z\approx0.5$ \citep{Sun2024} and $\beta_R\approx0.35$, the exponent is
+With $\beta_z\approx0.5$ and $\beta_R\approx0.35$
+\citep{AumerBinneySchonrich2016,Sun2024}, the exponent is
 $-0.3$, so the slope of an $8\,$Gyr population is $\approx0.54$ times that of a
 $1\,$Gyr population: \emph{the relation should flatten with age}. Re-fitting the
 $\JR^{\max}$--$\hZ$ relation in mono-age or mono-abundance bins thus measures
@@ -533,7 +581,7 @@ distinct and complementary, and only the latter produces the provenance bias.
 The two dynamical regimes the form factor distinguishes -- single-resonance
 trapping ($W\propto F^{1/2}$) and resonance-overlap diffusion ($W$ steeper) -- are
 the two ends of one axis. The diffusive end is the inhomogeneous Balescu--Lenard
-description of secular evolution in tightly wound discs \citep{Fouvry2015}, and the
+description of secular evolution in tightly wound disks \citep{Fouvry2015}, and the
 linear-response perturbed distribution function of \citet{MonariFamaeySiebert2016}
 is its complement; a full treatment would compute $W(\Jz)$ as the phase-space
 trapped fraction across the overlap transition rather than in its two limits, which
@@ -546,14 +594,16 @@ spiral profile; a self-consistent profile would refine it. The overlap parameter
 \eqref{eq:chirikov} is sensitive to the bar--spiral pattern-speed separation; the
 well-separated fiducial adopted here is conservative, and the Milky Way's recurrent
 transient spirals add resonances that only increase the overlap. We also stress that
-the ${\sim}20$ per cent migrator cooling we compare to is read from
-\citet{VeraCiro2016imprint} and is approximate; our conclusions rest on the regime
-ordering -- single-resonance trapping falls well short, and resonance overlap
-supplies the difference -- rather than on its precise value. The age-running of the
+the ${\sim}-22$ percent figure is the cool-star color threshold of
+\citet{VeraCiro2016imprint}'s Fig.~4, not a measured migrator dispersion offset; the
+provenance-bias magnitude is not yet robustly measured. Our conclusions rest on the
+regime ordering -- single-resonance trapping floors near $-7$ percent, the diffusive
+regime predicts $-20$ to $-27$ percent -- and on the qualitative cold-migrator
+preference, rather than on a precise value. The age-running of the
 slope \eqref{eq:agerun} is, to our knowledge, an untested and clean prediction for
 current Gaia--APOGEE--LAMOST data.
 
-\section*{Acknowledgements}
+\section*{Acknowledgments}
 This work used \textsc{numpy}, \textsc{scipy}, \textsc{matplotlib} and
 \textsc{galpy}.
 

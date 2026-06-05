@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.1",
+    "@docusaurus/plugin-content-docs": "^3.10.1",
     "@docusaurus/preset-classic": "^3.10.1",
     "@docusaurus/theme-common": "^3.10.1",
     "@easyops-cn/docusaurus-search-local": "^0.55.1",
@@ -29,12 +30,21 @@
     "@docusaurus/module-type-aliases": "^3.10.1",
     "@docusaurus/tsconfig": "^3.10.1",
     "@docusaurus/types": "^3.10.1",
+    "@types/node": "^22.0.0",
     "@types/react": "^19.2.15",
     "typescript": "^6.0.3"
   },
   "browserslist": {
-    "production": [">0.5%", "not dead", "not op_mini all"],
-    "development": ["last 3 chrome version", "last 3 firefox version", "last 5 safari version"]
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
   },
   "engines": {
     "node": ">=18.0"

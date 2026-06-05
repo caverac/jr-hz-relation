@@ -20,9 +20,10 @@ principles, and ties the same `F(k h_Z)` to the empirical spiral-arm
 
 ## Layout
 
-- `packages/jr_hz_relation/` -- the Python engine (form factor, capture weight,
-  corotation trapping, resonance overlap, structural slope, figures, CLI) with a
-  full test suite (100% coverage, no lint exceptions).
+- `packages/experiments/` -- the analysis code and CLI (form factor, capture weight,
+  corotation trapping, resonance overlap, structural slope, figures) with a full
+  test suite (100% coverage, no lint exceptions). Workspace-internal, not a PyPI
+  package.
 - `packages/pre-print/` -- the ApJ paper (AASTeX v7) and its figures.
 - `notebooks/` -- the local-only research record (logs, notes, memory); git-ignored.
 
@@ -34,7 +35,7 @@ principles, and ties the same `F(k h_Z)` to the empirical spiral-arm
 mise install
 uv sync
 uv run pytest                       # tests + 100% coverage gate
-uv run jr-hz-relation figures --outdir packages/pre-print
+uv run experiments figures --outdir packages/pre-print
 make -C packages/pre-print          # build the pre-print PDF
 ```
 
