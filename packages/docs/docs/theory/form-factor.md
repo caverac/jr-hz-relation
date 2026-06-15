@@ -42,7 +42,10 @@ $$
 
 This is a standard result (Binney & Tremaine 2008): *the more tightly wound the arm
 (larger $k$), the faster its influence dies away above the plane.* That single
-exponential is the entire reason vertical motion matters for migration.
+exponential is why vertical motion matters at all for how strongly a star couples to
+the arm: if the potential did not fall off with height, every star would feel the
+same amplitude no matter how high it bobs, and vertical action would drop out of the
+problem entirely.
 
 :::tip Why does a larger $k$ decay faster? (the intuition)
 Two complementary pictures explain it.
@@ -79,7 +82,7 @@ angle average**:
 $$
 F(J_z,k) \equiv \big\langle e^{-k|z|}\big\rangle_{\theta_z}
 = \frac{1}{2\pi}\oint \mathrm{d}\theta_z\; e^{-k|z(\theta_z)|}
-= \frac{1}{T}\oint \mathrm{d}t\; e^{-k|z(t)|} ,
+= \frac{1}{T}\int_0^T \mathrm{d}t\; e^{-k|z(t)|} ,
 $$
 
 with $T=2\pi/\nu_z$ the vertical period.
@@ -87,21 +90,22 @@ with $T=2\pi/\nu_z$ the vertical period.
 ### Turning the time integral into a height integral
 
 We do not know $z(t)$ in closed form, but we *do* know the vertical velocity at each
-height from energy conservation. The vertical energy is
+height from energy conservation. The vertical energy $E_z$ — the conserved energy of
+the vertical oscillation alone — is
 
 $$
-E = \frac{1}{2} v_z^2 + \Phi(z) \;\;\Longrightarrow\;\; v_z = \frac{\mathrm{d}z}{\mathrm{d}t}
-= \sqrt{2\big[E-\Phi(z)\big]} ,
+E_z = \frac{1}{2} v_z^2 + \Phi(z) \;\;\Longrightarrow\;\; v_z = \frac{\mathrm{d}z}{\mathrm{d}t}
+= \sqrt{2\big[E_z-\Phi(z)\big]} ,
 $$
 
 so we can trade the time element for a height element, $\mathrm{d}t = \mathrm{d}z/|v_z|$.
 One full period consists of four identical quarter-swings ($0\to z_m$, $z_m\to 0$,
 $0\to -z_m$, $-z_m\to 0$), where $z_m$ is the **turning point** defined by
-$\Phi(z_m)=E$ (the height at which $v_z=0$). Since $e^{-k|z|}$ is even in $z$, all
+$\Phi(z_m)=E_z$ (the height at which $v_z=0$). Since $e^{-k|z|}$ is even in $z$, all
 four quarters contribute equally:
 
 $$
-\oint \mathrm{d}t\; e^{-k|z|} = 4\int_0^{z_m} \mathrm{d}z\; \frac{e^{-kz}}{|v_z|} .
+\int_0^T \mathrm{d}t\; e^{-k|z|} = 4\int_0^{z_m} \mathrm{d}z\; \frac{e^{-kz}}{|v_z|} .
 $$
 
 Putting it together with $1/T = \nu_z/2\pi$:
@@ -115,7 +119,7 @@ That is the working formula — Equation (1) of the paper:
 
 $$
 \boxed{\;F(J_z, k) = \frac{2}{\pi}\int_0^{z_m} \mathrm{d}z\; e^{-kz}\,\frac{\nu_z}{|v_z|},
-\qquad v_z=\sqrt{2[E-\Phi(z)]}\;}
+\qquad v_z=\sqrt{2[E_z-\Phi(z)]}\;}
 $$
 
 The integrand has a clean reading: $\nu_z/|v_z|$ is proportional to the **time per
@@ -140,13 +144,13 @@ Everything we need follows from this one function.
   $\Phi''(0)$: with $\Phi'=2\tanh z$, $\Phi''=2\,\mathrm{sech}^2 z$, we get
   $\Phi''(0)=2$, hence $\nu_z(J_z\to 0)=\sqrt{\Phi''(0)}=\sqrt2$. (At higher energy
   the orbit feels the softer, flatter top of the well and $\nu_z$ drops.)
-- **Turning point.** Set $\Phi(z_m)=E$: $\;2\ln\cosh z_m = E \Rightarrow
-  z_m=\mathrm{arccosh}\,(e^{E/2})$.
+- **Turning point.** Set $\Phi(z_m)=E_z$: $\;2\ln\cosh z_m = E_z \Rightarrow
+  z_m=\mathrm{arccosh}\,(e^{E_z/2})$.
 - **Vertical action.** By the general definition,
   $$
-  J_z = \frac{1}{2\pi}\oint \mathrm{d}z\; v_z = \frac{2}{\pi}\int_0^{z_m} \mathrm{d}z\;\sqrt{2[E-\Phi(z)]} ,
+  J_z = \frac{1}{2\pi}\oint \mathrm{d}z\; v_z = \frac{2}{\pi}\int_0^{z_m} \mathrm{d}z\;\sqrt{2[E_z-\Phi(z)]} ,
   $$
-  which maps each energy $E$ to an action $J_z$ (this is the $x$–axis of the figure
+  which maps each vertical energy $E_z$ to an action $J_z$ (this is the $x$–axis of the figure
   below).
 
 With $\Phi$ fixed, the *only* free parameter left in $F$ is the combination
@@ -161,6 +165,10 @@ the crucial economy of the model: thickness and wavenumber only ever appear toge
 as $\alpha$.
 
 ### Reading the result
+
+```shell
+uv run experiments form-factor-plot --n-energies 60
+```
 
 <figure class="scientific">
   <img src={useBaseUrl('/figures/form-factor.png')} alt="Vertical form factor F versus vertical action for three values of alpha" />
@@ -177,12 +185,19 @@ Two features are worth internalizing:
 1. **$F$ decreases monotonically with $J_z$.** Hotter stars feel a weaker
    orbit-averaged arm. This is the quantitative content of "cold stars couple more
    readily."
-2. **The effect is real, not negligible, for the Milky Way.** With a radial
+2. **The coupling is appreciably $J_z$-dependent for the Milky Way.** With a radial
    wavelength $\lambda_R\sim3\,\mathrm{kpc}$ (so $k=2\pi/\lambda_R\sim2\,\mathrm{kpc}^{-1}$;
    Reid et al. 2019) and a vertical scale $z_0\sim0.4\,\mathrm{kpc}$ (Bland-Hawthorn &
-   Gerhard 2016), we get $\alpha\approx0.84$ — of order unity. The vertical coupling
-   is appreciably selective, which is exactly why the provenance bias is an
-   observable effect rather than a rounding error.
+   Gerhard 2016), we get $\alpha\approx0.84$ — of order unity. Had $\alpha$ been
+   $\ll1$, $F$ would be nearly flat in $J_z$ and the coupling barely selective; at
+   $\alpha\sim1$ it varies appreciably across the population, so the *ingredient* for a
+   provenance bias is present and of order unity. Whether that selectivity produces an
+   observable bias — and how large — is **not set by $F$ alone**: it also depends on
+   the **weight law** $W(F)$ relating coupling strength to migration probability, which
+   the resonance dynamics fix and which differs sharply between the trapping and
+   diffusive regimes (the same $F$ gives $\sim7\%$ under single-resonance trapping but
+   $\sim20\%$ under overlap diffusion). That is the work of
+   [Sections 3](/theory/corotation-hamiltonian)–[4](/theory/resonance-overlap).
 
 ## Step 4 — real arms have thickness (the softened kernel)
 

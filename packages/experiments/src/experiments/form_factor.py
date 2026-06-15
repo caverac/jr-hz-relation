@@ -31,19 +31,19 @@ from experiments.sheet import potential, turning_point, vertical_frequency
 
 
 def vertical_form_factor(energy: float, alpha: float) -> float:
-    """Vertical form factor ``F(E; alpha) = <e^{-alpha|z|}>`` over the orbit.
+    """Vertical form factor ``F(E_z; alpha) = <e^{-alpha|z|}>`` over the orbit.
 
     Parameters
     ----------
     energy :
-        Vertical energy ``E``, strictly positive.
+        Vertical energy ``E_z``, strictly positive.
     alpha :
         Dimensionless spiral wavenumber ``alpha = k z0``, non-negative.
 
     Returns
     -------
     float
-        The form factor, which tends to 1 as ``E -> 0`` and decreases with ``E``.
+        The form factor, which tends to 1 as ``E_z -> 0`` and decreases with ``E_z``.
 
     Raises
     ------
@@ -99,7 +99,7 @@ def _energy_grid(e_max: float, n: int) -> NDArray[np.float64]:
 
 
 def _density_of_states(energies: NDArray[np.float64]) -> NDArray[np.float64]:
-    """Vertical energy distribution ``dN/dE ~ e^{-E} * T(E)`` of the sheet."""
+    """Vertical energy distribution ``dN/dE_z ~ e^{-E_z} * T(E_z)`` of the sheet."""
     nu = np.array([vertical_frequency(float(e)) for e in energies])
     return np.exp(-energies) * (2.0 * np.pi / nu)
 

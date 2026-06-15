@@ -6,9 +6,9 @@ spiral form factor is averaged over, both come from the self-gravitating isother
 
     Phi(z) = 2 ln cosh z,  rho(z) = rho0 sech^2 z,  rho0 = 1/(2 pi),  nu_max = sqrt(2),
 
-and the isothermal distribution function f0(E) = rho0/sqrt(2 pi) e^{-E}. A star of
-vertical energy E oscillates anharmonically between turning points +/- z_m; this
-module provides z_m, the vertical action J_z(E), and the frequency nu_z(E) by
+and the isothermal distribution function f0(E_z) = rho0/sqrt(2 pi) e^{-E_z}. A star of
+vertical energy E_z oscillates anharmonically between turning points +/- z_m; this
+module provides z_m, the vertical action J_z(E_z), and the frequency nu_z(E_z) by
 quadrature.
 """
 
@@ -57,17 +57,17 @@ def density(z: float) -> float:
 
 
 def turning_point(energy: float) -> float:
-    """Vertical turning point ``z_m`` where ``Phi(z_m) = E``.
+    """Vertical turning point ``z_m`` where ``Phi(z_m) = E_z``.
 
     Parameters
     ----------
     energy :
-        Vertical energy ``E``, strictly positive.
+        Vertical energy ``E_z``, strictly positive.
 
     Returns
     -------
     float
-        The turning point ``z_m = arccosh(exp(E / 2))``.
+        The turning point ``z_m = arccosh(exp(E_z / 2))``.
 
     Raises
     ------
@@ -80,12 +80,12 @@ def turning_point(energy: float) -> float:
 
 
 def vertical_frequency(energy: float) -> float:
-    """Vertical orbital frequency ``nu_z(E) = 2 pi / T``.
+    """Vertical orbital frequency ``nu_z(E_z) = 2 pi / T``.
 
     Parameters
     ----------
     energy :
-        Vertical energy ``E``, strictly positive.
+        Vertical energy ``E_z``, strictly positive.
 
     Returns
     -------
@@ -104,12 +104,12 @@ def vertical_frequency(energy: float) -> float:
 
 
 def vertical_action(energy: float) -> float:
-    """Vertical action ``J_z(E) = (1/pi) INT |v_z| dz``.
+    """Vertical action ``J_z(E_z) = (1/pi) INT |v_z| dz``.
 
     Parameters
     ----------
     energy :
-        Vertical energy ``E``, strictly positive.
+        Vertical energy ``E_z``, strictly positive.
 
     Returns
     -------

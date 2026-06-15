@@ -355,25 +355,25 @@ To get an observable, convert the weight into a **dispersion ratio**. The equili
 vertical distribution of an isothermal population is
 
 $$
-\frac{\mathrm{d}N}{\mathrm{d}E}\propto \frac{e^{-E}}{\nu_z(E)},
+\frac{\mathrm{d}N}{\mathrm{d}E_z}\propto \frac{e^{-E_z}}{\nu_z(E_z)},
 $$
 
-i.e. a Boltzmann factor $e^{-E}$ (in units $\sigma_z=1$) times the density of states
+i.e. a Boltzmann factor $e^{-E_z}$ (in units $\sigma_z=1$) times the density of states
 $\propto$ orbital period $\propto 1/\nu_z$. The **migrator** population is this same
 distribution *reweighted by the trapped weight* $W(J_z)$. Since the vertical energy
-$E$ measures the squared vertical excursion, the squared dispersions are just the
+$E_z$ measures the squared vertical excursion, the squared dispersions are just the
 mean energies, and the migrator-to-parent dispersion ratio is
 
 $$
 \frac{\sigma_z^{\rm mig}}{\sigma_z^{\rm all}}
-= \sqrt{\frac{\langle E\rangle_{\rm mig}}{\langle E\rangle_{\rm all}}}
-= \sqrt{\frac{\int \mathrm{d}E\; E\,W\,(e^{-E}/\nu_z)}{\int \mathrm{d}E\; W\,(e^{-E}/\nu_z)}\Big/
-\frac{\int \mathrm{d}E\; E\,(e^{-E}/\nu_z)}{\int \mathrm{d}E\; (e^{-E}/\nu_z)}} .
+= \sqrt{\frac{\langle E_z\rangle_{\rm mig}}{\langle E_z\rangle_{\rm all}}}
+= \sqrt{\frac{\int \mathrm{d}E_z\; E_z\,W\,(e^{-E_z}/\nu_z)}{\int \mathrm{d}E_z\; W\,(e^{-E_z}/\nu_z)}\Big/
+\frac{\int \mathrm{d}E_z\; E_z\,(e^{-E_z}/\nu_z)}{\int \mathrm{d}E_z\; (e^{-E_z}/\nu_z)}} .
 $$
 
 The **provenance bias** is the **log dispersion ratio**
 $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ — exactly the quantity the figures plot. It
-is *negative* (because $W$ favours small $E$, the migrators are vertically colder than
+is *negative* (because $W$ favours small $E_z$, the migrators are vertically colder than
 the parent population, $\sigma_z^{\rm mig}<\sigma_z^{\rm all}$); the more negative, the
 stronger the bias. Read as a percentage,
 $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}\approx-0.07$ means migrators are about $7\%$
@@ -402,8 +402,8 @@ Milky-Way thickness that floor is $\approx -7\%$.
 $\sqrt{F}$ is **not** $0.07$. Across the population $\sqrt{F}$ runs over roughly
 $0.3$–$1.0$ (see the [Section 2 figure](/theory/form-factor)). The $-7\%$ is the
 *outcome of the reweighting integral above*: using $W=\sqrt{F}$ pulls the migrators'
-mean vertical energy down from $\langle E\rangle_{\rm all}\approx1.11$ to
-$\langle E\rangle_{\rm mig}\approx0.97$, so the dispersion ratio is
+mean vertical energy down from $\langle E_z\rangle_{\rm all}\approx1.11$ to
+$\langle E_z\rangle_{\rm mig}\approx0.97$, so the dispersion ratio is
 $\sigma_z^{\rm mig}/\sigma_z^{\rm all}=\sqrt{0.97/1.11}\approx0.93$ and the bias is
 $\ln 0.93\approx-0.07$, i.e. $-7\%$. So "the $\sqrt{F}$ value" means *the bias produced
 by the $W\propto\sqrt{F}$ weight law*, not the number $\sqrt{F}$ itself.

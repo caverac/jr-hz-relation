@@ -12,20 +12,25 @@ and state the clean prediction that could falsify it.
 ## One object, three faces
 
 The thread running through every section is a single analytic object — the **vertical
-form factor** $F(k\,h_Z)$ — and three things that looked unrelated turn out to be
-projections of it:
+form factor** $F(k\,h_Z)$ — and three things that looked unrelated turn out to be tied
+together by it. $F$ is the *common thread*, not the sole determinant of each: as noted
+below, the bias magnitude and the slope each draw on their own additional physics.
 
 1. **The provenance bias.** [Section 3](/theory/corotation-hamiltonian) showed $F$ is
    the exact vertical Fourier coefficient of the spiral at corotation (Equation 4), so
    the pendulum well that traps migrating stars is deeper for cold stars by exactly
-   $\sqrt F$. That *is* the provenance bias.
+   $\sqrt F$. That is the provenance bias at the single-resonance level — its origin;
+   the observed magnitude additionally needs the regime physics of point 2.
 2. **The vertical selectivity of capture.** [Section 4](/theory/resonance-overlap)
    showed the same $F$ controls when resonances overlap, so cold stars enter the
    diffusive churning regime first — the bias steepens from $F^{1/2}$ toward $F^2$.
-3. **The spiral $J_R^{\max}$–$h_Z$ relation.** [Section 5](/results/provenance-bias)
-   showed that because $F$ depends on wavenumber and thickness only through
-   $\alpha=k\,h_Z$, the very same physics fixes the slope of the Palicio et al. (2024)
-   relation and predicts it flattens with age.
+3. **The spiral $J_R^{\max}$–$h_Z$ relation.** $F$ depends on wavenumber and thickness
+   only through $\alpha=k\,h_Z$ — the same disk thickness that anchors the Palicio et
+   al. (2024) relation. [Section 5](/results/provenance-bias) derives that relation's
+   slope from a structural anisotropy factor $\pi G\Sigma/\kappa\,(\sigma_R/\sigma_z)^2$
+   (the form factor does not enter the slope directly); $F$'s role is to select the
+   cold-migrator population that defines $J_R^{\max}$, tying the two observables to one
+   thickness. The model predicts the slope flattens with age.
 
 What was *already known* going in: the radial twin of $F$ — the classical Daniel &
 Wyse (2015) in-plane selectivity (our $G$-factor); the $e^{-k|z|}$ fall-off of a thin
@@ -33,6 +38,13 @@ spiral (Binney & Tremaine 2008); and the bias itself, seen in simulations (Vera-
 et al. 2016; Mikkola et al. 2020). **What was missing — and what this paper supplies —
 is the vertical extension** that turns the verbal "cold stars couple more readily"
 into Equations 4–5 and connects it to the measured slope.
+
+One thing $F$ is *not*: it should not be conflated with the finite-thickness
+reduction factors of classical density-wave theory (Toomre 1964), which weaken a
+self-gravitating disk's **collective** response to a density wave. $F$ is instead the
+orbit-average of an *externally imposed* spiral felt by a **single** star at fixed
+$J_z$ — a test-particle coupling, not a modification of the self-gravitating response.
+Both involve the disk's vertical structure, but they act on different objects.
 
 ## Selectivity is not the same as fate
 

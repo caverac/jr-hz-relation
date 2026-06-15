@@ -7,15 +7,16 @@ slug: /
 # 1. Introduction — what problem are we solving?
 
 :::note What is in this guide?
-These pages walk through the problem *one section at a time*. Every equation is 
-derived from the one before it; no
-algebra is left as "it can be shown that." If you know what a gravitational
-potential is and have seen a harmonic oscillator, you have enough to follow along.
+These pages walk through the problem *one section at a time*. Although I tried to make it 
+as self-contained as possible, there are things here that probably will require some
+background in galactic dynamics to understand. I highly recomment reading the always
+reliable Binney & Tremaine's *Galactic Dynamics* (2008) and the more recent *Dynamics
+and Astrophycis of Galaxies* (2025) by Jo Bovy.
 :::
 
 ## The picture: a disk galaxy is a sea of orbits
 
-A disk galaxy like the Milky Way is, to a dynamicist, an enormous collection of
+For all practical purposes in this document, a disk galaxy like the Milky Way is an enormous collection of
 stars each orbiting in a shared gravitational potential $\Phi$. Most of the visible mass is
 arranged in a flattened disk, so the potential is nearly **axisymmetric** (it looks
 the same at every azimuth $\phi$) and symmetric about the mid-plane $z=0$.
@@ -56,7 +57,7 @@ are:
 | $J_z$ | size of the up–down vertical bob | $\nu_z$ (vertical) |
 
 A **cold** star has small $J_R$ and small $J_z$ — it stays near a circle in the
-plane. A **hot** star has large $J_R$ and/or $J_z$ — it wanders radially and rises
+plane. A **hot** star has large $J_R$ and/or $J_z$ — it wanders radially/rises
 high above the plane. "Vertically cold" specifically means small $J_z$.
 
 ## Radial migration and the corotation resonance
@@ -104,7 +105,7 @@ those with vertical velocity dispersions below the local average. Mikkola, McMil
 Hobbs (2020) confirmed that how much migration reaches large $J_z$ depends on the
 spiral strength, and pointed out that an **analytic explanation was still missing**.
 
-The verbal explanation everyone repeats is intuitive:
+The standard qualitative explanation is intuitive:
 
 > *Cold stars spend more of their time near the mid-plane, where the spiral's
 > gravity is strongest, so they couple to the arm more effectively and migrate more
@@ -164,8 +165,12 @@ oscillation." Read it physically:
 So $F$ is exactly the "spends more time near the mid-plane" half of the verbal
 mechanism, made quantitative. The rest of the paper is the claim that **$F$ is not a
 hand-inserted weight but the precise coupling strength that enters the resonance**,
-and that everything — the size of the provenance bias, its dependence on thickness
-and spiral strength, and the $J_R^{\max}$–$h_Z$ slope — follows from it.
+and that it is the common thread organizing everything that follows — the size of the
+provenance bias, its dependence on thickness and spiral strength, and the
+$J_R^{\max}$–$h_Z$ slope. $F$ does not set those magnitudes single-handedly: each also
+needs its own physics — the resonance regime that turns coupling strength into a
+migration rate (the bias), and the disk's structural anisotropy (the slope). What $F$
+supplies is the link that makes them one story.
 
 ## The thread of the argument
 

@@ -59,10 +59,10 @@ diffusive crossover weight of
 
 Apply exactly the reweighting procedure of
 [Section 3, Step 7](/theory/corotation-hamiltonian): take the equilibrium vertical
-distribution $\mathrm{d}N/\mathrm{d}E\propto e^{-E}/\nu_z$, multiply by $W(J_z)$, and
+distribution $\mathrm{d}N/\mathrm{d}E_z\propto e^{-E_z}/\nu_z$, multiply by $W(J_z)$, and
 form the migrator-to-parent dispersion ratio
-$\sigma_z^{\rm mig}/\sigma_z^{\rm all}=\sqrt{\langle E\rangle_{\rm mig}/\langle
-E\rangle_{\rm all}}$. The provenance bias is the log dispersion ratio
+$\sigma_z^{\rm mig}/\sigma_z^{\rm all}=\sqrt{\langle E_z\rangle_{\rm mig}/\langle
+E_z\rangle_{\rm all}}$. The provenance bias is the log dispersion ratio
 $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ (negative; the more negative, the stronger
 the bias).
 
@@ -224,10 +224,14 @@ $\beta_R-\beta_z$ *directly from spiral-arm kinematics*. An age-*independent* sl
 would instead require $\beta_R=\beta_z$ — a different statement about how disks heat.
 
 :::tip What to carry forward
-One object, the vertical form factor $F$, fixes both the *size* of the provenance
-bias ($\sim-22\%$ at $s\approx0.9$, with derived dependences on thickness and spiral
-strength) and the *slope* of the $J_R^{\max}$–$h_Z$ relation ($\approx3.6\times10^{-2}\,
-L_\odot\,\mathrm{kpc}^{-1}\approx69\,\mathrm{km\,s^{-1}}$), and predicts the slope
-flattens with age. The
+One object, the vertical form factor $F$, is the common thread linking the *size* of
+the provenance bias to the *slope* of the $J_R^{\max}$–$h_Z$ relation — both governed
+by the same disk thickness $\alpha=k\,h_Z$. Neither magnitude is set by $F$ alone,
+though: the bias size ($\sim-22\%$ at $s\approx0.9$) also needs the migration weight
+from the resonance regime ([Sections 3](/theory/corotation-hamiltonian)–[4](/theory/resonance-overlap)),
+and the slope ($\approx3.6\times10^{-2}\,L_\odot\,\mathrm{kpc}^{-1}\approx69\,
+\mathrm{km\,s^{-1}}$) comes from the structural factor
+$\pi G\Sigma/\kappa\,(\sigma_R/\sigma_z)^2$, with $F$ selecting the cold migrators that
+populate $J_R^{\max}$. The model also predicts the slope flattens with age. The
 [Discussion](/discussion) puts the whole story together.
 :::

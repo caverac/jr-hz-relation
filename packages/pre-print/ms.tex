@@ -13,6 +13,7 @@
 \newcommand{\hZ}{h_Z}
 \newcommand{\sigz}{\sigma_z}
 \newcommand{\sigR}{\sigma_R}
+\newcommand{\Ez}{E_z}
 \newcommand{\Lsun}{L_\odot}
 \newcommand{\kpc}{\,\mathrm{kpc}}
 
@@ -120,8 +121,9 @@ $z(\theta_z;\Jz)$ samples the spiral through the angle-average of that decay,
   \label{eq:formfactor}
 \end{equation}
 %
-with $z_m$ the turning point, $\nu_z$ the vertical frequency and
-$v_z=\sqrt{2[E-\Phi(z)]}$. We evaluate \eqref{eq:formfactor} on the
+with $z_m$ the turning point, $\nu_z$ the vertical frequency, $\Ez$ the conserved
+vertical-oscillation energy and $v_z=\sqrt{2[\Ez-\Phi(z)]}$. We evaluate
+\eqref{eq:formfactor} on the
 self-consistent isothermal sheet \citep{Spitzer1942}, $\Phi(z)=2\ln\cosh z$ in
 units $G=\sigz=z_0=1$, for which the only parameter is the dimensionless thickness
 $\alpha\equiv kz_0$. By construction $F(0,k)=1$ -- a mid-plane orbit feels the full
@@ -263,7 +265,7 @@ $\kappa\equiv p_{\max}(F{=}1)/\sigma_p\propto\sqrt{|\Phi_s|}$.
 Equation~\eqref{eq:wexact} reduces to the $\sqrt{F}$ law~\eqref{eq:wsqrtf} for
 narrow islands ($\kappa\to0$) and saturates to unity for wide ones
 (Figure~\ref{fig:trappedweight}). The provenance bias follows by reweighting the
-equilibrium vertical distribution $\mathrm{d}N/\mathrm{d}E\propto e^{-E}/\nu_z$ by the
+equilibrium vertical distribution $\mathrm{d}N/\mathrm{d}\Ez\propto e^{-\Ez}/\nu_z$ by the
 trapped weight $W(\Jz)$ and forming the migrator-to-parent dispersion ratio
 $\sigz^{\rm mig}/\sigz^{\rm all}$; Figure~\ref{fig:trappingcap} plots the resulting
 log dispersion ratio $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ (negative; more negative is
@@ -561,15 +563,27 @@ require $\beta_R=\beta_z$.
 \label{sec:discussion}
 
 The provenance bias, the spiral $\JR^{\max}$--$\hZ$ relation, and the vertical
-selectivity of corotation capture are projections of a single analytic object, the
+selectivity of corotation capture are tied together by a single analytic object, the
 vertical form factor $F(k\hZ)$, which Equation~\eqref{eq:coupling} identifies as the
 exact vertical Fourier coefficient of the spiral in the corotation-resonant
-Hamiltonian. Its radial twin is the classical \citet{DanielWyse2015} in-plane
+Hamiltonian. $F$ is the common thread, not the sole determinant of each magnitude:
+the bias size additionally requires the migration weight set by the resonance regime
+(Sections~\ref{sec:trapping}--\ref{sec:overlap}), while the
+$\JR^{\max}$--$\hZ$ slope follows from the structural anisotropy factor
+$\pi G\Sigma/\kappa\,(\sigR/\sigz)^2$ -- the form factor does not enter the slope
+directly, its role being to select the cold-migrator population that defines
+$\JR^{\max}$ and to share the same disk thickness $\alpha=k\hZ$.
+Its radial twin is the classical \citet{DanielWyse2015} in-plane
 selectivity; the $e^{-k|z|}$ reduction is standard \citep{BinneyTremaine2008}; and
 the bias was found in simulations \citep{VeraCiro2016imprint,Mikkola2020}. What was
 missing is the vertical extension that turns the verbal mechanism into
 Equations~\eqref{eq:coupling}--\eqref{eq:wsqrtf} and connects it to
-\citet{Palicio2024}.
+\citet{Palicio2024}. The form factor should not be conflated with the
+finite-thickness reduction factors of classical density-wave theory
+\citep{Toomre1964}, which weaken a self-gravitating disk's \emph{collective}
+response to a density wave: $F$ is instead the orbit-average of an externally
+imposed spiral felt by a \emph{single} star at fixed $\Jz$ -- a test-particle
+coupling, not a modification of the self-gravitating response.
 
 A complementary first-principles link between migration and vertical structure
 already exists: \citet{Roskar2013} show, from vertical-action conservation, that an
