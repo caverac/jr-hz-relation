@@ -184,8 +184,8 @@ Here is the logic, section by section, with links to the detailed walkthroughs:
    This caps single-arm trapping at a modest $\sim 7\%$ bias. *(Section 3)*
 3. **[Resonance overlap and the diffusive regime](/theory/resonance-overlap)** — when
    several patterns (the bar plus spirals) overlap, trapping gives way to *diffusive*
-   churning, which is steeper in $F$ and pushes the bias up to a derived $\sim
-   19$–$24\%$ band. The Milky Way sits right at the overlap threshold. *(Section 4)*
+   churning, which is steeper in $F$ and pushes the bias up to a derived $\sim -20$
+   to $-27\%$ band. The Milky Way sits right at the overlap threshold. *(Section 4)*
 4. **[The provenance bias and the $J_R^{\max}$–$h_Z$ relation](/results/provenance-bias)**
    — recover the bias magnitude, the measured slope, and a prediction that the slope
    *flattens with stellar age*. *(Section 5)*
