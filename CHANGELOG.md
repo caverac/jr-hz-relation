@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/caverac/jr-hz-relation/compare/v1.0.0...v1.0.1) (2026-06-16)
+
+### Bug Fixes
+
+- **pre-print:** added line numbers to the submission tar ([49f91d2](https://github.com/caverac/jr-hz-relation/commit/49f91d2ec141718170cd70eeff06e649531fbad8))
+
 # 1.0.0 (2026-06-16)
 
 ### Bug Fixes
