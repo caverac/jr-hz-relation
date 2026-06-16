@@ -27,13 +27,28 @@ $(MAIN).pdf: $(MAIN).tex $(MAIN).bib $(FIGURES)
 sync-figures $(FIGURES):
 	cp $(addprefix $(ASSETSDIR)/,$(FIGURES)) .
 
-OUTDIR  = /tmp/jr-hz-relation
-TARFILE = $(OUTDIR)/jr-hz-relation-preprint.tar
+OUTDIR   = /tmp/jr-hz-relation
+STAGEDIR = $(OUTDIR)/submission
+TARFILE  = $(OUTDIR)/jr-hz-relation-preprint.tar
 
+# AAS policy (https://journals.aas.org/manuscript-preparation/#linenumber) asks
+# for line numbers on the manuscript so reviewers can cite locations. Rather than
+# carry the `linenumbers` class option in the canonical source -- which would put
+# line numbers on every `make all` build and the docs site -- the submission
+# target injects it into a *staged* copy of $(MAIN).tex and compiles that.
+# aastex701's `linenumbers` option pulls in the lineno package and handles the
+# two-column layout, so both the uploaded .tex and its PDF carry line numbers
+# while the everyday build stays clean. Ships the prebuilt .bbl, so two pdflatex
+# passes (no bibtex) suffice to resolve citations and line-number references.
 submission: all
-	@mkdir -p $(OUTDIR)
-	@COPYFILE_DISABLE=1 tar cf $(TARFILE) $(MAIN).tex $(MAIN).bbl $(MAIN).pdf $(FIGURES)
-	@echo "Created $(TARFILE)"
+	@rm -rf $(STAGEDIR)
+	@mkdir -p $(STAGEDIR)
+	@sed -E 's/(\\documentclass\[[^]]*)\](\{aastex701\})/\1,linenumbers]\2/' $(MAIN).tex > $(STAGEDIR)/$(MAIN).tex
+	@cp $(MAIN).bib $(MAIN).bbl $(STAGEDIR)/
+	@cp $(addprefix $(ASSETSDIR)/,$(FIGURES)) $(STAGEDIR)/
+	@cd $(STAGEDIR) && $(TEX) -interaction=nonstopmode -halt-on-error $(MAIN) && $(TEX) -interaction=nonstopmode -halt-on-error $(MAIN)
+	@COPYFILE_DISABLE=1 tar cf $(TARFILE) -C $(STAGEDIR) $(MAIN).tex $(MAIN).bbl $(MAIN).pdf $(FIGURES)
+	@echo "Created $(TARFILE) (line-numbered submission)"
 
 clean:
 	rm -f $(MAIN).aux $(MAIN).bbl $(MAIN).blg $(MAIN).log $(MAIN).out
