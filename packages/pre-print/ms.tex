@@ -459,23 +459,31 @@ diffusive band.
 integration, with no analytic input. Integrating ${\sim}3000$ test particles in
 \texttt{MWPotential2014} \citep{Bovy2015} plus an imposed transient spiral that falls
 off vertically over a scale height $H$, and weighting each star by its churning
-$|\Delta\Lz|$, recovers the provenance bias (Figure~\ref{fig:testparticle}):
-migrators are vertically colder, the bias strengthens with spiral thinness
-$\alpha\sim z_0/H$ in agreement with the single-resonance prediction -- reaching
-${\approx}6$ percent near the Galactic $\alpha\sim1$ -- and stacking $M$ overlapping
-patterns of different pattern speed raises the bias monotonically, directly
-confirming the resonance-overlap mechanism of Section~\ref{sec:overlap}.
+$|\Delta\Lz|$, recovers the provenance bias (Figure~\ref{fig:testparticle}). Here $H$
+is the spiral's vertical scale -- the simulation's stand-in for the analytic reach
+$1/k$ of the $e^{-k|z|}$ fall-off, distinct from the disc scale height $z_0=\hZ$ -- so
+the simulation's dimensionless thinness $\alpha\equiv z_0/H$ exactly mirrors the
+analytic $\alpha=kz_0$ (the ``${\sim}$'' reflecting only that the galpy vertical
+profile is not a pure $e^{-k|z|}$). Migrators are vertically colder, the bias
+strengthens with $\alpha\sim z_0/H$ in agreement with the single-resonance prediction
+-- the log
+dispersion ratio reaching $\ln\sigz^{\rm mig}/\sigz^{\rm all}\approx-0.06$ (migrators
+${\approx}6$ percent colder) near the Galactic $\alpha\sim1$ -- and stacking $M$
+overlapping patterns of different pattern speed deepens the bias monotonically,
+directly confirming the resonance-overlap mechanism of Section~\ref{sec:overlap}.
 
 \begin{figure*}
   \includegraphics[width=\textwidth]{test-particle-bias.pdf}
   \caption{Test-particle validation of the provenance bias by direct orbit
   integration (no analytic input), seed-averaged over eight realizations (error bars
-  show the standard error). \textit{Left:} a single transient spiral; the
-  churning-weighted migrator coldness rises with spiral thinness $\alpha\sim z_0/H$,
-  tracking the analytic single-resonance prediction (curve) and reaching ${\approx}6$
-  percent near the Galactic $\alpha\sim1$. \textit{Right:} stacking $M$ overlapping
-  transient patterns raises the bias monotonically, confirming the
-  resonance-overlap mechanism.}
+  show the standard error). The vertical axis is the log dispersion ratio
+  $\ln\sigz^{\rm mig}/\sigz^{\rm all}$ (more negative is colder/stronger).
+  \textit{Left:} a single transient spiral; the churning-weighted bias deepens with
+  spiral thinness $\alpha\sim z_0/H$, tracking the analytic single-resonance
+  prediction (curve) and reaching $\ln\sigz^{\rm mig}/\sigz^{\rm all}\approx-0.06$
+  (migrators ${\approx}6$ percent colder) near the Galactic $\alpha\sim1$.
+  \textit{Right:} stacking $M$ overlapping transient patterns deepens the bias
+  monotonically, confirming the resonance-overlap mechanism.}
   \label{fig:testparticle}
 \end{figure*}
 

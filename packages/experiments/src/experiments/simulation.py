@@ -53,7 +53,12 @@ class SimConfig:
 
 @dataclass(frozen=True)
 class SeriesPoint:
-    """One stored ``(x, bias)`` estimate with the resolution that produced it."""
+    """One stored ``(x, bias)`` estimate with the resolution that produced it.
+
+    ``bias_mean`` is the seed-averaged log dispersion ratio
+    ``ln(sigma_z,mig/sigma_z,all)`` (negative for a real bias) and ``bias_err`` its
+    standard error.
+    """
 
     x: float
     bias_mean: float
@@ -76,11 +81,13 @@ def _sample(rng: np.random.Generator, n_part: int) -> npt.NDArray[np.float64]:
 def _churning_bias(
     potential: list[Any], ics: npt.NDArray[np.float64], v_z: npt.NDArray[np.float64], config: SimConfig
 ) -> float:
-    """Integrate the population and return ``1 - sigma_z(migrators)/sigma_z(all)``.
+    """Integrate the population and return ``ln(sigma_z(migrators)/sigma_z(all))``.
 
-    Each star is weighted by its churning amount ``|Delta L_z|`` -- the direct
-    analogue of the analytic migration weight ``W`` -- which is far less noisy than a
-    top-quantile cut.
+    This is the **log dispersion ratio** -- the same quantity plotted by every other
+    figure (negative for a real bias) -- computed directly here rather than as a
+    fractional coldness. Each star is weighted by its churning amount ``|Delta L_z|``
+    -- the direct analogue of the analytic migration weight ``W`` -- which is far less
+    noisy than a top-quantile cut.
     """
     orbit = Orbit(ics.copy())
     lz0 = np.array(orbit.Lz())
@@ -88,7 +95,7 @@ def _churning_bias(
     orbit.integrate(times, potential, method="dop853_c")
     delta_lz = np.abs(np.array(orbit.Lz(times[-1])) - lz0)
     weighted = float(np.sum(delta_lz * v_z**2) / np.sum(delta_lz))
-    return float(1.0 - np.sqrt(weighted / np.mean(v_z**2)))
+    return float(np.log(np.sqrt(weighted / np.mean(v_z**2))))
 
 
 def _mean_se(values: list[float]) -> tuple[float, float]:

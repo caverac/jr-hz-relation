@@ -17,7 +17,7 @@ from experiments.simulation import (
     simulate_series_b,
 )
 
-_DEFAULT_STORE = "packages/pre-print/test-particle-data.json"
+_DEFAULT_STORE = "assets/data/test-particle-data.json"
 
 
 @click.command("test-particle-simulate")

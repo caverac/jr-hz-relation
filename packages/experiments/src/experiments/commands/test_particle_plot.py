@@ -13,7 +13,7 @@ from experiments.simulation import load_store
 @click.command("test-particle-plot")
 @click.option(
     "--store",
-    default="packages/pre-print/test-particle-data.json",
+    default="assets/data/test-particle-data.json",
     type=click.Path(exists=True),
     help="JSON store path.",
 )

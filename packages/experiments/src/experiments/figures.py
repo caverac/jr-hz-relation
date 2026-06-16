@@ -81,9 +81,9 @@ def figure_provenance_bias(n_alpha: int = 16) -> Figure:
     bias_strong = np.array([float(np.log(dispersion_ratio(float(a), s_high))) for a in alphas])
     fig = Figure(figsize=(3.8, 3.3))
     axes = fig.add_subplot(1, 1, 1)
-    axes.fill_between(alphas, bias_weak, bias_strong, color="0.85", label=rf"$s={s_low:g}$--${s_high:g}$")
-    axes.plot(alphas, bias_weak, "k-", linewidth=1.5)
-    axes.plot(alphas, bias_strong, "k-", linewidth=1.5)
+    axes.fill_between(alphas, bias_weak, bias_strong, color="0.9")
+    axes.plot(alphas, bias_weak, "k-", linewidth=1.5, label=rf"$s={s_low:g}$")
+    axes.plot(alphas, bias_strong, "k--", linewidth=1.5, label=rf"$s={s_high:g}$")
     axes.axvline(MW_ALPHA, color="#808080", linestyle=":", linewidth=1.5, label=r"Milky Way ($\alpha=0.84$)")
     axes.set_xlabel(r"$\alpha$")
     axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
@@ -117,7 +117,8 @@ def figure_resonance_overlap(n_strength: int = 60) -> Figure:
         overlaps = np.array([milky_way_overlap(float(s), form_factor=form) for s in strengths])
         axes.plot(strengths, overlaps, linestyle, color="#000000", linewidth=1.5, label=rf"$F={form:g}$ ({label})")
     axes.axhline(1.0, color="#808080", linestyle=":", linewidth=1.5, label="overlap threshold")
-    axes.axvspan(0.01, 0.03, color="0.85", label="physical strength")
+    axes.axvspan(0.01, 0.03, color="0.85", linewidth=0.0)
+    axes.text(0.02, 1.3, "physical\nstrength", ha="center", va="center", color="0.35")
     axes.set_xlabel(r"$\epsilon$")
     axes.set_ylabel(r"$S$")
     axes.legend()
@@ -316,8 +317,11 @@ def figure_balescu_lenard(n_b: int = 24, n_energy: int = 120) -> Figure:
     broadenings = np.linspace(0.0, 20.0, n_b)
     fig = Figure(figsize=(3.8, 3.3))
     axes = fig.add_subplot(1, 1, 1)
-    axes.axhspan(_bias(1e6), _bias(0.0), color="0.92", label=r"diffusive band ($F^{3/2}$ to $F^2$)")
+    bias_f2 = _bias(0.0)  # b -> 0: W = F^2
+    bias_f32 = _bias(1e6)  # b -> inf: W ~ F^{3/2}
     axes.plot(broadenings, [_bias(float(b)) for b in broadenings], "k-", linewidth=1.5, label="resonance-broadened")
+    axes.axhline(bias_f2, color="#808080", linestyle="--", linewidth=1.5, label=r"$F^2$ limit ($b\to0$)")
+    axes.axhline(bias_f32, color="#808080", linestyle=":", linewidth=1.5, label=r"$F^{3/2}$ limit ($b\to\infty$)")
     axes.set_xlabel(r"$b$")
     axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
     axes.legend()
@@ -347,7 +351,9 @@ def figure_test_particle(
         The built figure.
     """
     grid = np.linspace(0.1, 1.5, n_curve)
-    analytic = np.array([100.0 * (1.0 - trapping_dispersion_ratio(float(a), 1e-3)) for a in grid])
+    analytic = np.array([np.log(trapping_dispersion_ratio(float(a), 1e-3)) for a in grid])
+    # The store already holds the log dispersion ratio ln(sigma_mig/sigma_all) and its
+    # standard error, so the points are plotted directly.
     alphas = np.array([p[0] for p in series_a])
     mean_a = np.array([p[1] for p in series_a])
     err_a = np.array([p[2] for p in series_a])
@@ -356,19 +362,35 @@ def figure_test_particle(
     err_b = np.array([p[2] for p in series_b])
     fig = Figure(figsize=(8.0, 3.5))
     left = fig.add_subplot(1, 2, 1)
-    left.plot(grid, analytic, "k-", label="analytic single-resonance")
+    right = fig.add_subplot(1, 2, 2, sharey=left)
+    left.plot(grid, analytic, "k-", linewidth=1.5, label="analytic single-resonance")
     left.errorbar(
-        alphas, 100.0 * mean_a, yerr=100.0 * err_a, fmt="C0o", markersize=6, capsize=3, label="test particles"
+        alphas,
+        mean_a,
+        yerr=err_a,
+        fmt="o",
+        color="#000000",
+        markerfacecolor="white",
+        markersize=5,
+        capsize=3,
+        label="test particles",
     )
-    left.set_xlabel(r"spiral thinness $\alpha \sim z_0/H$")
-    left.set_ylabel(r"migrator coldness $1-\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$ (\%)")
-    left.set_title("single transient")
+    left.set_xlabel(r"$\alpha$")
+    left.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
     left.legend()
-    right = fig.add_subplot(1, 2, 2)
-    right.errorbar(counts, 100.0 * mean_b, yerr=100.0 * err_b, fmt="C3o-", markersize=6, capsize=3)
-    right.set_xlabel(r"number of overlapping patterns $M$")
-    right.set_ylabel(r"migrator coldness (\%)")
-    right.set_title("resonance overlap")
+    right.errorbar(
+        counts,
+        mean_b,
+        yerr=err_b,
+        fmt="o",
+        color="#000000",
+        markerfacecolor="white",
+        markersize=5,
+        capsize=3,
+    )
+    right.set_xlabel(r"$M$")
+    right.tick_params(labelleft=False)
+    fig.subplots_adjust(wspace=0.08)
     return fig
 
 

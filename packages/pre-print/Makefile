@@ -28,12 +28,12 @@ figures $(FIGURES):
 
 # The test-particle validation figure (test-particle-bias.pdf) comes from an
 # expensive, stochastic orbit-integration experiment. Results are cached in
-# test-particle-data.json; `simulate` (re)computes the full set or adds points
-# (e.g. --alpha 0.6), and `plot` re-draws cheaply from the cache.
+# assets/data/test-particle-data.json; `simulate` (re)computes the full set or adds
+# points (e.g. --alpha 0.6), and `plot` re-draws cheaply from the cache.
 test-particle-simulate:
-	cd ../.. && $(UV) run experiments test-particle-simulate --store packages/pre-print/test-particle-data.json
+	cd ../.. && $(UV) run experiments test-particle-simulate --store assets/data/test-particle-data.json
 test-particle:
-	cd ../.. && $(UV) run experiments test-particle-plot --store packages/pre-print/test-particle-data.json
+	cd ../.. && $(UV) run experiments test-particle-plot --store assets/data/test-particle-data.json
 	cp $(ASSETSDIR)/test-particle-bias.pdf .
 
 OUTDIR  = /tmp/jr-hz-relation

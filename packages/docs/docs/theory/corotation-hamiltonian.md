@@ -76,8 +76,10 @@ $\Omega=\Omega_p$. Then the equation reduces to $n_R\kappa + n_z\nu_z=0$, whose 
 solution for generic frequencies is $n_R=n_z=0$. So the corotation-resonant piece of
 the spiral is the **$(n_R,n_z)=(0,0)$ harmonic** — the part of the potential averaged
 over *both* the radial epicycle and the vertical orbit. This is the deep reason the
-orbit average from Section 2 is the right object: corotation literally selects the
-doubly orbit-averaged spiral.
+orbit average from Section 2 is the right object: the corotation resonance keeps
+*only* that doubly-averaged $(0,0)$ piece and discards every other harmonic, so the
+vertical orbit average $F$ is not a modeling choice but precisely what the resonance
+responds to.
 
 ## Step 3 — the coupling factorizes into $G(J_R)\,F(J_z)$
 
@@ -142,8 +144,8 @@ $$
 Putting them together, the **amplitude** of the resonant coupling at corotation is
 
 $$
-\boxed{\;\Psi(J_R,J_z) = \Phi_0(R_{\rm CR})\;\underbrace{J_0(k a_R)}_{G(J_R)}\;
-\underbrace{F(J_z,k)}_{\text{vertical}},\qquad a_R=\sqrt{2J_R/\kappa}\;}
+\boxed{\;\Psi(J_R,J_z) = \Phi_0(R_{\rm CR})\,G(J_R)\,F(J_z,k),
+\qquad G(J_R)=J_0(k a_R),\quad a_R=\sqrt{2J_R/\kappa}\;}
 $$
 
 The two averages above only
@@ -340,6 +342,10 @@ Check its two limits, both of which you can read straight off the error function
   $\mathrm{erf}\to1$, so $W\to1$ for *every* star — the weighting flattens out and
   the bias is *washed away*.
 
+```shell
+uv run experiments trapped-weight-plot
+```
+
 <figure class="scientific">
   <img src={useBaseUrl('/figures/trapped-weight.png')} alt="Exact trapped weight versus vertical action for three island widths" />
 </figure>
@@ -380,6 +386,11 @@ $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}\approx-0.07$ means migrators are about
 colder. This is a *population-integrated* number — the whole distribution reweighted —
 not the value of $W$ or $F$ for any single star.
 
+
+```shell
+uv run experiments trapping-cap-plot
+```
+
 <figure class="scientific">
   <img src={useBaseUrl('/figures/trapping-cap.png')} alt="Provenance bias from the exact trapped fraction versus island width" />
 </figure>
@@ -415,6 +426,10 @@ If we replace the razor-thin $F$ by the finite-thickness $F_{\rm soft}$ from
 [Section 2, Step 4](/theory/form-factor), the floor weakens further. The arm's own
 vertical extent makes its gravity reach higher above the plane, so even hot stars
 feel a non-negligible amplitude and the contrast between hot and cold shrinks.
+
+```shell
+uv run experiments finite-thickness-plot
+```
 
 <figure class="scientific">
   <img src={useBaseUrl('/figures/finite-thickness.png')} alt="Finite-thickness softening of the single-resonance cap" />

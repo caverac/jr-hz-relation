@@ -130,6 +130,10 @@ $$
 2\sqrt{\epsilon\times 0.5}\times 3.22 = 1 \;\Rightarrow\; \epsilon\approx 0.048 .
 $$
 
+```shell
+uv run experiments resonance-overlap-plot
+```
+
 <figure class="scientific">
   <img src={useBaseUrl('/figures/resonance-overlap.png')} alt="Chirikov overlap parameter versus spiral strength for cold and hot stars" />
 </figure>
@@ -174,6 +178,10 @@ The crossover happens at the **critical form factor** $F_{\rm crit}=1/S_0^2$ (wh
 $S=1$): a critical vertical action separating diffusive (cold) migrators from confined
 (hot) ones — a structural prediction.
 
+```shell
+uv run experiments crossover-bias-plot
+```
+
 <figure class="scientific">
   <img src={useBaseUrl('/figures/crossover-bias.png')} alt="Provenance bias from the crossover weight versus effective overlap" />
 </figure>
@@ -214,6 +222,12 @@ with limits you can read directly:
 - $b\to\infty$ (broad resonances): $W\to F^2/(b\sqrt F)\propto F^{3/2}$ — the
   coherent, resonance-broadened limit.
 
+
+```shell
+uv run experiments balescu-lenard-plot
+```
+
+
 <figure class="scientific">
   <img src={useBaseUrl('/figures/balescu-lenard.png')} alt="Provenance bias from the Balescu-Lenard weight versus broadening" />
 </figure>
@@ -232,21 +246,83 @@ this derived diffusive band ($\approx-20$ to $-27\%$).
 ## Step 7 — a clean check: test particles, no analytic input
 
 Finally, the whole mechanism is confirmed by brute-force orbit integration with **no
-analytic input at all**. Integrate $\sim3000$ test particles in a realistic Galactic
-potential (`MWPotential2014`; Bovy 2015) plus an imposed transient spiral that falls
-off vertically over a scale height $H$, and weight each star by how much angular
-momentum it churned, $|\Delta L_z|$.
+analytic input at all** — direct test-particle orbits in a realistic Galactic
+potential (`MWPotential2014`; Bovy 2015) under an imposed transient spiral, with
+migrators identified purely by how much angular momentum they churn.
+
+**The setup.** We sample $\sim3000$ near-circular orbits whose guiding radii are
+spread around corotation ($R\approx1$ in units $R_0=V_0=1$), each given a vertical
+velocity dispersion $\sigma_z$, and drop them into `MWPotential2014` together with one
+imposed **transient** spiral — a two-armed, $15^\circ$-pitch arm switched on and off by
+a Gaussian envelope in time. We integrate for a few orbital periods and weight each
+star by how much angular momentum it churned, $|\Delta L_z|$; this churning weight is
+the direct numerical analog of the analytic migration weight $W$. The vertical
+dispersion of the (churning-weighted) migrators is then compared with that of the
+whole population — that ratio is the bias plotted below.
+
+**The knobs, and what they are in the model.** The experiment is controlled by a few
+parameters, each tied to a quantity we have already met:
+
+| symbol | what it is in the simulation | the same thing in the model |
+|---|---|---|
+| $z_0$ | the **disc** vertical scale height, $z_0=\sigma_z/\nu_z(R{=}1)\approx0.04$ ($\approx0.4\,$kpc) — how high a star of dispersion $\sigma_z$ bobs | the isothermal-sheet scale $z_0$ (units $G=\sigma_z=z_0=1$) |
+| $k$ | the spiral's **radial** wavenumber, set by the **arm number** $m=2$ and the $15^\circ$ pitch $i$, $k=m/(R\tan i)\approx7.5$ — held *fixed* | the wavenumber in $\Phi_s\propto e^{ikR}$, i.e. how tightly wound the arm is |
+| $H$ | the spiral's **vertical** scale height — how far above the plane the arm's potential reaches — the knob swept in the **left** panel | the vertical reach $1/k$ of the $e^{-k\lvert z\rvert}$ fall-off |
+| $M$ | the number of **overlapping patterns** — distinct transients, each with its own pattern speed $\Omega_p$ (its own corotation radius) but all sharing the same $m$ and $k$ — the knob swept in the **right** panel | no single-number counterpart: $M$ raises the *density* of overlapping resonances, i.e. the effective Chirikov overlap $S$, only through their spacing and widths |
+
+In the analytic model a single number $k$ does double duty: it sets the radial winding
+*and*, through Laplace's equation, the vertical fall-off $e^{-k|z|}$ — so the spiral's
+vertical reach is locked to $1/k$. The simulation deliberately **separates** the two:
+$k$ is pinned by the arm geometry, while the vertical extent $H$ is dialed
+independently. That separation is the point — it lets us vary the vertical thinness on
+its own and watch the form factor respond. The controlled knob is the dimensionless
+**thinness**
+
+$$
+\alpha \;\equiv\; \frac{z_0}{H} \;=\; \frac{\text{disc scale height}}{\text{spiral vertical scale}},
+$$
+
+which is the simulation's counterpart of the analytic $\alpha = k z_0$ — the *same*
+ratio, with the model's spiral scale $1/k$ replaced by the simulation's $H$. (This
+correspondence to $\alpha=kz_0$ is only approximate — the simulated arm's vertical
+profile is a $\mathrm{sech}$-type form, not a pure $e^{-k\lvert z\rvert}$ — even though
+the ratio $z_0/H$ itself is exact.) Thinner arms — smaller $H$, larger $\alpha$ — feel the form factor
+more strongly. We sweep $\alpha\in\{0.1,\dots,1.0\}$ by setting $H=z_0/\alpha$; the
+Galactic-like point is $\alpha\sim1$ (spiral vertical scale $\approx$ disc scale
+height), matching the analytic Milky-Way value $\alpha\approx0.84$.
+
+The **left** panel uses a single transient and sweeps $\alpha$. The **right** panel
+instead fixes a thin arm and stacks $M$ overlapping patterns of staggered pattern
+speed — and here it is worth stressing that **$M$ is not the arm number $m$**: every stacked
+pattern keeps $m=2$, and hence the same $k$, so what grows with $M$ is the *number of
+overlapping resonances*, each at its own corotation radius. That is also why the right
+panel carries no analytic curve. The single-resonance model predicts the bias versus
+$\alpha$ (left), but the overlap regime is governed by the effective Chirikov overlap
+$S$ — set by the *spacing and widths* of those resonances, not by a bare count $M$.
+Turning $M$ into an $S$ would need an extra modeling assumption (a fitted $S(M)$
+relation), so the right panel stays a **qualitative trend test**: more patterns $\Rightarrow$
+more overlap $\Rightarrow$ stronger bias, exactly as the diffusive argument requires.
+
+```shell
+uv run experiments test-particle-plot
+```
 
 <figure class="scientific wide">
   <img src={useBaseUrl('/figures/test-particle-bias.png')} alt="Test-particle validation of the provenance bias" />
 </figure>
 
 *__Test-particle validation__ (seed-averaged; error bars are the standard error).
-__Left:__ a single transient spiral — the churning-weighted migrator coldness rises
-with spiral thinness $\alpha\sim z_0/H$, tracking the analytic single-resonance
-prediction (curve) and reaching $\approx6\%$ near the Galactic $\alpha\sim1$.
-__Right:__ stacking $M$ overlapping patterns of different pattern speed raises the bias
-monotonically — a direct confirmation of the resonance-overlap mechanism.*
+The vertical axis is the log dispersion ratio $\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$
+(more negative $=$ colder migrators $=$ stronger bias), as in the figures above.
+__Left:__ a single transient spiral — the churning-weighted bias deepens with the
+spiral thinness $\alpha=z_0/H$, tracking the analytic single-resonance prediction (curve)
+and reaching $\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}\approx-0.06$ (migrators
+$\approx6\%$ colder) near the Galactic $\alpha\sim1$. The curve is the dilute
+($\kappa\to0$) $\sqrt F$ **floor** — the *strongest* bias a single resonance can
+produce — so points lying at or just below it are the expected single-resonance
+behavior at finite island width, not a discrepancy. __Right:__ stacking $M$ overlapping
+patterns of different pattern speed deepens the bias monotonically — a direct
+confirmation of the resonance-overlap mechanism.*
 
 Both predictions come out: migrators are vertically colder, the single-resonance bias
 matches the $\sqrt F$ analytics and its magnitude, and *overlapping* patterns push the

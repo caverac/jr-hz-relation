@@ -66,6 +66,10 @@ E_z\rangle_{\rm all}}$. The provenance bias is the log dispersion ratio
 $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ (negative; the more negative, the stronger
 the bias).
 
+```shell
+uv run experiments provenance-bias-plot
+```
+
 <figure class="scientific">
   <img src={useBaseUrl('/figures/provenance-bias.png')} alt="Predicted migrator bias versus disk thickness" />
 </figure>
