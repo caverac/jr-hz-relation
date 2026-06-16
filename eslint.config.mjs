@@ -15,7 +15,9 @@ export default [
       '**/.docusaurus/**',
       '**/coverage/**',
       '**/.venv/**',
-      '.yarn/**'
+      '.yarn/**',
+      '.pnp.cjs',
+      '.pnp.loader.mjs'
     ]
   },
   eslint.configs.recommended,
@@ -39,7 +41,10 @@ export default [
       ...tseslint.configs.recommended.rules,
       'no-undef': 'off',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+      ],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-require-imports': 'off',

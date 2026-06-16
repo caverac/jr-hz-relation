@@ -8,7 +8,7 @@
 *.fls
 *.synctex.gz
 *.toc
-ms.pdf
+
 
 # Figures: `make figures` copies them in from ../../assets/figures so the paper
 # is self-contained at build time. They are build artifacts, not sources.

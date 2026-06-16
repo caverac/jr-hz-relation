@@ -1,47 +1,68 @@
 # jr-hz-relation
 
-An analytic theory of the **provenance bias** in radial migration, and its link to
-the spiral-arm radial-action / disc vertical-scale-height relation.
+**An analytic origin for the provenance bias in radial migration.**
 
-Radial migration preferentially churns vertically-cold stars -- the *provenance
-bias* established in N-body by Vera-Ciro, D'Onghia & Navarro (2016) and Mikkola,
-McMillan & Hobbs (2020), and explained there only qualitatively. This project
-writes the mechanism down: a **vertical form factor**
+> **[Read the full documentation](https://caverac.github.io/jr-hz-relation/)**
 
-```
-F(J_z, k) = < e^{-k|z(theta_z, J_z)|} >_{theta_z}
-```
+Radial migration preferentially churns vertically cold stars -- the _provenance bias_ seen in N-body simulations (Vera-Ciro, D'Onghia & Navarro 2016; Mikkola, McMillan & Hobbs 2020) but so far understood only qualitatively. This project derives it from first principles.
 
-the angle-average over a star's vertical orbit of the spiral potential's
-`e^{-k|z|}` fall-off above the plane. Inserting `F` into the Daniel & Wyse (2015,
-2018) corotation-capture criterion yields the provenance bias from first
-principles, and ties the same `F(k h_Z)` to the empirical spiral-arm
-`J_R^max`-`h_Z` relation (Palicio et al. 2024).
+A star's coupling to a spiral of radial wavenumber $k$ is the orbit-average over its vertical motion of the potential's $e^{-k|z|}$ fall-off above the plane -- a **vertical form factor**
 
-## Layout
+$$F(J_z, k) = \langle e^{-k|z(\theta_z, J_z)|} \rangle_{\theta_z},$$
 
-- `packages/experiments/` -- the analysis code and CLI (form factor, capture weight,
-  corotation trapping, resonance overlap, structural slope, figures) with a full
-  test suite (100% coverage, no lint exceptions). Workspace-internal, not a PyPI
-  package.
-- `packages/pre-print/` -- the ApJ paper (AASTeX v7) and its figures.
-- `notebooks/` -- the local-only research record (logs, notes, memory); git-ignored.
+which proves to be the exact vertical coupling of the spiral at corotation, so vertically cold stars are trapped and migrate preferentially. Because $F$ depends on wavenumber and disk thickness only through $\alpha = k\,h_Z$, the same object also fixes the empirical spiral-arm $J_R^{\max}$–$h_Z$ relation (Palicio et al. 2024) -- tying two observables to one piece of physics.
 
-## Toolchain
+## Table of Contents
 
-`mise` pins Python 3.14 (target 3.15; see `.mise.toml`), Node 25, and `uv`. Python deps are a `uv` workspace.
+- [Packages](#packages)
+- [Getting Started](#getting-started)
+- [Documentation](#documentation)
+- [Command-line interface](#command-line-interface)
+- [Quality](#quality)
+- [License](#license)
+
+## Packages
+
+| Package                                                                                                | Description                                         |
+| ------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| [`experiments`](packages/experiments)                                                                  | Core Python engine and CLI                          |
+| [`docs`](packages/docs) Project documentation ([live site](https://caverac.github.io/jr-hz-relation/)) |
+| [`pre-print`](packages/pre-print)                                                                      | LaTeX source (AASTeX v7) for the accompanying paper |
+
+## Getting Started
+
+This project uses [mise](https://mise.jdx.dev/) to manage tool versions (Python 3.14, Node 25, uv; see `.mise.toml`).
 
 ```bash
+# Install tool versions
 mise install
+
+# Install Python dependencies (uv workspace)
 uv sync
-uv run pytest                       # tests + 100% coverage gate
-uv run experiments figures --outdir packages/pre-print
-make -C packages/pre-print          # build the pre-print PDF
+
+# Install JS/TS dependencies (docs site)
+yarn install
 ```
 
-## Rules
+## Documentation
 
-Strict typing (`mypy --strict`), numpy-style docstrings, `black`/`isort`,
-`flake8`, and `pylint` all run clean with **no rule disabled anywhere**. The
-single-letter physics symbols (`F`, `k`, `z`, `E`, ...) are whitelisted in the
-pylint configuration, which tunes the naming rule rather than disabling it.
+All the physics -- every equation derived from the one before it, with the new results in two appendices -- lives on the [documentation site](https://caverac.github.io/jr-hz-relation/). To run it locally:
+
+```bash
+yarn workspace @jr-hz-relation/docs start
+```
+
+## Command-line interface
+
+The `experiments` package derives every number and figure in the paper:
+
+```bash
+uv run experiments --help          # list all commands
+uv run experiments figures         # regenerate the full figure set into assets/figures/
+uv run pytest                      # run the tests + 100% coverage gate
+make -C packages/pre-print         # sync figures and build the pre-print PDF
+```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

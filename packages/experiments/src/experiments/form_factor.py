@@ -141,7 +141,7 @@ def strength_matching_anchor(alpha: float, target_ratio: float, iterations: int 
     """Spiral strength ``s`` reproducing ``target_ratio`` at thickness ``alpha``.
 
     The dispersion ratio decreases monotonically with ``s``, so a bisection on
-    ``s`` converges to the value matching the observed provenance bias.
+    ``s`` converges to the value matching the target ratio.
 
     Parameters
     ----------

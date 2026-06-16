@@ -42,7 +42,7 @@ def test_age_running_command() -> None:
 
 def test_anchor_command() -> None:
     """The anchor scalar command runs and returns success."""
-    assert _run("anchor", "--alpha", "0.84", "--target", "0.80").exit_code == 0
+    assert _run("anchor", "--alpha", "0.84", "--target", "0.90").exit_code == 0
 
 
 def test_trapping_command() -> None:

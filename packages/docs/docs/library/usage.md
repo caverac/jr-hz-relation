@@ -12,7 +12,7 @@ Scalar diagnostics print a single number:
 ```bash
 uv run experiments form-factor --energy 1.0 --alpha 0.84
 uv run experiments bias --alpha 0.84 --strength 0.9
-uv run experiments anchor --alpha 0.84 --target 0.80
+uv run experiments anchor --alpha 0.84 --target 0.90
 uv run experiments slope --c-max 1.0
 uv run experiments age-running --age 8 --ref 1 --beta-r 0.35 --beta-z 0.5
 ```
