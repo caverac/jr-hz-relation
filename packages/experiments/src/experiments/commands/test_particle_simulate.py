@@ -6,6 +6,7 @@ from pathlib import Path
 
 import click
 
+from experiments._constants import TEST_PARTICLE_STORE
 from experiments.simulation import (
     DEFAULT_ALPHAS,
     DEFAULT_COUNTS,
@@ -17,7 +18,7 @@ from experiments.simulation import (
     simulate_series_b,
 )
 
-_DEFAULT_STORE = "assets/data/test-particle-data.json"
+_DEFAULT_STORE = str(TEST_PARTICLE_STORE)
 
 
 @click.command("test-particle-simulate")

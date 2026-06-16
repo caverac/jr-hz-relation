@@ -32,10 +32,14 @@ matplotlib.rcParams["mathtext.fontset"] = "stix"
 
 FigureFunc = TypeVar("FigureFunc", bound=Callable[..., Figure])
 
-#: Defaults forwarded to ``fig.savefig`` for both the PNG and the PDF.
+#: Defaults forwarded to ``fig.savefig`` for both the PNG and the PDF. We deliberately
+#: do NOT pass ``bbox_inches="tight"``: tight cropping makes the saved size depend on
+#: each figure's label extent, so figures with longer axis labels end up with a wider
+#: bounding box and are then scaled down more by the paper's fixed-width ``\plotone``,
+#: rendering visibly smaller. Saving at the exact ``figsize`` with identical default
+#: margins keeps every figure -- and its plotting area -- the same size on the page.
 SAVEFIG_DEFAULTS: dict[str, Any] = {
     "dpi": 300,
-    "bbox_inches": "tight",
     "facecolor": "white",
     "edgecolor": "none",
 }
@@ -65,6 +69,11 @@ def configure_axes(axes: Axes) -> None:
 def _apply_house_style(fig: Figure) -> None:
     """Style every axes of *fig* and make any legends frameless.
 
+    Finishes with :meth:`~matplotlib.figure.Figure.tight_layout` so the axes are
+    reflowed to fit their labels *within* the fixed ``figsize`` canvas. Combined with
+    saving at the exact ``figsize`` (no ``bbox_inches="tight"``), this keeps every
+    figure the same size on the page regardless of how long its axis labels are.
+
     Parameters
     ----------
     fig : Figure
@@ -75,6 +84,7 @@ def _apply_house_style(fig: Figure) -> None:
         legend = axes.get_legend()
         if legend is not None:
             legend.set_frame_on(False)
+    fig.tight_layout()
 
 
 def save_figure_set_if_changed(

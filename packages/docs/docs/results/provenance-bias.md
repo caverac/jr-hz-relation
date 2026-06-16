@@ -80,12 +80,13 @@ $s=0.8$–$2$ ($|\Phi_s|\sim1$–$3\%\,V_c^2$). The bias __deepens (grows more n
 with thickness__; at the Milky-Way value $\alpha=0.84$ (dotted) it is
 $\approx -20$ to $-41\%$.*
 
-Two numbers anchor the result:
+Two points anchor the result:
 
-- At the Milky-Way thickness $\alpha=0.84$, a bias of $\approx-22\%$
-  ($\sigma_z^{\rm mig}/\sigma_z^{\rm all}\approx0.80$, i.e. $\ln 0.80\approx-0.22$ — the
-  cool-star threshold of Vera-Ciro et al. 2016) corresponds to $s=0.90$, comfortably
-  **inside** the physical range $s\sim0.8$–$2$. No tuning is needed.
+- At the Milky-Way thickness $\alpha=0.84$, the predicted bias spans
+  $\approx-20$ to $-41\%$ across the physical strength range $s\sim0.8$–$2$, covering
+  the derived diffusive band ($\approx-20$ to $-27\%$ from
+  [Section 4](/theory/resonance-overlap)) with **no tuning** — the bias magnitude is
+  not a free parameter once the disk is in the overlap regime.
 - The model makes two falsifiable trends explicit:
   1. the bias **weakens as the spiral strengthens** (smaller $s$ means a deeper well
      that captures hot stars too) — matching the strength dependence found by Mikkola
@@ -231,8 +232,8 @@ would instead require $\beta_R=\beta_z$ — a different statement about how disk
 One object, the vertical form factor $F$, is the common thread linking the *size* of
 the provenance bias to the *slope* of the $J_R^{\max}$–$h_Z$ relation — both governed
 by the same disk thickness $\alpha=k\,h_Z$. Neither magnitude is set by $F$ alone,
-though: the bias size ($\sim-22\%$ at $s\approx0.9$) also needs the migration weight
-from the resonance regime ([Sections 3](/theory/corotation-hamiltonian)–[4](/theory/resonance-overlap)),
+though: the bias size (the $\approx-20$ to $-27\%$ diffusive band) also needs the
+migration weight from the resonance regime ([Sections 3](/theory/corotation-hamiltonian)–[4](/theory/resonance-overlap)),
 and the slope ($\approx3.6\times10^{-2}\,L_\odot\,\mathrm{kpc}^{-1}\approx69\,
 \mathrm{km\,s^{-1}}$) comes from the structural factor
 $\pi G\Sigma/\kappa\,(\sigma_R/\sigma_z)^2$, with $F$ selecting the cold migrators that

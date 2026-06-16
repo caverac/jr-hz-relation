@@ -145,6 +145,7 @@ def test_figures_writes_the_full_set(assets_fig_dir: Path) -> None:
         "crossover-bias",
         "finite-thickness",
         "balescu-lenard",
+        "test-particle-bias",
     ):
         _assert_figure_written(assets_fig_dir, stem)
 

@@ -457,6 +457,7 @@ steeper in $F$. That is the subject of
 :::tip What to carry forward
 The pendulum width $\Delta p\propto\sqrt{F}$ is the engine of the provenance bias.
 A single resonance floors the bias near $-7\%$ (weaker with finite thickness). To reach
-the observed $\sim-22\%$ we need resonance overlap, which steepens the weight from
-$F^{1/2}$ toward $F^2$.
+the stronger cold-migrator preference seen in the simulations we need resonance
+overlap, which steepens the weight from $F^{1/2}$ toward $F^2$ (the derived
+$\approx-20$ to $-27\%$ diffusive band).
 :::

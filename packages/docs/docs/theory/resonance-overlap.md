@@ -189,9 +189,9 @@ uv run experiments crossover-bias-plot
 *__The bias deepens with overlap.__ Provenance bias $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$
 from the crossover weight at the Milky-Way thickness, versus effective overlap $S_0$. It
 deepens from the $\sqrt F$ value ($\approx -7\%$) to the $F^2$ value ($\approx -27\%$).
-The bar+spiral alone ($S_0\approx1$, shaded) gives $\approx -11\%$; the observed
-$\sim-22\%$ is reached at $S_0\approx 2$–$3$, the extra overlap expected once the Milky
-Way's recurrent transient spirals are added.*
+The bar+spiral alone ($S_0\approx1$, shaded) gives $\approx -11\%$; the deeper part of
+the diffusive band is reached at $S_0\approx 2$–$3$, the extra overlap expected once the
+Milky Way's recurrent transient spirals are added.*
 
 ## Step 6 — the diffusive endpoint is not assumed, it is derived
 

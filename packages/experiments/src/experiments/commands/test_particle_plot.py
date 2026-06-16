@@ -6,6 +6,7 @@ from pathlib import Path
 
 import click
 
+from experiments._constants import TEST_PARTICLE_STORE
 from experiments.figures import figure_test_particle
 from experiments.simulation import load_store
 
@@ -13,7 +14,7 @@ from experiments.simulation import load_store
 @click.command("test-particle-plot")
 @click.option(
     "--store",
-    default="assets/data/test-particle-data.json",
+    default=str(TEST_PARTICLE_STORE),
     type=click.Path(exists=True),
     help="JSON store path.",
 )

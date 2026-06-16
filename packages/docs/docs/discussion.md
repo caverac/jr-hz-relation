@@ -94,13 +94,12 @@ Honesty about the limits of the argument:
   bar–spiral pattern-speed gap. The well-separated values we adopted are
   *conservative*; the Milky Way's recurrent transient spirals add more resonances,
   which only *increases* the overlap and the bias.
-- **The $\sim-22\%$ is a threshold, not a measurement.** That figure is the cool-star
-  color threshold of Vera-Ciro et al. (2016, their Fig. 4), **not** a directly
-  measured migrator dispersion offset. The provenance-bias magnitude is not yet
-  robustly measured. Our conclusions therefore rest on the **regime ordering** —
-  single-resonance trapping floors near $-7\%$, the diffusive regime predicts
-  $-20$ to $-27\%$ — and on the qualitative cold-migrator preference, *not* on a precise
-  value.
+- **The bias magnitude is not yet robustly measured.** Vera-Ciro et al. (2016)
+  establish the cold-migrator preference *qualitatively* — there is no published
+  migrator dispersion offset $\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ to match against.
+  Our conclusions therefore rest on the **regime ordering** — single-resonance
+  trapping floors near $-7\%$, the diffusive regime predicts $-20$ to $-27\%$ — and on
+  that qualitative cold-migrator preference, *not* on a precise value.
 
 ## The clean, testable prediction
 

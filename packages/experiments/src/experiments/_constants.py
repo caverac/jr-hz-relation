@@ -17,3 +17,11 @@ REPO_ROOT: Path = Path(__file__).resolve().parents[4]
 
 #: Directory holding every generated figure (both ``.png`` and ``.pdf``).
 ASSETS_FIG_DIR: Path = REPO_ROOT / "assets" / "figures"
+
+#: Directory holding cached experiment data (e.g. the test-particle store).
+ASSETS_DATA_DIR: Path = REPO_ROOT / "assets" / "data"
+
+#: Cached test-particle orbit-integration store. Filled by the (expensive)
+#: ``test-particle-simulate`` command and plotted (cheaply) by ``test-particle-plot``
+#: and the full ``figures`` set.
+TEST_PARTICLE_STORE: Path = ASSETS_DATA_DIR / "test-particle-data.json"
