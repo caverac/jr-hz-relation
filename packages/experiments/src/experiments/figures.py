@@ -157,7 +157,7 @@ def figure_trapped_weight(n_energy: int = 60) -> Figure:
     axes = fig.add_subplot(1, 1, 1)
     for kappa, linestyle in ((0.3, "--"), (1.0, "-."), (3.0, ":")):
         weight = np.array([trapped_fraction(float(value), kappa) for value in forms])
-        axes.plot(actions, weight / weight[0], linestyle, color="#000000", label=rf"$\kappa={kappa:g}$", linewidth=1.5)
+        axes.plot(actions, weight / weight[0], linestyle, color="#000000", label=rf"$\xi={kappa:g}$", linewidth=1.5)
     axes.plot(actions, np.sqrt(forms), "k-", label=r"$\sqrt{F}$ (dilute limit)", linewidth=2.0)
     axes.set_xlabel(r"$J_z$")
     axes.set_ylabel(r"$W/W_0$")
@@ -209,7 +209,7 @@ def figure_trapping_cap(n_kappa: int = 20, n_energy: int = 60) -> Figure:
         linewidth=1.5,
     )
     axes.axhline(_bias(1e-3), color="#808080", linestyle=":", label=r"$\sqrt{F}$ cap", linewidth=1.5)
-    axes.set_xlabel(r"$\kappa$")
+    axes.set_xlabel(r"$\xi$")
     axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
     axes.legend()
     return fig

@@ -63,7 +63,7 @@ const FAMILIES: Record<Kind, Family> = {
   },
   trapped: {
     text: 'trapped fraction',
-    parameter: '$\\kappa$',
+    parameter: '$\\xi$',
     min: 0.05,
     max: 6,
     step: 0.05,

@@ -118,7 +118,7 @@ export default function TrappedWeightExplorer(): ReactNode {
         <Chart
           width={chartWidth}
           height={HEIGHT}
-          xLabel="$\kappa$"
+          xLabel="$\xi$"
           yLabel="$\ln \sigma_z^{\rm mig}/\sigma_z^{\rm all}$"
         >
           {(inner) => {
@@ -153,7 +153,7 @@ export default function TrappedWeightExplorer(): ReactNode {
       </div>
       <Controls>
         <Slider
-          label="$\kappa$"
+          label="$\xi$"
           value={islandWidth}
           min={0.05}
           max={KAPPA_MAX}
@@ -169,7 +169,7 @@ export default function TrappedWeightExplorer(): ReactNode {
           ]}
         />
       </Controls>
-      <Note text="Left: the trapped weight for the current $\kappa$ (blue), for $\kappa = 0.3$ and 4 (thin gray) and the dilute limit $\sqrt{F}$ (dashed). Right: the bias against $\kappa$, with the dilute floor dotted." />
+      <Note text="Left: the trapped weight for the current $\xi$ (blue), for $\xi = 0.3$ and 4 (thin gray) and the dilute limit $\sqrt{F}$ (dashed). Right: the bias against $\xi$, with the dilute floor dotted." />
     </div>
   )
 }

@@ -117,11 +117,11 @@ over the fast angles, for which $J_R$ and $J_z$ are adiabatic invariants on the 
 scale of the slow dynamics, leaves a Hamiltonian in $L_z$ and $\theta_r$ alone. The
 invariance is approximate for an individual star in a time-dependent disk and holds in
 the ensemble sense: Minchev et al. (2012) found the vertical action conserved on average
-as stellar samples change guiding radius, Vera-Ciro and D'Onghia (2016) measured in a
-$5\times10^6$-particle realization of the disk of [Section 6](/results/nbody-test) a
-median fractional change below 1 percent over 40 orbital periods with a dispersion of 20
-percent at 2 Gyr, while the migrators of Section 6 change their $J_z$ by 0 to 16 percent in
-the median over 2 Gyr. Expanding the axisymmetric part $\bar H_0(L_z) \equiv H_0 - \Omega_p L_z$
+as stellar samples change guiding radius, Vera-Ciro and D'Onghia (2016) measured in the
+disk of [Section 6](/results/nbody-test) an average fractional change below 1 percent
+even after 40 orbital periods, with a dispersion of the fractional changes of 20 to 28
+percent over 2 Gyr that grows to 50 percent after 6 Gyr, while the migrators of Section 6
+change their $J_z$ by 0 to 16 percent in the median over 2 Gyr. Expanding the axisymmetric part $\bar H_0(L_z) \equiv H_0 - \Omega_p L_z$
 about corotation in the offset $p \equiv L_z - L_{\rm CR}$,
 
 $$
@@ -217,7 +217,7 @@ $p_{\rm sep} = p_{\max}\sqrt{F}\,|\cos(\theta_r/2)|$ with $p_{\max} = 2\sqrt{\Ps
 half-width of a midplane orbit, defining the island-width parameter
 
 $$
-\kappa \equiv \frac{p_{\max}(F{=}1)}{\sigma_p} \;\propto\; \sqrt{|\Phi_s|} ,
+\xi \equiv \frac{p_{\max}(F{=}1)}{\sigma_p} \;\propto\; \sqrt{|\Phi_s|} ,
 $$
 
 and averaging over the angle, with the substitution $u = \theta_r/2$ folding the range
@@ -225,13 +225,13 @@ to $(0, \pi)$, gives the exact trapped weight, Equation (9) of the paper:
 
 $$
 W(J_z) = \frac{1}{\pi}\int_0^\pi \mathrm{d}u\;
-\mathrm{erf}\!\left(\frac{\kappa\sqrt{F(J_z, k)}}{\sqrt2}\,\sin u\right) .
+\mathrm{erf}\!\left(\frac{\xi\sqrt{F(J_z, k)}}{\sqrt2}\,\sin u\right) .
 $$
 
-Its two limits can be read off the error function. For narrow islands, $\kappa \to 0$,
+Its two limits can be read off the error function. For narrow islands, $\xi \to 0$,
 $\mathrm{erf}(x) \approx 2x/\sqrt{\pi}$ and the integrand is linear in $\sqrt{F}$, so
 $W \propto \sqrt{F}$ and the counting law is recovered. For wide islands,
-$\kappa \to \infty$, the error function saturates and $W \to 1$ for every star: the
+$\xi \to \infty$, the error function saturates and $W \to 1$ for every star: the
 weighting flattens and the bias is washed out.
 
 ```shell
@@ -241,16 +241,16 @@ uv run experiments trapped-weight-plot
 <Figure src="/figures/trapped-weight.png" alt="Exact trapped weight versus vertical action for three island widths" />
 
 _**The exact trapped weight**, normalized to its midplane value, against the vertical
-action for three island-width parameters $\kappa$. It interpolates between the dilute
+action for three island-width parameters $\xi$. It interpolates between the dilute
 $\sqrt{F}$ law (dashed; narrow islands, strongest vertical selectivity) and a flat
 profile (wide islands, selectivity lost)._
 
 <TrappedWeightExplorer />
 
 _**The trapped weight and its bias.** Left: the weight of Equation (9)
-for the current $\kappa$, with the dilute limit $\sqrt{F}$ dashed and two reference
+for the current $\xi$, with the dilute limit $\sqrt{F}$ dashed and two reference
 widths in gray. Right: the provenance bias $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ that
-the reweighting of the next subsection produces, against $\kappa$, with the dilute floor
+the reweighting of the next subsection produces, against $\xi$, with the dilute floor
 dotted. The bias is most negative for narrow islands and weakens monotonically as they
 widen._
 
@@ -283,13 +283,13 @@ uv run experiments trapping-cap-plot
 <Figure src="/figures/trapping-cap.png" alt="Provenance bias from the exact trapped fraction versus island width" />
 
 _**The single-resonance floor.** The provenance bias from the exact trapped weight at
-the Milky Way thickness against the island width $\kappa$. It is most negative in the
+the Milky Way thickness against the island width $\xi$. It is most negative in the
 dilute limit, where $W \propto \sqrt{F}$ gives the steepest weighting, then weakens toward
 0 as the islands saturate: a single corotation resonance is bounded at about $-7$
 percent for any spiral strength._
 
 The conclusion is strong and slightly counterintuitive. Making the spiral stronger,
-which raises $\kappa$, does not strengthen the single-resonance bias but weakens it,
+which raises $\xi$, does not strengthen the single-resonance bias but weakens it,
 because wide islands trap hot and cold stars alike. The most negative value the bias
 can take, its floor, is the dilute value with $W \propto \sqrt{F}$, which at the Milky
 Way thickness is $-7$ percent.
