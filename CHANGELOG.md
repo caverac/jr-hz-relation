@@ -1,3 +1,23 @@
+# [1.1.0](https://github.com/caverac/jr-hz-relation/compare/v1.0.1...v1.1.0) (2026-10-22)
+
+### Bug Fixes
+
+- conflicting numenclature and incomplete tought threads ([23b04c1](https://github.com/caverac/jr-hz-relation/commit/23b04c10b4d4a9e8a11e63c5e4efeb4452818b39))
+- **docs:** fixed fonts sizes in d3js visuals ([8b53e25](https://github.com/caverac/jr-hz-relation/commit/8b53e2556966aedfc3a562fb4e9f1b456e64b4ec))
+- **docs:** more updates to the writing style ([3286d95](https://github.com/caverac/jr-hz-relation/commit/3286d953876838eaddd0d5594047fe01d0947ae1))
+- **pre-print:** removed cli references ([ce3a152](https://github.com/caverac/jr-hz-relation/commit/ce3a15215fde215fb112fe965fede6dfd0385af0))
+- table description and captions ([ca823cd](https://github.com/caverac/jr-hz-relation/commit/ca823cd20668a031b2c13408e6a3f62cff02d082))
+
+### Features
+
+- added cached results from n-body runs ([b5e614e](https://github.com/caverac/jr-hz-relation/commit/b5e614e77c1b3a272930bbae50a4542f5c9917a0))
+- added new entry about n-body setup and results ([99f5389](https://github.com/caverac/jr-hz-relation/commit/99f5389b2dbcf5fbe741467b8ce3a9690b2daa48))
+- added results from n-body analysis ([6c052f9](https://github.com/caverac/jr-hz-relation/commit/6c052f9f45ffdb56243b5fd2f2e2fc93d2ce7a00))
+- added section dedicated to n-body run ([ab2c380](https://github.com/caverac/jr-hz-relation/commit/ab2c38020d2e6a7df757bb45273504229e0233f2))
+- cli commands to explore results ot the ld simulation ([0786915](https://github.com/caverac/jr-hz-relation/commit/07869154b0c292abb48255287b1caac586055122))
+- **docs:** new d3js visuals added ([ad1f630](https://github.com/caverac/jr-hz-relation/commit/ad1f6304a142232bcaa22008ebc76fd932a9f748))
+- ignore review folder ([b267490](https://github.com/caverac/jr-hz-relation/commit/b267490bb9726ca8d505c5357f5c21636a19f566))
+
 ## [1.0.1](https://github.com/caverac/jr-hz-relation/compare/v1.0.0...v1.0.1) (2026-06-16)
 
 ### Bug Fixes
