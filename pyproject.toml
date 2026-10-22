@@ -67,7 +67,7 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 explicit_package_bases = true
-mypy_path = ["packages/experiments/src"]
+mypy_path = ["packages/experiments/src", "packages/experiments/tests"]
 
 [[tool.mypy.overrides]]
 module = "scipy.*"
