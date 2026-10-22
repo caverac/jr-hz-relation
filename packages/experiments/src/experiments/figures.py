@@ -24,6 +24,7 @@ from experiments.crossover import crossover_weight
 from experiments.form_factor import dispersion_ratio, vertical_form_factor
 from experiments.overlap import milky_way_overlap
 from experiments.sheet import vertical_action, vertical_frequency
+from experiments.spiral import model_rotation_curve
 from experiments.thickness import power_weight_dispersion_ratio, softened_dispersion_ratio
 from experiments.trapping import trapped_fraction, trapping_dispersion_ratio
 
@@ -377,7 +378,6 @@ def _single_transient_panel(
         axes.plot([p[0] for p in points], [p[1] for p in points], marker, color="#000000", markersize=4, label=label)
     axes.set_xlabel(r"$\alpha$")
     axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
-    axes.legend(loc="lower left")
 
 
 @figure("test-particle-bias")
@@ -391,7 +391,8 @@ def figure_test_particle(
 
     The single-transient panel also carries the bias of the N-body origin rings for the
     same ``|dL_z|`` weight, placed at the ring's ``alpha = k z_0``, and the analytic
-    weights of the two regimes.
+    weights of the two regimes; the legend of both panels is drawn in the
+    resonance-overlap panel, which has the room for it.
 
     Parameters
     ----------
@@ -425,6 +426,9 @@ def figure_test_particle(
     )
     right.set_xlabel(r"$M$")
     right.tick_params(labelleft=False)
+    # The legend of both panels sits in the right one, which has the room for it.
+    handles, labels = left.get_legend_handles_labels()
+    right.legend(handles, labels, loc="lower left")
     return fig
 
 
@@ -521,6 +525,9 @@ def figure_nbody_variance(baselines: list[NbodyTables]) -> Figure:
 def figure_nbody_exponents(baselines: list[NbodyTables], thin: NbodyTables | None = None) -> Figure:
     """Plot the exponent of Var(dLz) against F and the spread of dLz per origin ring for every baseline.
 
+    The spread is drawn as the variance of ``dLz`` in units of the squared angular momentum
+    ``L_c = R_g V_c(R_g)`` of the circular orbit at the ring, on the model rotation curve.
+
     Parameters
     ----------
     baselines :
@@ -535,21 +542,24 @@ def figure_nbody_exponents(baselines: list[NbodyTables], thin: NbodyTables | Non
     """
     fig = Figure(figsize=(3.8, 5.6))
     top, bottom = fig.subplots(2, 1, sharex=True)
+    curve = model_rotation_curve()
     for index, tables in enumerate(baselines):
-        radii = [_ring_center(row["ring"]) for row in tables["core"]]
+        radii = np.array([_ring_center(row["ring"]) for row in tables["core"]])
+        circular = radii * curve.at("v_circ", radii)
         style = BASELINE_STYLES[index % len(BASELINE_STYLES)]
         exponents = [row["exponent_F"] for row in tables["core"]]
         top.plot(radii, exponents, style, color="#000000", label=_baseline_label(tables))
-        bottom.plot(radii, [row["sigma_dLz"] ** 2 for row in tables["core"]], style, color="#000000")
+        variance = np.array([row["sigma_dLz"] ** 2 for row in tables["core"]])
+        bottom.plot(radii, variance / circular**2, style, color="#000000")
     if thin is not None:
-        radii = [_ring_center(row["ring"]) for row in thin["core"]]
+        thin_radii = [_ring_center(row["ring"]) for row in thin["core"]]
         exponents = [row["exponent_F"] for row in thin["core"]]
         label = rf"$e^{{-k|z|}}$, {_baseline_label(thin)}"
-        top.plot(radii, exponents, "o", color="#000000", markerfacecolor="white", label=label)
+        top.plot(thin_radii, exponents, "o", color="#000000", markerfacecolor="white", label=label)
     top.axhline(2.0, color="#808080", linestyle=":", linewidth=1.5)
     top.set_ylabel("$b$")
     top.legend()
-    bottom.set_ylabel(r"$\mathrm{Var}(\Delta L_z)$ (kpc$^2$ km$^2$ s$^{-2}$)")
+    bottom.set_ylabel(r"$\mathrm{Var}(\Delta L_z)/L_c^2$")
     bottom.set_xlabel("$R_g$ (kpc)")
     return fig
 

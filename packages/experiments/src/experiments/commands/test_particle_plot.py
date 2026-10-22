@@ -13,12 +13,13 @@ from experiments.simulation import load_store
 
 
 def cached_nbody_points() -> list[NbodyPoints]:
-    """Return the |dLz|-weighted bias per origin ring of every cached N-body baseline, labeled by baseline."""
+    """Return the |dLz|-weighted bias per origin ring of every cached N-body baseline, labeled by model and baseline."""
     points = []
     for path in NBODY_BASELINES:
         if path.exists():
             tables = load_tables(path)
-            points.append((f"{tables['meta']['baseline_gyr']:.2f} Gyr", bias_points(tables)))
+            label = rf"$\mathtt{{LD}}$ {tables['meta']['baseline_gyr']:.2f} Gyr"
+            points.append((label, bias_points(tables)))
     return points
 
 

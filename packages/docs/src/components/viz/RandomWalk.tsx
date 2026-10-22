@@ -21,9 +21,13 @@ const KICK = 1
 /** Transients per second while running. */
 const RATE = 3
 
+/** The run stops here; the axes of both panels are fixed to this length. */
 const MAX_KICKS = 300
 const BINS = 41
 const HEIGHT = 240
+
+/** Half-width of the histogram frame, in units of the predicted cold spread. */
+const FRAME = 4
 
 interface Spread {
   readonly kicks: number
@@ -67,12 +71,23 @@ function predicted(kicks: number, formFactor: number): number {
   return (kicks * (KICK * formFactor) ** 2) / 2
 }
 
+/** Density of a centered Gaussian of the given standard deviation. */
+function gaussianDensity(value: number, sigma: number): number {
+  return Math.exp(-(value * value) / (2 * sigma * sigma)) / (Math.sqrt(2 * Math.PI) * sigma)
+}
+
 /**
  * Angular-momentum diffusion as a random walk. Two populations of 800 stars
  * start at the same L_z; every transient spiral kicks each star by
  * Psi sin(theta) with its own random phase, and Psi is proportional to the form
  * factor, 1 for the cold population and F(E_z) for the hot one. The spread grows
  * as a random walk, Var ~ n (Psi)^2 / 2, and the two variances differ by F^2.
+ *
+ * The left panel shows the distribution of the change in units of the spread
+ * the random walk predicts for the cold population, sqrt(n/2) KICK, so that its
+ * frame stays fixed while the sample grows and the histograms settle on the
+ * Gaussians of width 1 and F; the right panel's axes are fixed to the length of
+ * the run, which stops after MAX_KICKS transients.
  */
 export default function RandomWalk(): ReactNode {
   const [ref, width] = useElementWidth<HTMLDivElement>()
@@ -117,47 +132,46 @@ export default function RandomWalk(): ReactNode {
   const last = state.history[state.history.length - 1]
   const columns = columnsFor(width)
   const chartWidth = columnWidth(width, columns)
-  const spread = Math.max(3 * Math.sqrt(predicted(Math.max(last.kicks, 1), 1)), 3)
+  // The predicted spread of the cold population, the unit of the left panel.
+  const sigma = Math.sqrt(predicted(last.kicks, 1))
+  const scaled = (values: Float64Array): number[] =>
+    sigma > 0 ? Array.from(values, (value) => value / sigma) : []
 
   return (
     <div className="viz" ref={ref} data-version={version}>
       <div className="viz__row">
-        <Chart width={chartWidth} height={HEIGHT} xLabel="$\Delta L_z$" yLabel="$N$">
+        <Chart
+          width={chartWidth}
+          height={HEIGHT}
+          xLabel="$x = \Delta L_z/\sigma_n$"
+          yLabel="$\mathrm{d}F/\mathrm{d}x$"
+        >
           {(inner) => {
-            const x = d3.scaleLinear().domain([-spread, spread]).range([0, inner.width])
-            const binner = d3.bin().domain([-spread, spread]).thresholds(BINS)
-            const coldBins = binner(Array.from(state.cold))
-            const hotBins = binner(Array.from(state.hot))
-            const binWidth = (2 * spread) / BINS
-            const top = Math.max(
-              d3.max(coldBins, (b) => b.length) ?? 1,
-              d3.max(hotBins, (b) => b.length) ?? 1,
-              1
-            )
+            const x = d3.scaleLinear().domain([-FRAME, FRAME]).range([0, inner.width])
+            const binner = d3.bin().domain([-FRAME, FRAME]).thresholds(BINS)
+            const coldBins = binner(scaled(state.cold))
+            const hotBins = binner(scaled(state.hot))
+            const binWidth = (2 * FRAME) / BINS
+            const density = (bin: d3.Bin<number, number>): number => bin.length / (STARS * binWidth)
+            // The hot Gaussian, of width F, is the tallest curve of the panel.
             const y = d3
               .scaleLinear()
-              .domain([0, 1.1 * top])
+              .domain([0, 1.1 * gaussianDensity(0, Math.min(formFactor, 1))])
               .range([inner.height, 0])
-            const gaussian = (sigmaSquare: number): string => {
-              if (sigmaSquare <= 0) {
-                return ''
-              }
-              const points = d3.range(-spread, spread + 0.01, spread / 60).map((value) => {
-                const density =
-                  Math.exp(-(value * value) / (2 * sigmaSquare)) /
-                  Math.sqrt(2 * Math.PI * sigmaSquare)
-                return [x(value), y(STARS * binWidth * density)] as const
-              })
-              return linePath(points)
-            }
+            const gaussian = (width: number): string =>
+              linePath(
+                d3
+                  .range(-FRAME, FRAME + 0.001, FRAME / 80)
+                  .map((value) => [x(value), y(gaussianDensity(value, width))] as const)
+              )
             const bars = (bins: d3.Bin<number, number>[], className: string): ReactNode =>
               bins.map((bin, i) => (
                 <rect
                   key={i}
                   x={x(bin.x0 ?? 0)}
-                  y={y(bin.length)}
+                  y={y(density(bin))}
                   width={Math.max(x(bin.x1 ?? 0) - x(bin.x0 ?? 0) - 1, 1)}
-                  height={inner.height - y(bin.length)}
+                  height={inner.height - y(density(bin))}
                   className={className}
                 />
               ))
@@ -165,11 +179,8 @@ export default function RandomWalk(): ReactNode {
               <>
                 {bars(coldBins, 'viz-fill--cold')}
                 {bars(hotBins, 'viz-fill--hot')}
-                <path d={gaussian(predicted(last.kicks, 1))} className="viz-line viz-line--cold" />
-                <path
-                  d={gaussian(predicted(last.kicks, formFactor))}
-                  className="viz-line viz-line--hot"
-                />
+                <path d={gaussian(1)} className="viz-line viz-line--cold" />
+                <path d={gaussian(formFactor)} className="viz-line viz-line--hot" />
                 <Axis scale={y} orientation="left" ticks={4} />
                 <Axis
                   scale={x}
@@ -183,18 +194,17 @@ export default function RandomWalk(): ReactNode {
         </Chart>
         <Chart width={chartWidth} height={HEIGHT} xLabel="$n$" yLabel="$\mathrm{Var}(\Delta L_z)$">
           {(inner) => {
-            const kicksShown = Math.max(last.kicks, 20)
-            const x = d3.scaleLinear().domain([0, kicksShown]).range([0, inner.width])
+            const x = d3.scaleLinear().domain([0, MAX_KICKS]).range([0, inner.width])
             const y = d3
               .scaleLinear()
-              .domain([0, 1.15 * predicted(kicksShown, 1)])
+              .domain([0, 1.15 * predicted(MAX_KICKS, 1)])
               .range([inner.height, 0])
             const series = (pick: (record: Spread) => number): string =>
               linePath(state.history.map((record) => [x(record.kicks), y(pick(record))] as const))
             const line = (factor: number): string =>
               linePath([
                 [x(0), y(0)],
-                [x(kicksShown), y(predicted(kicksShown, factor))]
+                [x(MAX_KICKS), y(predicted(MAX_KICKS, factor))]
               ])
             return (
               <>
@@ -252,7 +262,7 @@ export default function RandomWalk(): ReactNode {
           ]}
         />
       </Controls>
-      <Note text="Blue: the cold population, $F = 1$. Red: the hot one, with $F$ from the isothermal sheet at the Milky Way thickness. Dashed lines and curves: the prediction $n\Psi^2/2$ for each." />
+      <Note text="Blue: the cold population, $F = 1$. Red: the hot one, with $F$ from the isothermal sheet at the Milky Way thickness. Left: the distribution of $\Delta L_z$ in units of the spread $\sigma_n = \sqrt{n/2}\,\Psi$ predicted for the cold population, against the Gaussians of width 1 and $F$. Right: the two variances against the predicted lines $n\Psi^2/2$. The run stops after 300 transients." />
     </div>
   )
 }

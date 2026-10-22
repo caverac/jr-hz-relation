@@ -47,10 +47,8 @@ a threshold in $|\Delta\Lz|$. These predictions are tested in a self-consistent
 $N$-body disk of $10^8$ particles with recurrent multi-arm spirals. Over baselines of 0.5 to 2
 Gyr the variance of the angular-momentum change grows as $F^{1.9}$ to $F^{2.0}$ on
 average over 3 to 12 kpc, the dispersion offset is reproduced per selection rule to
-within 5 points, capture is symmetric in direction, and inside 9 kpc the arrivals keep
-their vertical action rather than their vertical energy. The test requires the form
-factor of an arm of finite thickness, 0.8 disk scale heights in the simulation; the
-razor-thin $e^{-k|z|}$ kernel underestimates the exponent by a factor of 1.4. The same
+within 0.05 in the dispersion ratio, capture is symmetric in direction, and inside 9 kpc the arrivals keep
+their vertical action rather than their vertical energy. The same
 form factor links the bias to the empirical spiral $\JR^{\max}$--$\hZ$ relation
 \citep{Palicio2024} through the disk thickness $\alpha\equiv k\hZ$: the predicted slope
 reproduces the measured $3.7\times10^{-2}\,\Lsun/\kpc$ and should flatten with stellar
@@ -246,7 +244,7 @@ invariance is approximate rather than exact for an individual star in a
 time-dependent disk, and holds in the ensemble sense: \citet{Minchev2012thickening}
 found the vertical action conserved on average, not star by star, as stellar samples
 change guiding radius, and \citet{VeraCiro2016conservation} measured, in a
-$5\times10^6$-particle realization of the LD disk used in Section~\ref{sec:nbody}, a median
+$5\times10^6$-particle realization of the \texttt{LD} disk used in Section~\ref{sec:nbody}, a median
 fractional change below 1 percent over 40 orbital periods with a dispersion of 20
 percent at 2 Gyr that grows to 50 percent at 6 Gyr; the migrators of
 Section~\ref{sec:nbody} change their $\Jz$ by 0 to 16 percent in the median over 2
@@ -683,16 +681,13 @@ disk sits where the diffusive regime with a thick arm puts it.
   \label{fig:testparticle}
 \end{figure*}
 
-\paragraph{The simulation.} The simulation is the LD (``light disk'') model of
+\paragraph{The simulation.} The simulation is the \texttt{LD} (``light disk'') model of
 \citet{VeraCiro2016imprint}, the disk introduced by \citet{DOnghia2013} and analyzed
 by \citet{VeraCiro2014}, in its $10^8$-particle realization: an exponential disk of
 $M_d=1.81\times10^{10}\,M_\odot$ and $R_d=3.13\kpc$ with a $\mathrm{sech}^2$ profile of
 $z_0=0.1R_d=0.313\kpc$, in a rigid Hernquist halo of $9.5\times10^{11}\,M_\odot$ and
 scale radius $29.8\kpc$, with 1,000 perturbers of $9.5\times10^5\,M_\odot$ on circular
-orbits that seed the arms. In the realization used here the perturbers stay in for the
-whole run of 2.98 Gyr (1,020 snapshots, every 4.9 Myr after $t=0.5$ Gyr; the run's time
-unit, a kpc per km/s, is 0.978 Gyr, and no Hubble factor enters this non-cosmological
-integration). The same disk with the perturbers removed after 245 Myr was followed for
+orbits that seed the arms. The same disk with the perturbers removed after 245 Myr was followed for
 5.5 Gyr by \citet{VeraCiro2014}, who found the spread of origin radii growing as
 $t^{1/2}$, the signature of the diffusive regime of Section~\ref{sec:overlap}; its
 $5\times10^6$-particle realizations were followed for 6 Gyr by
@@ -713,7 +708,7 @@ from 3 to 12 kpc.
 followed as tracks, and the azimuthal harmonics $m=1$ to 8 of all $10^8$ particles are
 summed per snapshot in rings of 0.25 kpc, which give the arms' amplitudes and
 wavenumbers. Over a window of 293 Myr each tracked star gets its mean $\Lz$, the actions
-$\Jz=\frac{1}{2\pi}\oint v_z\,\mathrm{d}z$ and $\JR=\frac{1}{2\pi}\oint v_R\,\mathrm{d}R$
+$\Jz=(2\pi)^{-1}\oint v_z\,\mathrm{d}z$ and $\JR=(2\pi)^{-1}\oint v_R\,\mathrm{d}R$
 as loop integrals between the first and the last upward crossing, the periods, and the
 form factor along the orbit, $F=\langle\phi_k(z)/\phi_k(0)\rangle$, at the wavenumber
 of its origin ring (the mean over $m=5$ to 8 with the squared amplitudes as weights).
@@ -747,12 +742,23 @@ means of 1.98, 1.98 and 1.88 over the nine rings at the three baselines
 (Figure~\ref{fig:nbodyexp}), and the rings collapse on $F$ to 0.065 to 0.085 dex rms
 against 0.13 to 0.14 on $\langle|z|\rangle$: the dependence is on $kz$, not on $z$. The
 razor-thin kernel fails because its cusp at $z=0$ makes $F$ vary too fast across the
-heights that most stars reach, which are all inside the arm. The variance of
-$\Delta\Lz$ grows as a random walk, by a factor of 3.4 to 4.1 inside 9 kpc over the
-fourfold interval, its excess kurtosis is 0.2 to 1.7 inside 10 kpc, and the migrators keep their
-radial action inside 8 kpc (median change of $\JR$ of 0.22 to 0.51 against 0.29 to
-0.53 for the rest), which separates corotation churning from direct scattering by the
-perturbers.
+heights that most stars reach, which are all inside the arm. Figure~\ref{fig:nbodyexp}
+collects the exponents per ring: with the layer form factor the three baselines agree
+within the ring-to-ring scatter, so the exponent is a property of the disk and not of
+the interval, and the razor-thin circles fall below the lines inside 8 kpc by the
+factor of 1.4 that the thickness of the arms accounts for. Its lower panel shows the
+variance of $\Delta\Lz$ in units of $L_c^2$, the squared angular momentum of the
+circular orbit at the ring. At fixed ring the variance grows in proportion to the
+baseline inside 9 kpc, by a factor of 3.4 to 4.1 over the fourfold interval, the
+signature of a random walk, and faster outside, by a factor of 5 to 6, where the
+arrivals are also found to be heated below. Across rings the relative spread falls by
+a factor of 20 to 40 from 3 to 12 kpc, because $L_c$ grows with radius while the
+amplitude of the arms peaks at 5 to 8 kpc: after 1.96 Gyr a star at 3 to 4 kpc has
+changed its angular momentum by 33 percent of $L_c$ in the root mean square, a star at
+11 to 12 kpc by 7 percent. The excess kurtosis of $\Delta\Lz$ is 0.2 to 1.7 inside 10
+kpc, while the migrators keep their radial action inside 8 kpc (median change of $\JR$
+of 0.22 to 0.51 against 0.29 to 0.53 for the rest), which separates corotation
+churning from direct scattering by the perturbers.
 
 \begin{figure*}
   \includegraphics[width=\textwidth]{nbody-variance.pdf}
@@ -767,11 +773,18 @@ perturbers.
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{nbody-exponents.pdf}
-  \caption{Top: the exponent $b$ of $\mathrm{Var}(\Delta\Lz)\propto F^b$ per origin
-  ring for the three baselines with the layer form factor (lines) and for the 0.49 Gyr
-  baseline with the razor-thin $\langle e^{-k|z|}\rangle$ at the wavenumber of $m=7$
-  (circles); the dotted line is the prediction $b=2$. Bottom: the variance of
-  $\Delta\Lz$ of the same rings, which grows in proportion to the baseline.}
+  \caption{The exponent and the size of the churning per origin ring. Top: the
+  exponent $b$ of $\mathrm{Var}(\Delta\Lz)\propto F^b$ for the three baselines with the
+  layer form factor (lines), against the prediction $b=2$ of the diffusive regime
+  (dotted). The baselines agree within the ring-to-ring scatter, 1.4 to 1.9 inside 8
+  kpc and 2.0 to 2.8 outside, with means of 1.98, 1.98 and 1.88; the razor-thin
+  $\langle e^{-k|z|}\rangle$ at the wavenumber of $m=7$ (circles, 0.49 Gyr) falls to
+  0.9 to 1.35 inside 8 kpc, the shortfall that the measured thickness of the arms
+  accounts for. Bottom: the variance of $\Delta\Lz$ of the same rings in units of
+  $L_c^2$, with $L_c=R_gV_c(R_g)$ the angular momentum of the circular orbit at the
+  ring. It grows in proportion to the baseline inside 9 kpc, as a random walk does,
+  and faster outside; across rings it falls by a factor of 20 to 40 from 3 to 12 kpc,
+  since $L_c$ grows with radius while the arms are strongest at 5 to 8 kpc.}
   \label{fig:nbodyexp}
 \end{figure}
 
@@ -779,20 +792,30 @@ perturbers.
 $\sigz^{\rm mig}/\sigz^{\rm all}$ for the three rules of Section~\ref{sec:bias} is
 compared with the ratio obtained by reweighting the same stars with $F$, $F^2$ and
 $\mathrm{erfc}(\lambda/F)$, with $L_*$ the 90th percentile of $|\Delta\Lz|$ in the ring
-(Table~\ref{tab:rules}, Figure~\ref{fig:nbodyrules}). The misfit is within 0 to 5
-points for every rule, ring and baseline, the model slightly too strong inside 8 kpc
-and slightly too weak at 8 to 10 kpc, following the exponent; the ordering is the
-predicted one in every ring, the threshold selecting the coldest stars and the linear
-weight the least cold. The offset in this disk is therefore 5 to 9, 10 to 16 or 16 to
-22 percent according to the rule, which is why it is quoted per rule rather than as
-one number, and why the closure of Equation~\eqref{eq:effweight} is not to be read as
-a measurement.
+(Table~\ref{tab:rules}). Figure~\ref{fig:nbodyrules} shows the comparison ring by ring
+at the 1.96 Gyr baseline, and two features of it carry the result. First, the rules
+are separated by 0.05 to 0.09 in the ratio in every ring, the threshold selecting the coldest
+stars and the linear weight the least cold, and the model reproduces the separation
+and the ordering with no parameter beyond the exponent 2 of the diffusive regime; the
+trapping weight $\sqrt F$ of a single resonance would give 0.96 to 0.97 in every ring,
+above the measured ratio of every rule.
+Second, the difference between the model and the measured ratio is within 0.05 for
+every rule, ring and baseline, with a sign that follows the exponent of
+Figure~\ref{fig:nbodyexp}: inside 8 kpc, where $b<2$, the model ratio is too low by
+0.01 to 0.05, that is, the model is too strong, since a weight built on $F^2$
+overstates the contrast between cold and hot stars where the variance grows more
+slowly than $F^2$, whereas at 8 to 10 kpc, where $b>2$, it is too high by 0.01 to 0.04.
+The offset in this disk is therefore 5 to 9, 10 to 16 or 16 to 22 percent according to
+the rule, which is why it is quoted per rule rather than as one number, and why the
+closure of Equation~\eqref{eq:effweight} is not to be read as a measurement.
 
 \begin{deluxetable}{llll}
 \tablecaption{The migrator dispersion ratio $\sigz^{\rm mig}/\sigz^{\rm all}$ per
 selection rule in the $N$-body disk at the 1.96 Gyr baseline, over the nine origin
-rings from 3 to 12 kpc, against the model obtained by reweighting the same
-stars.\label{tab:rules}}
+rings from 3 to 12 kpc, against the model obtained by reweighting the same stars. The
+difference between the model and the measured ratio per ring is 0.001 to 0.024, 0.004
+to 0.037 and 0.005 to 0.053 for the three rules; at 0.49 and 0.98 Gyr the ranges are
+the same within 0.01.\label{tab:rules}}
 \tablehead{\colhead{Selection} & \colhead{Weight} & \colhead{Measured} &
 \colhead{Model}}
 \startdata
@@ -800,19 +823,19 @@ weighted by $|\Delta\Lz|$ & $F$ & 0.91 to 0.95 & 0.92 to 0.94 \\
 weighted by $(\Delta\Lz)^2$ & $F^2$ & 0.84 to 0.90 & 0.85 to 0.89 \\
 $|\Delta\Lz|$ above the 90th percentile & $\mathrm{erfc}(\lambda/F)$ & 0.78 to 0.84 &
 0.77 to 0.82 \\
-trapping without overlap & $\sqrt F$ & \nodata & 0.96 to 0.97 \\
 \enddata
-\tablecomments{The misfit per ring is 0.1 to 2.4, 0.4 to 3.7 and 0.5 to 5.3 points for
-the three rules; at 0.49 and 0.98 Gyr the ranges are the same within a point.}
 \end{deluxetable}
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{nbody-rules.pdf}
   \caption{The bias per selection rule at the 1.96 Gyr baseline: the measured
-  $\sigz^{\rm mig}/\sigz^{\rm all}$ of each origin ring (points) against the model
-  obtained by reweighting the same stars with $F$, $F^2$ and
-  $\mathrm{erfc}(\lambda/F)$ (lines), for migrators weighted by $|\Delta\Lz|$, by
-  $(\Delta\Lz)^2$ and selected by $|\Delta\Lz|$ above the 90th percentile.}
+  $\sigz^{\rm mig}/\sigz^{\rm all}$ of each origin ring (symbols) against the model
+  obtained by reweighting the same stars (lines), for migrators weighted by
+  $|\Delta\Lz|$ (model $F$), by $(\Delta\Lz)^2$ (model $F^2$) and selected by
+  $|\Delta\Lz|$ above the 90th percentile (model $\mathrm{erfc}(\lambda/F)$). The rules
+  differ by 0.05 to 0.09 in every ring and the model follows each of them within 0.05,
+  too cold inside 8 kpc and too warm at 8 to 10 kpc, where the exponent
+  of Figure~\ref{fig:nbodyexp} crosses 2.}
   \label{fig:nbodyrules}
 \end{figure}
 
@@ -820,22 +843,32 @@ the three rules; at 0.49 and 0.98 Gyr the ranges are the same within a point.}
 the capture is symmetric in the sign of $\Delta\Lz$: the inward and the outward
 migrators of an origin ring have the same $\Jz$ distribution (Kolmogorov-Smirnov
 distance 0.02 to 0.12 in every ring and baseline), both at 0.55 to 0.8 of the ring's
-median. The destination state is not symmetric. At the ring where they arrive, inward
-migrators are 24 to 29 percent colder than the stars already there and outward
-migrators 6 to 12 percent colder, within 1.5 to 7 points of the prediction with $\Jz$
-conserved, $\langle v_z^2\rangle=\Jz\nu_z$ with the arrival's own vertical period at the
-destination, whereas conservation of the vertical energy is off by 11 to 15 points
-and makes outward migrators hotter than the locals (Figure~\ref{fig:nbodydest}).
+median. The destination state is not symmetric, and Figure~\ref{fig:nbodydest} shows
+which conservation law it follows. At the ring where they arrive, inward migrators are
+24 to 29 percent colder than the stars already there and outward migrators 6 to 12
+percent colder. The prediction with $\Jz$ conserved,
+$\langle v_z^2\rangle=\Jz\nu_z$ with the arrival's own vertical period at the
+destination, runs through the measurements inside 9 kpc within 0.015 to 0.07 in both
+directions, whereas conservation of the vertical energy sits 0.11 to 0.15 below the
+inward measurements and above unity for the outward ones, that is, it makes outward
+migrators hotter than the locals, which the simulation rules out.
 Outside 9 kpc the arrivals are hotter than the $\Jz$ prediction by a gap that grows
-with the baseline, from 6 to 11 points at 0.49 Gyr to 8 to 15 at 1.96 Gyr, presumably
+with the baseline, from 0.06 to 0.11 at 0.49 Gyr to 0.08 to 0.15 at 1.96 Gyr, presumably
 vertical heating along the way, and the quantitative claims of this paper stop there.
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{nbody-destination.pdf}
-  \caption{The vertical dispersion of the arrivals relative to the non-migrators of
-  the destination ring at the 1.96 Gyr baseline (points), for inward (top) and
-  outward (bottom) migrators, against the prediction with $\Jz$ conserved (solid) and
-  with the vertical energy conserved (dashed).}
+  \caption{The vertical state of the arrivals at the 1.96 Gyr baseline: the vertical
+  dispersion of the migrators that arrive in each ring relative to the stars that
+  stayed there (symbols), for inward (top) and outward (bottom) migrators, against the
+  prediction with $\Jz$ conserved (solid) and with the vertical energy conserved
+  (dashed). Inward migrators arrive 24 to 29 percent colder than the locals and
+  outward migrators 6 to 12 percent colder. Inside 9 kpc the $\Jz$-conserving
+  prediction follows the measurements within 0.015 to 0.07, whereas the
+  energy-conserving one lies 0.11 to 0.15 too low for inward migrators and above unity for outward
+  ones, which would make them hotter than the locals. Beyond 9 kpc the measurements rise
+  above the solid line by a gap that grows with the baseline, where the quantitative
+  claims stop.}
   \label{fig:nbodydest}
 \end{figure}
 
@@ -936,7 +969,7 @@ Gaia--APOGEE--LAMOST data.
 
 \begin{acknowledgments}
 Special thanks to Elena D'Onghia for sharing the simulations of \citet{DOnghia2013},
-and to Nico for useful conversations.
+and to Nico for all the useful conversations.
 \end{acknowledgments}
 
 \section*{Data Availability}

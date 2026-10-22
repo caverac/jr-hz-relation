@@ -21,8 +21,7 @@ variance of the angular-momentum change follows the form factor squared, the
 dispersion of the migrators follows the selection rule, capture is symmetric in
 direction and the arrivals keep their vertical action. One correction comes out of the
 test: the arms have a vertical thickness of their own, so the form factor must use the
-potential of a thick arm rather than the razor-thin $e^{-k|z|}$. The commands that
-reproduce every number are listed in [Using the library](/library/usage).
+potential of a thick arm rather than the razor-thin $e^{-k|z|}$.
 
 ## Test particles
 
@@ -146,8 +145,8 @@ outside the repository; the tables of the test are cached under `assets/data/nbo
 ## The form factor is measured along the orbits
 
 `nbody-window` summarizes every tracked particle over a window of 293 Myr (60
-snapshots): the mean $L_z$ and radius, the actions $J_z = \frac{1}{2\pi}\oint v_z\,dz$
-and $J_R = \frac{1}{2\pi}\oint v_R\,dR$ as loop integrals between the first and the last
+snapshots): the mean $L_z$ and radius, the actions $J_z = (2\pi)^{-1}\oint v_z\,dz$
+and $J_R = (2\pi)^{-1}\oint v_R\,dR$ as loop integrals between the first and the last
 upward crossing, the periods from the same crossings and the form factor
 $F = \langle\phi_k(z)/\phi_k(0)\rangle$ along the orbit for wavenumbers from 0.5 to 4
 kpc$^{-1}$. The loop integrals recover synthetic orbits sampled at the run's cadence to
@@ -197,18 +196,30 @@ The exponent of $\mathrm{Var}(\Delta L_z) \propto F^b$ is fitted by weighted lea
 in the log. Over the nine rings it averages 1.98, 1.98 and 1.88 in the three baselines;
 ring by ring it is 1.35 to 1.9 inside 8 kpc and 2.0 to 2.8 outside. The rings collapse
 on one power law in $F$ to 0.085, 0.071 and 0.065 dex rms, against 0.142, 0.135 and 0.129
-on $\langle\lvert z\rvert\rangle$ alone, so the dependence is on $kz$ and not on $z$. The
-variance of $\Delta L_z$ grows as a random walk would: inside 9 kpc it is 7,200 to
+on $\langle\lvert z\rvert\rangle$ alone, so the dependence is on $kz$ and not on $z$. The variance of $\Delta L_z$ grows as a random walk would: inside 9 kpc it is 7,200 to
 12,600 (kpc km/s)$^2$ at 0.49 Gyr and 26,300 to 46,600 at 1.96 Gyr, a factor 3.4 to 4.1
-over the fourfold interval.
+over the fourfold interval, and faster outside 9 kpc, by a factor of 5 to 6, where the
+arrivals are also found to be heated in Result 3. The lower panel of the figure below
+shows the same variance in units of $L_c^2$, the squared angular momentum of the
+circular orbit at the ring: across rings the relative spread falls by a factor of 20 to
+40 from 3 to 12 kpc, because $L_c$ grows with radius while the amplitude of the arms
+peaks at 5 to 8 kpc, so that after 1.96 Gyr a star at 3 to 4 kpc has changed its
+angular momentum by 33 percent of $L_c$ in the root mean square, a star at 11 to 12 kpc
+by 7 percent.
 
 <Figure src="/figures/nbody-exponents.png" alt="Exponent of the variance against the form factor and the spread of the angular-momentum change, per origin ring for the three baselines" />
 
-_**The exponent per ring.** Top: the exponent $b$ for the three baselines with the layer
-form factor (lines) and for the 0.49 Gyr baseline with the razor-thin
-$\langle e^{-k\lvert z\rvert}\rangle$ at the wavenumber of $m = 7$ (circles); the dotted
-line is the prediction $b = 2$. Bottom: the variance of $\Delta L_z$ of the same rings,
-which grows in proportion to the baseline._
+_**The exponent and the size of the churning per origin ring.** Top: the exponent $b$
+for the three baselines with the layer form factor (lines), against the prediction
+$b = 2$ of the diffusive regime (dotted). The baselines agree within the ring-to-ring
+scatter, 1.4 to 1.9 inside 8 kpc and 2.0 to 2.8 outside, with means of 1.98, 1.98 and
+1.88; the razor-thin $\langle e^{-k\lvert z\rvert}\rangle$ at the wavenumber of $m = 7$
+(circles, 0.49 Gyr) falls to 0.9 to 1.35 inside 8 kpc, the shortfall that the measured
+thickness of the arms accounts for. Bottom: the variance of $\Delta L_z$ of the same
+rings in units of $L_c^2$, with $L_c = R_g V_c(R_g)$ the angular momentum of the circular
+orbit at the ring. It grows in proportion to the baseline inside 9 kpc, as a random walk
+does, and faster outside; across rings it falls by a factor of 20 to 40 from 3 to 12
+kpc, since $L_c$ grows with radius while the arms are strongest at 5 to 8 kpc._
 
 ### The arms are thick: the razor-thin form factor fails inside 8 kpc
 
@@ -259,22 +270,31 @@ the disk's thickness gives 2.5 to 3.4.
 
 <Figure src="/figures/nbody-rules.png" alt="Measured and model dispersion ratios of the migrators for the three selection rules against origin radius" />
 
-_**The bias per selection rule** at the 1.96 Gyr baseline. In each origin ring the
-measured $\sigma_{z,\rm mig}/\sigma_{z,\rm all}$ (points) is compared with the model
-obtained by reweighting the same stars with $F$, $F^2$ and $\mathrm{erfc}(\lambda/F)$
-(lines), for migrators weighted by $\lvert\Delta L_z\rvert$, by $(\Delta L_z)^2$ and
-selected by $\lvert\Delta L_z\rvert$ above the 90th percentile._
+_**The bias per selection rule** at the 1.96 Gyr baseline: the measured
+$\sigma_{z,\rm mig}/\sigma_{z,\rm all}$ of each origin ring (symbols) against the model
+obtained by reweighting the same stars (lines), for migrators weighted by
+$\lvert\Delta L_z\rvert$ (model $F$), by $(\Delta L_z)^2$ (model $F^2$) and selected by
+$\lvert\Delta L_z\rvert$ above the 90th percentile (model $\mathrm{erfc}(\lambda/F)$). The
+rules differ by 0.05 to 0.09 in every ring and the model follows each of them within
+0.05, too cold inside 8 kpc and too warm at 8 to 10 kpc, where the exponent of
+the figure above crosses 2._
 
-| Selection rule | Measured ratio, 3 to 12 kpc | Model ratio | Misfit (points) |
+| Selection rule | Measured ratio, 3 to 12 kpc | Model ratio | Model minus measured |
 | --- | --- | --- | --- |
-| weighted by $\lvert\Delta L_z\rvert$ | 0.91 to 0.95 | $F$: 0.92 to 0.94 | 0.1 to 2.4 |
-| weighted by $(\Delta L_z)^2$ | 0.84 to 0.90 | $F^2$: 0.85 to 0.89 | 0.4 to 3.7 |
-| $\lvert\Delta L_z\rvert$ above the 90th percentile | 0.78 to 0.84 | $\mathrm{erfc}(\lambda/F)$: 0.77 to 0.82 | 0.5 to 5.3 |
-| trapping without overlap (no measured counterpart) | | $\sqrt F$: 0.96 to 0.97 | |
+| weighted by $\lvert\Delta L_z\rvert$ | 0.91 to 0.95 | $F$: 0.92 to 0.94 | 0.001 to 0.024 |
+| weighted by $(\Delta L_z)^2$ | 0.84 to 0.90 | $F^2$: 0.85 to 0.89 | 0.004 to 0.037 |
+| $\lvert\Delta L_z\rvert$ above the 90th percentile | 0.78 to 0.84 | $\mathrm{erfc}(\lambda/F)$: 0.77 to 0.82 | 0.005 to 0.053 |
 
-The misfit ranges at 0.49 and 0.98 Gyr are the same within a point. The model is
-slightly too strong inside 8 kpc and slightly too weak at 8 to 10 kpc, following the
-exponent of Result 1. The ordering of the rules is the predicted one in every ring: the
+
+The differences at 0.49 and 0.98 Gyr are the same within 0.01. Two features of
+the figure carry the result. The rules are separated by 0.05 to 0.09 in the ratio in every ring,
+which the model reproduces with no parameter beyond the exponent 2 of the diffusive
+regime, whereas the trapping weight $\sqrt F$ of a single resonance would give 0.96 to
+0.97 in every ring, above the measured ratio of every rule; and the sign of the difference between the model and the measured ratio follows the
+exponent of Result 1: inside 8 kpc, where $b < 2$, the model ratio is too low by 0.01 to
+0.05, that is, the model is too strong, since a weight built on $F^2$ overstates the
+contrast between cold and hot stars where the variance grows more slowly than $F^2$,
+whereas at 8 to 10 kpc, where $b > 2$, it is too high by 0.01 to 0.04. The ordering of the rules is the predicted one in every ring: the
 threshold selects the coldest stars, the linear weight the least cold. The bias in this
 disk is therefore 5 to 9 percent, 10 to 16 percent or 16 to 22 percent depending on how
 migrators are defined, which is why the paper quotes the offset per rule rather than as
@@ -293,20 +313,26 @@ drift of the disk (the mean $\Delta L_z$ is $+25$ kpc km/s at 3 to 4 kpc and $-2
 
 <Figure src="/figures/nbody-destination.png" alt="Vertical dispersion of the arrivals relative to the non-migrators of the destination ring, inward and outward, with the two predictions" />
 
-_**The destination state** at the 1.96 Gyr baseline. The vertical dispersion of the
-arrivals in each ring relative to the stars that stayed there (points), for inward
-(top) and outward (bottom) migrators, against the prediction with $J_z$ conserved
-(solid) and with $\langle v_z^2\rangle$ conserved (dashed)._
+_**The vertical state of the arrivals** at the 1.96 Gyr baseline: the vertical
+dispersion of the migrators that arrive in each ring relative to the stars that stayed
+there (symbols), for inward (top) and outward (bottom) migrators, against the prediction
+with $J_z$ conserved (solid) and with the vertical energy conserved (dashed). Inward
+migrators arrive 24 to 29 percent colder than the locals and outward migrators 6 to 12
+percent colder. Inside 9 kpc the $J_z$-conserving prediction follows the measurements within
+0.015 to 0.07, whereas the energy-conserving one lies 0.11 to 0.15 too low for
+inward migrators and above unity for outward ones, which would make them hotter than
+the locals. Beyond 9 kpc the measurements rise above the solid line by a gap that grows with
+the baseline, where the quantitative claims stop._
 
-Inside 9 kpc the $J_z$-conserving prediction is within 1.5 to 7 points of the
-measurement both ways, while the energy-conserving one is off by 11 to 15 points and
+Inside 9 kpc the $J_z$-conserving prediction is within 0.015 to 0.07 of the
+measurement both ways, while the energy-conserving one is off by 0.11 to 0.15 and
 has the wrong sign for outward migrators, which it makes hotter than the locals. Inward
 migrators arrive 24 to 29 percent colder than the locals and outward migrators 6 to 12
 percent colder, as the estimate $e^{\Delta R/4R_d}$ times the provenance ratio gives for
 a constant-$z_0$ disk. This is the picture of Minchev et al. (2012) and of Vera-Ciro et
 al. (2014), not the energy-conserving one of Schoenrich and Binney (2009). Outside 9 kpc
 the arrivals are hotter than the $J_z$ prediction by a gap that grows with the baseline,
-6 to 11 points at 0.49 Gyr and 8 to 15 at 1.96 Gyr, as vertical heating along the way
+0.06 to 0.11 at 0.49 Gyr and 0.08 to 0.15 at 1.96 Gyr, as vertical heating along the way
 would produce; the quantitative claims of the paper stop at 9 kpc for this reason.
 
 ## What else the simulation shows
@@ -345,18 +371,11 @@ change between the baselines by less than the ring-to-ring scatter.
 
 ## Reproducing the numbers
 
-The whole chain runs with the `nbody-*` commands of the library, from the GADGET
-snapshots on an external drive to the figures of this page. The extraction products
-live in the `staging/` folder of the repository, which is not committed (15 GB); the
-cached tables under `assets/data/nbody/` let `nbody-plot`, `figures` and the interactive
-figure above redraw the results without them. The extraction takes about 10 hours for
-the 611 snapshots; every later step takes seconds to a minute. The commands, with their
-inputs and outputs, are tabulated in [Using the library](/library/usage).
-
 :::tip What to carry forward
 In a self-consistent disk the variance of the angular-momentum change grows as
 $F^{1.9}$ to $F^{2.0}$ over 0.5 to 2 Gyr, the bias of the migrators is reproduced per
-selection rule by the matching weight in $F$ to within 5 points, capture is symmetric
+selection rule by the matching weight in $F$ to within 0.05 in the dispersion ratio,
+capture is symmetric
 in direction and inside 9 kpc the arrivals keep $J_z$. The form factor that does this
 is the orbit average of the potential of a thick arm, with the arm's measured scale of
 0.8 disk scale heights; the razor-thin $e^{-k|z|}$ underestimates the exponent by a
