@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/caverac/jr-hz-relation/compare/v1.1.0...v1.1.1) (2026-10-22)
+
+### Bug Fixes
+
+- abstract revision to fit limits ([b21f2df](https://github.com/caverac/jr-hz-relation/commit/b21f2dfb597df68e3858e250e7bef1a1b7699eca))
+
 # [1.1.0](https://github.com/caverac/jr-hz-relation/compare/v1.0.1...v1.1.0) (2026-10-22)
 
 ### Bug Fixes
