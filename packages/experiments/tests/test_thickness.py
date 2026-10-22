@@ -3,7 +3,7 @@
 import pytest
 
 from experiments.form_factor import vertical_form_factor
-from experiments.thickness import softened_dispersion_ratio, softened_form_factor
+from experiments.thickness import power_weight_dispersion_ratio, softened_dispersion_ratio, softened_form_factor
 
 
 def test_softened_recovers_razor_thin_at_zero_thickness() -> None:
@@ -45,3 +45,13 @@ def test_softened_dispersion_ratio_weakens_with_thickness() -> None:
 def test_softened_dispersion_ratio_matches_sqrt_f_at_zero_thickness() -> None:
     """At zero thickness the bias is the razor-thin single-resonance value (~7%)."""
     assert 1.0 - softened_dispersion_ratio(0.84, 0.0) == pytest.approx(0.069, abs=0.01)
+
+
+def test_power_weight_dispersion_ratio_limits() -> None:
+    """W = F^p gives no bias at p = 0, the trapped census at p = 1/2 and ~14% for the |dLz| rule at p = 1."""
+    assert power_weight_dispersion_ratio(0.84, 0.0) == pytest.approx(1.0)
+    assert power_weight_dispersion_ratio(0.84, 0.5) == pytest.approx(softened_dispersion_ratio(0.84, 0.0))
+    assert 1.0 - power_weight_dispersion_ratio(0.84, 1.0) == pytest.approx(0.13, abs=0.02)
+    assert power_weight_dispersion_ratio(0.84, 1.0, thickness=0.8) > power_weight_dispersion_ratio(0.84, 1.0)
+    with pytest.raises(ValueError, match="exponent"):
+        power_weight_dispersion_ratio(0.84, -1.0)

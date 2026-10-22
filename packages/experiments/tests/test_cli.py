@@ -66,8 +66,14 @@ def test_thickness_command() -> None:
 
 
 def test_overlap_command() -> None:
-    """The overlap scalar command runs and returns success."""
-    assert _run("overlap", "--strength", "0.02", "--form-factor", "1.0").exit_code == 0
+    """The overlap scalar command runs, accepts the pattern speeds, and rejects a spiral inside the bar."""
+    result = _run("overlap", "--strength", "0.02", "--form-factor", "1.0")
+    assert result.exit_code == 0
+    assert "S(eps=0.020, F=1.00) = 0.9" in result.output
+    slow_bar = _run("overlap", "--bar-speed", "24", "--spiral-speed", "20")
+    assert slow_bar.exit_code == 0
+    assert "overlap (diffusive)" in slow_bar.output
+    assert _run("overlap", "--bar-speed", "38", "--spiral-speed", "50").exit_code != 0
 
 
 def _assert_figure_written(fig_dir: Path, stem: str) -> None:

@@ -67,7 +67,7 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 explicit_package_bases = true
-mypy_path = ["packages/experiments/src"]
+mypy_path = ["packages/experiments/src", "packages/experiments/tests"]
 
 [[tool.mypy.overrides]]
 module = "scipy.*"
@@ -79,6 +79,10 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "galpy.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "h5py.*"
 ignore_missing_imports = true
 
 # Pylance/Pyright (editor only; not part of the gate): the IDE analogue of the mypy

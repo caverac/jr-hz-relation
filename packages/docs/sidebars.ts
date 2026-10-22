@@ -1,10 +1,18 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs'
 
-// One entry per manuscript section, in reading order. The Theory and Results
-// categories group the five physics sections; Discussion and Library are flat.
+// The Primer carries the background a reader with some physics needs for the
+// numbered sections, which mirror the manuscript in reading order: the Theory
+// and Results categories group the five physics sections, and Discussion and
+// Library are flat.
 const sidebars: SidebarsConfig = {
   docsSidebar: [
     'intro',
+    {
+      type: 'category',
+      label: 'Primer',
+      collapsed: false,
+      items: ['primer/orbits', 'primer/resonance', 'primer/diffusion']
+    },
     {
       type: 'category',
       label: 'Theory',
@@ -15,7 +23,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Results',
       collapsed: false,
-      items: ['results/provenance-bias']
+      items: ['results/provenance-bias', 'results/nbody-test']
     },
     'discussion',
     {

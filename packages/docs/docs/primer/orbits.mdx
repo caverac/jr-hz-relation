@@ -1,0 +1,136 @@
+---
+sidebar_position: 1
+title: Orbits, actions and angles
+---
+
+import OrbitExplorer from '@site/src/components/viz/OrbitExplorer'
+
+# Orbits, actions and angles
+
+**Goal of this page.** The sections below describe a star by three numbers: its
+actions. The whole argument of the paper rests on one of them, the vertical action
+$J_z$. If you are comfortable with 
+Chapter 3 of Binney and Tremaine (2008) can safely skip to the
+[next page](/primer/resonance).
+
+## Three oscillations
+
+A star in an axisymmetric disk potential $\Phi(R, z)$ does three things at once. It
+circles the center at the angular frequency $\Omega$, it oscillates in radius about a
+guiding circle of radius $R_g$ at the epicyclic frequency $\kappa$ and it oscillates
+through the midplane at the vertical frequency $\nu_z$. For orbits that stay close to a
+circle and close to the plane the three motions decouple, because the potential near the
+guiding circle is well approximated by a quadratic form in the radial offset
+$X = R - R_g$ and in $z$. The frequencies follow from the derivatives of the potential:
+with $\Omega^2 = (1/R)\,\mathrm{d}\Phi/\mathrm{d}R$ at the guiding radius,
+
+$$
+\kappa^2 = R\,\frac{\mathrm{d}\Omega^2}{\mathrm{d}R} + 4\Omega^2 , \qquad
+\nu_z^2 = \frac{\partial^2\Phi}{\partial z^2}\bigg|_{z=0} .
+$$
+
+For a flat rotation curve, $V_c$ constant and $\Omega = V_c/R$, the first relation gives
+$\kappa = \sqrt{2}\,\Omega$. In the solar neighborhood $\Omega \approx 28$, $\kappa
+\approx 37$ and $\nu_z \approx 70\,\mathrm{km\,s^{-1}\,kpc^{-1}}$ (Binney and Tremaine
+2008), so a star completes about 1.3 radial and 2.5 vertical oscillations per orbit. The
+vertical frequency is the highest because the disk is thin: the restoring force near the
+plane is set by the local density, $\nu_z^2 = 4\pi G\rho_0$ by Poisson's equation, where
+$\rho_0 \approx 0.1\,M_\odot\,\mathrm{pc}^{-3}$ gives the number above.
+
+## Actions
+
+Each oscillation has a conserved amplitude. The natural measure of it is the area
+that the motion sweeps in its own phase plane, the plane of the coordinate against its
+conjugate momentum, divided by $2\pi$:
+
+$$
+J = \frac{1}{2\pi}\oint \mathrm{d}q\; p .
+$$
+
+For the radial epicycle of amplitude $a_R$, the loop in the $(X, v_R)$ plane is an
+ellipse of semi-axes $a_R$ and $\kappa a_R$, so $J_R = \kappa a_R^2/2$. For the vertical
+oscillation the loop in the $(z, v_z)$ plane is the curve of constant vertical energy
+$E_z = v_z^2/2 + \Phi(z)$, so the action is
+
+$$
+J_z = \frac{1}{2\pi}\oint \mathrm{d}z\; v_z = \frac{2}{\pi}\int_0^{z_m} \mathrm{d}z\,
+\sqrt{2[E_z - \Phi(z)]} ,
+$$
+
+with $z_m$ the turning point where $\Phi(z_m) = E_z$. The angular momentum $L_z = R v_\phi$
+is itself the action of the azimuthal motion, the one that fixes the guiding radius through
+$L_z = R_g V_c(R_g)$. The three actions of a disk star are therefore
+
+| action | what it measures | partner frequency |
+| --- | --- | --- |
+| $L_z$ | the radius of the guiding circle | $\Omega$ |
+| $J_R$ | the size of the radial epicycle | $\kappa$ |
+| $J_z$ | the size of the vertical oscillation | $\nu_z$ |
+
+Two properties make actions the right variables for this problem. First, each action is
+conserved in a steady potential, becoming an adiabatic invariant when the potential
+changes slowly compared with the period of its oscillation; the vertical action of a
+migrating star is the example that matters here, since a star that moves to a new radius
+over many vertical periods keeps its $J_z$ while its $E_z$ changes (Section 6 measures
+this in the simulation). Second, the conjugate variable of an action, its angle
+$\theta$, advances at a constant rate, $\theta(t) = \theta_0 + \Omega_J t$ with
+$\Omega_J = \partial H/\partial J$ the frequency of that oscillation. A perturbation
+expanded in the angles is therefore expanded in oscillating exponentials, which is what
+makes a resonance easy to identify ([next page](/primer/resonance)).
+
+## The vertical oscillation in a real disk
+
+The harmonic approximation $\nu_z^2 = \partial^2\Phi/\partial z^2$ holds only near the
+plane. The paper uses the self-consistent isothermal sheet of Spitzer (1942), the
+vertical structure of a layer of stars with a single velocity dispersion $\sigma_z$ that
+supports itself against its own gravity. In units $G = \sigma_z = z_0 = 1$ its density
+and potential are
+
+$$
+\rho(z) = \frac{1}{2\pi}\,\mathrm{sech}^2 z , \qquad \Phi(z) = 2\ln\cosh z ,
+$$
+
+so the restoring force $-\Phi'(z) = -2\tanh z$ is linear in $z$ near the plane and
+saturates at $\pm 2$ beyond one scale height. The vertical frequency therefore falls
+from $\sqrt{2}$ at small amplitude toward zero for very energetic orbits, which spend
+most of their period in the flat part of the potential. The turning point is
+$z_m = \mathrm{arccosh}\,e^{E_z/2}$. The interactive figure below integrates this
+potential, with the orbit for $E_z = 1$ turning at $z_m = 1.08$ scale heights, the one for
+$E_z = 6$ at 3.69. Since $E_z$ and $J_z$ label the same family of orbits, we use whichever
+is more convenient: $E_z$ in the quadratures and $J_z$ on the axes of the figures.
+
+<OrbitExplorer />
+
+_**One star, four views.** The two sliders set the amplitudes of the two oscillations,
+the epicycle amplitude $a_R$ in units of the guiding radius, hence $J_R = \kappa a_R^2/2$,
+and the vertical energy $E_z$ in units of $\sigma_z^2$, hence $J_z$. Top left: the orbit
+seen face on, with the guiding circle dotted, the guiding center as the open circle and
+the star as the filled one; the star traces an ellipse about its guiding center,
+elongated along the azimuth by the factor $2\Omega/\kappa = \sqrt{2}$ of a flat rotation
+curve. Top right: the same orbit edge on, in the isothermal sheet above, with the turning
+points $\pm z_m$ dotted. Bottom: the two phase-plane loops, whose areas are $2\pi J_R$
+and $2\pi J_z$. The frequencies are in the ratio $\Omega : \kappa : \nu_z = 1 : 1.4 : 2.5$,
+that of a flat rotation curve with the solar value of $\nu_z/\Omega$._
+
+## Hot and cold
+
+A population of stars has a distribution of vertical energies. For the isothermal sheet
+the distribution function is $f(E_z) \propto e^{-E_z/\sigma_z^2}$, so in our units the
+number of stars per unit vertical energy is the Boltzmann factor times the time an orbit
+of that energy takes, $\mathrm{d}N/\mathrm{d}E_z \propto e^{-E_z}/\nu_z(E_z)$. Its mean
+vertical energy is 1.11 in units where its vertical velocity dispersion is
+$\sigma_z = 1$. A star is called vertically cold when its $J_z$ is small compared with the typical
+value of the population, vertically hot when it is large. The provenance bias of the
+paper is a statement about this distribution: the migrators have a smaller mean vertical
+energy than the parent population. The paper quotes the effect as the ratio of the
+two dispersions, $\sigma_z^{\rm mig}/\sigma_z^{\rm all} = \sqrt{\langle E_z\rangle_{\rm mig}/
+\langle E_z\rangle_{\rm all}}$, or its logarithm.
+
+:::tip What to carry forward
+A disk star is three oscillations, each with a conserved action and a uniformly
+advancing angle. The vertical action $J_z$ measures the area of the $(z, v_z)$ loop and
+survives slow changes of the potential, while the population is distributed in it as
+$e^{-E_z}/\nu_z$. The paper asks how the strength with which a star feels a spiral arm
+depends on $J_z$. The [next page](/primer/resonance) shows where that strength
+enters: in the depth of the pendulum well at corotation.
+:::

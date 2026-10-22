@@ -1,0 +1,340 @@
+---
+sidebar_position: 3
+title: 3. The corotation-resonant Hamiltonian
+---
+
+import Figure from '@site/src/components/Figure'
+import PendulumPortrait from '@site/src/components/viz/PendulumPortrait'
+import TrappedWeightExplorer from '@site/src/components/viz/TrappedWeightExplorer'
+
+# 3. The corotation-resonant Hamiltonian and the trapped weight
+
+**Goal of this section.** This is the core of the argument. We show that the form factor
+$F$ of [Section 2](/theory/form-factor) is not an inserted weight but the exact vertical
+coupling of the spiral at corotation. We then reduce the resonance to a pendulum, read
+off which stars are trapped and migrate, then compute the resulting provenance bias. The
+outcome is that a single arm produces a bias of at most about $-7$ percent, which forces
+the analysis into the overlap regime of [Section 4](/theory/resonance-overlap).
+
+## The spiral in action-angle variables
+
+We use the background actions $(J_R, L_z, J_z)$ and their angles
+$(\theta_R, \theta_\phi, \theta_z)$, with frequencies $(\kappa, \Omega, \nu_z)$
+([primer](/primer/orbits)). A steady, $m$-armed, tightly wound spiral of pattern speed
+$\Omega_p$ is
+
+$$
+\Phi_s = \mathrm{Re}\!\left[\Phi_0(R)\,e^{-k|z|}\,
+e^{\,i\left(m\phi + \int\! \mathrm{d}R\, k - m\Omega_p t\right)}\right] ,
+$$
+
+with $\Phi_0(R)$ the in-plane amplitude, $e^{-k|z|}$ the vertical fall-off of Section 2
+and a phase that describes an $m$-armed pattern winding through the disk and rotating
+at $\Omega_p$. The position of a star is itself an oscillating function of its angles,
+so we expand $\Phi_s$ as a Fourier series in the background angles, the natural basis
+because the angles advance linearly in time:
+
+$$
+\Phi_s = \sum_{n_R,\,n_z} \Phi_{n_R n_z}(J_R, L_z, J_z)\,
+e^{\,i\left(n_R\theta_R + m\theta_\phi + n_z\theta_z - m\Omega_p t\right)} .
+$$
+
+Here $n_R$ and $n_z$ are the integer harmonics of the radial and vertical angles, while
+the azimuthal harmonic is fixed at the arm number $m$. Each coefficient is an average over
+the fast angles $\theta_R$ and $\theta_z$, which wind through $2\pi$ at $\kappa$ and
+$\nu_z$, tens of Myr per cycle, at fixed actions. The slow angle, the phase of the star
+relative to the pattern, is not averaged away; it survives as the pendulum coordinate
+$\theta_r$ below. Because the radial epicycle and the vertical oscillation are independent
+motions, the radial and vertical averages separate.
+
+## The resonant term
+
+A term of the sum has the phase
+$\psi_{n_R n_z} = n_R\theta_R + m\theta_\phi + n_z\theta_z - m\Omega_p t$, whose rate is
+$\dot\psi = n_R\kappa + m\Omega + n_z\nu_z - m\Omega_p$. If the rate is not zero the term
+oscillates and averages to nothing over time; it acts resonantly only when its phase is
+stationary,
+
+$$
+n_R\kappa + n_z\nu_z + m(\Omega - \Omega_p) = 0 .
+$$
+
+Corotation is the case $\Omega = \Omega_p$, where the condition reduces to
+$n_R\kappa + n_z\nu_z = 0$, whose only solution for generic frequencies is
+$n_R = n_z = 0$. The corotation-resonant piece of the spiral is therefore the $(0, 0)$
+harmonic, the part of the potential averaged over both the radial epicycle and the
+vertical orbit. This is why the orbit average of Section 2 is the right object: the
+resonance keeps only the doubly averaged piece and discards every other harmonic, so
+$F$ is precisely what the resonance responds to.
+
+## The coupling factorizes
+
+The resonant coupling $\Psi$ is the amplitude of the $(0, 0)$ term, the average of
+$\Phi_s$ over the two fast angles at fixed actions,
+
+$$
+\Psi = \big\langle \Phi_s\big\rangle_{\theta_R,\theta_z}
+= \frac{1}{(2\pi)^2}\int_0^{2\pi}\!\mathrm{d}\theta_R\int_0^{2\pi}\!\mathrm{d}\theta_z\;
+\Phi_s .
+$$
+
+Radially the star sits at $R = R_{\rm CR} + a_R\cos\theta_R$ with the epicyclic amplitude
+$a_R = \sqrt{2J_R/\kappa}$, so the radial phase of the spiral is
+$\int\mathrm{d}R\,k \approx kR_{\rm CR} + k a_R\cos\theta_R$; vertically it sits at
+$z(\theta_z; J_z)$, where the amplitude carries $e^{-k|z|}$. Pulling out the slowly
+varying amplitude $\Phi_0(R_{\rm CR})$ and the slow phase, held fixed during the average,
+the integrand becomes a radial factor times a vertical factor,
+
+$$
+\Psi = \Phi_0(R_{\rm CR})\;
+\big\langle e^{ik a_R\cos\theta_R}\big\rangle_{\theta_R}\;
+\big\langle e^{-k|z(\theta_z)|}\big\rangle_{\theta_z} .
+$$
+
+The radial average is the integral representation of the Bessel function,
+$\langle e^{ik a_R\cos\theta_R}\rangle = J_0(k a_R) \equiv G(J_R)$, the classical radial
+reduction factor (Binney and Tremaine 2008): a star with a large epicycle smears over
+many wavelengths of the arm and couples weakly. The vertical average is the form factor
+of Section 2. The amplitude of the resonant coupling at corotation is therefore
+
+$$
+\Psi(J_R, J_z) = \Phi_0(R_{\rm CR})\,G(J_R)\,F(J_z, k),
+\qquad G(J_R) = J_0(k a_R), \quad a_R = \sqrt{2J_R/\kappa} ,
+$$
+
+Equation (5) of the paper. The complex phase of $\Phi_s$ does not depend on the fast
+angles and passes through the average untouched, collapsing to $e^{i\theta_r}$ in the
+slow angle, so the surviving term of the potential is $\Psi\cos\theta_r$. This is the
+central identification of the paper: $F$ is the exact vertical Fourier coefficient of
+the spiral at corotation, so the provenance bias is the $F$ factor of the corotation
+coupling, as the in-plane selectivity of Daniel and Wyse (2015) is its $G$ factor.
+
+## The resonance is a pendulum
+
+In the frame rotating with the pattern the conserved energy is the Jacobi integral
+$H_J = H_0 - \Omega_p L_z + \Phi_s$, with $H_0$ the unperturbed Hamiltonian. Averaging
+over the fast angles, for which $J_R$ and $J_z$ are adiabatic invariants on the time
+scale of the slow dynamics, leaves a Hamiltonian in $L_z$ and $\theta_r$ alone. The
+invariance is approximate for an individual star in a time-dependent disk and holds in
+the ensemble sense: Minchev et al. (2012) found the vertical action conserved on average
+as stellar samples change guiding radius, Vera-Ciro and D'Onghia (2016) measured in the
+disk of [Section 6](/results/nbody-test) an average fractional change below 1 percent
+even after 40 orbital periods, with a dispersion of the fractional changes of 20 to 28
+percent over 2 Gyr that grows to 50 percent after 6 Gyr, while the migrators of Section 6
+change their $J_z$ by 0 to 16 percent in the median over 2 Gyr. Expanding the axisymmetric part $\bar H_0(L_z) \equiv H_0 - \Omega_p L_z$
+about corotation in the offset $p \equiv L_z - L_{\rm CR}$,
+
+$$
+\begin{aligned}
+\bar H(p,\theta_r)
+  &= \bar H_0(L_{\rm CR})
+     + \frac{\mathrm{d}\bar H_0}{\mathrm{d}L_z}\bigg|_{\rm CR} p
+     + \frac{1}{2}\frac{\mathrm{d}^2\bar H_0}{\mathrm{d}L_z^2}\bigg|_{\rm CR} p^2
+     + \cdots + \Psi\cos\theta_r \\[4pt]
+  &= \text{const}
+     + \underbrace{(\Omega-\Omega_p)\big|_{\rm CR}}_{=\,0}\, p
+     + \frac{1}{2}\underbrace{\frac{\mathrm{d}\Omega}{\mathrm{d}L_z}\bigg|_{\rm CR}}_{\equiv\, g}\, p^2
+     + \Psi\cos\theta_r ,
+\end{aligned}
+$$
+
+where the linear term vanishes because $\mathrm{d}H_0/\mathrm{d}L_z = \Omega$ equals
+$\Omega_p$ at corotation. Dropping the constant leaves the pendulum Hamiltonian of
+Equation (6), the resonant-trapping construction of Monari et al. (2017) carrying $J_z$
+through $\Psi$:
+
+$$
+\bar H(p,\theta_r) = \frac{1}{2}\,g\,p^2 + \Psi\cos\theta_r,
+\qquad g \equiv \frac{\mathrm{d}\Omega}{\mathrm{d}L_z}\bigg|_{\rm CR} .
+$$
+
+The depth of the well is the coupling $\Psi$, hence it is set by $F$.
+
+:::note Background: the pendulum
+The [primer](/primer/resonance) derives the same Hamiltonian from the motion in the
+frame of the arm, draws its phase portrait and maps the two kinds of motion back onto
+the disk as horseshoe orbits. For a flat or declining rotation curve $g$ is negative,
+so the stable point of the pendulum sits at $\theta_r = 0$, the inter-arm region of the
+corotation circle, the unstable one on the arm at $\theta_r = \pi$; the paper's
+Appendix B writes the separatrix after the shift $\theta_r \to \theta_r + \pi$, which
+places the island at $\pi$. The island width below does not depend on the choice.
+:::
+
+## The trapping island is $\propto\sqrt{F}$
+
+A pendulum has two kinds of motion, circulation (a star that drifts past corotation)
+and libration (a star trapped at corotation that is carried along with the arm and
+migrates), separated by the separatrix through the unstable point. With $g < 0$ the
+unstable point is $\theta_r = \pi$, at the energy $\bar H = -\Psi$, so the separatrix is
+the level curve through it,
+
+$$
+\frac{1}{2}\,g\,p^2 + \Psi\cos\theta_r = -\Psi
+\quad\Longrightarrow\quad
+p_{\rm sep}(\theta_r) = 2\sqrt{\frac{\Psi}{|g|}}\;\left|\cos\frac{\theta_r}{2}\right| ,
+$$
+
+widest at the stable point. The half-width of the trapping island in $p$ is therefore
+
+$$
+\Delta p = 2\sqrt{\Psi/|g|} \;\propto\; \sqrt{F(J_z, k)} ,
+$$
+
+because $\Psi \propto F$. This is the key inequality of the mechanism: vertically cold
+stars, with large $F$, sit in wider trapping islands, so they are captured and migrate
+preferentially.
+
+<PendulumPortrait />
+
+_**The island shrinks as $\sqrt{F}$.** The phase portrait of the pendulum
+with $\Psi = \Psi_0 F$ and $|g| = 1$, the separatrix in bold, the island shaded and
+stars integrated on it, blue when trapped and red when circulating. The dashed segment
+is the half-width $2\sqrt{\Psi/|g|}$; moving the slider from $F = 1$ to $F = 0.25$ halves
+it and the number of trapped stars drops._
+
+The weight follows from counting. The parent stars have a smooth distribution $N(p)$ in
+the slow action, centered on the corotation circle, out of which the island captures
+those that fall inside it, a range of $p$ of order its width around $p = 0$. If the island is narrow
+compared with the spread $\sigma_p$ of the parent distribution, $N(p)$ barely varies
+across it, so the trapped number is the density times the width,
+$N_{\rm trap} \approx N(0)\,\Delta p$, so that the migration weight is
+
+$$
+W(J_z) \propto \Delta p \propto F(J_z, k)^{1/2} ,
+$$
+
+the island-area counting law, Equation (8) of the paper. It already biases migration toward cold stars, but only as $\sqrt{F}$, a gentle slope.
+Its one assumption, that $N(p)$ is uniform across the island, is what the exact census
+below drops.
+
+## The exact trapped fraction
+
+Model the parent population as a Gaussian in $p$ of dispersion $\sigma_p$,
+$N(p) \propto e^{-p^2/2\sigma_p^2}$. At a fixed angle $\theta_r$ a star is trapped if
+$|p| < p_{\rm sep}(\theta_r)$, so the fraction of the Gaussian inside that band is
+$\mathrm{erf}(p_{\rm sep}/\sqrt{2}\,\sigma_p)$. Writing
+$p_{\rm sep} = p_{\max}\sqrt{F}\,|\cos(\theta_r/2)|$ with $p_{\max} = 2\sqrt{\Psi_0/|g|}$ the
+half-width of a midplane orbit, defining the island-width parameter
+
+$$
+\xi \equiv \frac{p_{\max}(F{=}1)}{\sigma_p} \;\propto\; \sqrt{|\Phi_s|} ,
+$$
+
+and averaging over the angle, with the substitution $u = \theta_r/2$ folding the range
+to $(0, \pi)$, gives the exact trapped weight, Equation (9) of the paper:
+
+$$
+W(J_z) = \frac{1}{\pi}\int_0^\pi \mathrm{d}u\;
+\mathrm{erf}\!\left(\frac{\xi\sqrt{F(J_z, k)}}{\sqrt2}\,\sin u\right) .
+$$
+
+Its two limits can be read off the error function. For narrow islands, $\xi \to 0$,
+$\mathrm{erf}(x) \approx 2x/\sqrt{\pi}$ and the integrand is linear in $\sqrt{F}$, so
+$W \propto \sqrt{F}$ and the counting law is recovered. For wide islands,
+$\xi \to \infty$, the error function saturates and $W \to 1$ for every star: the
+weighting flattens and the bias is washed out.
+
+```shell
+uv run experiments trapped-weight-plot
+```
+
+<Figure src="/figures/trapped-weight.png" alt="Exact trapped weight versus vertical action for three island widths" />
+
+_**The exact trapped weight**, normalized to its midplane value, against the vertical
+action for three island-width parameters $\xi$. It interpolates between the dilute
+$\sqrt{F}$ law (dashed; narrow islands, strongest vertical selectivity) and a flat
+profile (wide islands, selectivity lost)._
+
+<TrappedWeightExplorer />
+
+_**The trapped weight and its bias.** Left: the weight of Equation (9)
+for the current $\xi$, with the dilute limit $\sqrt{F}$ dashed and two reference
+widths in gray. Right: the provenance bias $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ that
+the reweighting of the next subsection produces, against $\xi$, with the dilute floor
+dotted. The bias is most negative for narrow islands and weakens monotonically as they
+widen._
+
+## From weight to bias: the $-7$ percent floor
+
+The equilibrium vertical distribution of an isothermal population is
+$\mathrm{d}N/\mathrm{d}E_z \propto e^{-E_z}/\nu_z$, a Boltzmann factor times the density
+of states, proportional to the period. The migrators are the same distribution
+reweighted by $W(J_z)$. Since the vertical energy measures the squared vertical
+excursion, the squared dispersions are the mean energies and the migrator-to-parent
+dispersion ratio is
+
+$$
+\frac{\sigma_z^{\rm mig}}{\sigma_z^{\rm all}}
+= \sqrt{\frac{\langle E_z\rangle_{\rm mig}}{\langle E_z\rangle_{\rm all}}}
+= \sqrt{\frac{\int \mathrm{d}E_z\; E_z\,W\,(e^{-E_z}/\nu_z)}{\int \mathrm{d}E_z\; W\,(e^{-E_z}/\nu_z)}\Big/
+\frac{\int \mathrm{d}E_z\; E_z\,(e^{-E_z}/\nu_z)}{\int \mathrm{d}E_z\; (e^{-E_z}/\nu_z)}} .
+$$
+
+The provenance bias is the log dispersion ratio $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$,
+the quantity every figure plots. It is negative because $W$ favors small $E_z$, more
+negative for a stronger bias: $-0.07$ means that the migrators are about 7 percent
+colder. It is a population-integrated number, the whole distribution
+reweighted, not the value of $W$ or $F$ for any single star.
+
+```shell
+uv run experiments trapping-cap-plot
+```
+
+<Figure src="/figures/trapping-cap.png" alt="Provenance bias from the exact trapped fraction versus island width" />
+
+_**The single-resonance floor.** The provenance bias from the exact trapped weight at
+the Milky Way thickness against the island width $\xi$. It is most negative in the
+dilute limit, where $W \propto \sqrt{F}$ gives the steepest weighting, then weakens toward
+0 as the islands saturate: a single corotation resonance is bounded at about $-7$
+percent for any spiral strength._
+
+The conclusion is strong and slightly counterintuitive. Making the spiral stronger,
+which raises $\xi$, does not strengthen the single-resonance bias but weakens it,
+because wide islands trap hot and cold stars alike. The most negative value the bias
+can take, its floor, is the dilute value with $W \propto \sqrt{F}$, which at the Milky
+Way thickness is $-7$ percent.
+
+:::caution The $-7$ percent is the log dispersion ratio, not a value of $\sqrt{F}$
+Across the population $\sqrt{F}$ runs over roughly 0.3 to 1. The $-7$ percent is the
+outcome of the reweighting integral: the weight $\sqrt{F}$ pulls the mean vertical
+energy of the migrators down from $\langle E_z\rangle_{\rm all} = 1.11$ to
+$\langle E_z\rangle_{\rm mig} = 0.96$, so the dispersion ratio is
+$\sqrt{0.96/1.11} = 0.93$ and the bias is $\ln 0.93 = -0.07$. The
+[interactive reweighting](/results/provenance-bias) of Section 5 shows the two
+distributions and their means for every weight of the paper.
+:::
+
+Finite thickness softens the floor further. Replacing the razor-thin $F$ by the
+$F_{\rm soft}$ of [Section 2](/theory/form-factor), the vertical extent of the arm makes
+its gravity reach higher above the plane, so even hot stars feel an appreciable
+amplitude and the contrast between hot and cold shrinks.
+
+```shell
+uv run experiments finite-thickness-plot
+```
+
+<Figure src="/figures/finite-thickness.png" alt="Finite-thickness softening of the single-resonance cap" />
+
+_**Finite-thickness softening.** Using $F_{\rm soft}(\alpha, h)$ in place of $F$, the $-7$
+percent razor-thin floor weakens to $-4$ to $-5.5$ percent across the plausible Milky Way
+arm thickness $h = h_s/z_0 \sim 0.5$ to 1 (shaded), a reduction of 20 to 45 percent in
+magnitude._
+
+## Why a single resonance is not enough
+
+Even the steeper capture-fraction accounting of Daniel and Wyse (2018), $W \propto F$
+rather than $F^{1/2}$, reaches only about $-14$ percent. None of the single-resonance
+estimates produces the strong cold-migrator preference of the simulations, in which the
+migrators are drawn overwhelmingly from the kinematically cool population (Vera-Ciro,
+D'Onghia and Navarro 2016). The arithmetic indicates that the Milky Way is not in the
+clean single-resonance regime but in the regime where several resonances overlap and
+trapping gives way to diffusive churning, which is steeper in $F$. That is the subject of
+[Section 4](/theory/resonance-overlap).
+
+:::tip What to carry forward
+The pendulum width $\Delta p \propto \sqrt{F}$ is the engine of the provenance bias. A
+single resonance floors the bias near $-7$ percent, weaker still with finite arm
+thickness. The stronger preference of the simulations requires resonance overlap, which
+steepens the weight from $F^{1/2}$ toward $F^2$ and deepens the bias to the derived
+$-20$ to $-27$ percent band.
+:::

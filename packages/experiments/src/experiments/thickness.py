@@ -69,6 +69,54 @@ def softened_form_factor(energy: float, alpha: float, thickness: float) -> float
     return float((bare - product * deep) / (1.0 - product))
 
 
+def power_weight_dispersion_ratio(
+    alpha: float, exponent: float, thickness: float = 0.0, e_max: float = 12.0, n: int = 120
+) -> float:
+    """Provenance bias ``sigma_z,mig/sigma_z,all`` for the power-law weight ``W = F^p``.
+
+    The exponent selects the regime and the migrator definition: ``1/2`` is the
+    single-resonance trapped census, ``1`` the diffusive regime with migrators
+    weighted by ``|dL_z|``, ``2`` the diffusive regime with migrators weighted by
+    ``(dL_z)^2``. A positive ``thickness`` uses the softened form factor of a spiral
+    of that vertical scale, in disc scale heights.
+
+    Parameters
+    ----------
+    alpha :
+        Dimensionless spiral wavenumber ``alpha = k z0``, non-negative.
+    exponent :
+        Power ``p`` of the weight ``W = F^p``, non-negative.
+    thickness :
+        Spiral-to-disc thickness ratio ``h = h_s / z0``, non-negative; ``0`` is the
+        razor-thin limit.
+    e_max :
+        Upper limit of the vertical-energy quadrature grid.
+    n :
+        Number of grid points.
+
+    Returns
+    -------
+    float
+        The ratio ``sigma_z,mig / sigma_z,all`` (below 1 for a real bias).
+
+    Raises
+    ------
+    ValueError
+        If ``exponent`` is negative.
+    """
+    if exponent < 0.0:
+        raise ValueError("exponent must be non-negative")
+    energies = np.linspace(1e-3, e_max, n)
+    frequencies = np.array([vertical_frequency(float(e)) for e in energies])
+    base = np.exp(-energies) * (2.0 * np.pi / frequencies)
+    form = np.array([softened_form_factor(float(e), alpha, thickness) for e in energies])
+    weight = np.clip(form, 1e-12, None) ** exponent
+
+    mean_all = float(np.trapezoid(energies * base, energies) / np.trapezoid(base, energies))
+    mean_mig = float(np.trapezoid(energies * base * weight, energies) / np.trapezoid(base * weight, energies))
+    return float(np.sqrt(mean_mig / mean_all))
+
+
 def softened_dispersion_ratio(alpha: float, thickness: float, e_max: float = 12.0, n: int = 120) -> float:
     """Single-resonance bias ``sigma_z,mig/sigma_z,all`` with the softened form factor.
 

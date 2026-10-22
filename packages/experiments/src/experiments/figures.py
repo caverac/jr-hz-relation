@@ -9,7 +9,13 @@ applies the shared house style and writes the figure to ``assets/figures`` as bo
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
+from matplotlib import colormaps
+from matplotlib.axes import Axes
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import BoundaryNorm
 from matplotlib.figure import Figure
 
 from experiments._plotting import figure
@@ -18,7 +24,8 @@ from experiments.crossover import crossover_weight
 from experiments.form_factor import dispersion_ratio, vertical_form_factor
 from experiments.overlap import milky_way_overlap
 from experiments.sheet import vertical_action, vertical_frequency
-from experiments.thickness import softened_dispersion_ratio
+from experiments.spiral import model_rotation_curve
+from experiments.thickness import power_weight_dispersion_ratio, softened_dispersion_ratio
 from experiments.trapping import trapped_fraction, trapping_dispersion_ratio
 
 #: k z0 for the Milky Way (lambda_R ~ 3 kpc, z0 ~ 0.4 kpc).
@@ -150,7 +157,7 @@ def figure_trapped_weight(n_energy: int = 60) -> Figure:
     axes = fig.add_subplot(1, 1, 1)
     for kappa, linestyle in ((0.3, "--"), (1.0, "-."), (3.0, ":")):
         weight = np.array([trapped_fraction(float(value), kappa) for value in forms])
-        axes.plot(actions, weight / weight[0], linestyle, color="#000000", label=rf"$\kappa={kappa:g}$", linewidth=1.5)
+        axes.plot(actions, weight / weight[0], linestyle, color="#000000", label=rf"$\xi={kappa:g}$", linewidth=1.5)
     axes.plot(actions, np.sqrt(forms), "k-", label=r"$\sqrt{F}$ (dilute limit)", linewidth=2.0)
     axes.set_xlabel(r"$J_z$")
     axes.set_ylabel(r"$W/W_0$")
@@ -202,7 +209,7 @@ def figure_trapping_cap(n_kappa: int = 20, n_energy: int = 60) -> Figure:
         linewidth=1.5,
     )
     axes.axhline(_bias(1e-3), color="#808080", linestyle=":", label=r"$\sqrt{F}$ cap", linewidth=1.5)
-    axes.set_xlabel(r"$\kappa$")
+    axes.set_xlabel(r"$\xi$")
     axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
     axes.legend()
     return fig
@@ -328,46 +335,37 @@ def figure_balescu_lenard(n_b: int = 24, n_energy: int = 120) -> Figure:
     return fig
 
 
-@figure("test-particle-bias")
-def figure_test_particle(
-    series_a: list[tuple[float, float, float]],
-    series_b: list[tuple[float, float, float]],
-    n_curve: int = 60,
-) -> Figure:
-    """Plot the test-particle validation (two panels) from precomputed store data.
+#: The measured bias of the N-body origin rings for one baseline: a label and ``(alpha, ln ratio)`` points.
+NbodyPoints = tuple[str, list[tuple[float, float]]]
+#: Vertical scale of the arms of the N-body disk in disk scale heights, the measured 0.25 over 0.313 kpc.
+ARM_THICKNESS: float = 0.8
+#: Line styles and markers of the three baselines of the N-body test.
+BASELINE_STYLES: tuple[str, ...] = ("-", "--", "-.")
+BASELINE_MARKERS: tuple[str, ...] = ("s", "^", "D")
 
-    Parameters
-    ----------
-    series_a :
-        Single-transient points ``(alpha, bias_mean, bias_err)``.
-    series_b :
-        Resonance-overlap points ``(count, bias_mean, bias_err)``.
-    n_curve :
-        Number of points in the analytic single-resonance curve.
 
-    Returns
-    -------
-    matplotlib.figure.Figure
-        The built figure.
-    """
+def _single_transient_panel(
+    axes: Axes, series_a: list[tuple[float, float, float]], nbody: list[NbodyPoints], n_curve: int
+) -> None:
+    """Draw the analytic weights, the test particles and the N-body rings against the thinness alpha."""
     grid = np.linspace(0.1, 1.5, n_curve)
-    analytic = np.array([np.log(trapping_dispersion_ratio(float(a), 1e-3)) for a in grid])
+    curves = (
+        ("-", r"$W \propto \sqrt{F}$", [trapping_dispersion_ratio(float(a), 1e-3) for a in grid]),
+        ("--", r"$W \propto F$", [power_weight_dispersion_ratio(float(a), 1.0) for a in grid]),
+        (
+            "-.",
+            rf"$W \propto F$, arm $h = {ARM_THICKNESS:g}$",
+            [power_weight_dispersion_ratio(float(a), 1.0, ARM_THICKNESS) for a in grid],
+        ),
+    )
+    for style, label, ratios in curves:
+        axes.plot(grid, np.log(ratios), style, color="#000000", linewidth=1.5, label=label)
     # The store already holds the log dispersion ratio ln(sigma_mig/sigma_all) and its
     # standard error, so the points are plotted directly.
-    alphas = np.array([p[0] for p in series_a])
-    mean_a = np.array([p[1] for p in series_a])
-    err_a = np.array([p[2] for p in series_a])
-    counts = np.array([p[0] for p in series_b])
-    mean_b = np.array([p[1] for p in series_b])
-    err_b = np.array([p[2] for p in series_b])
-    fig = Figure(figsize=(8.0, 3.5))
-    left = fig.add_subplot(1, 2, 1)
-    right = fig.add_subplot(1, 2, 2, sharey=left)
-    left.plot(grid, analytic, "k-", linewidth=1.5, label="analytic single-resonance")
-    left.errorbar(
-        alphas,
-        mean_a,
-        yerr=err_a,
+    axes.errorbar(
+        [p[0] for p in series_a],
+        [p[1] for p in series_a],
+        yerr=[p[2] for p in series_a],
         fmt="o",
         color="#000000",
         markerfacecolor="white",
@@ -375,13 +373,51 @@ def figure_test_particle(
         capsize=3,
         label="test particles",
     )
-    left.set_xlabel(r"$\alpha$")
-    left.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
-    left.legend()
+    for index, (label, points) in enumerate(nbody):
+        marker = BASELINE_MARKERS[index % len(BASELINE_MARKERS)]
+        axes.plot([p[0] for p in points], [p[1] for p in points], marker, color="#000000", markersize=4, label=label)
+    axes.set_xlabel(r"$\alpha$")
+    axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
+
+
+@figure("test-particle-bias")
+def figure_test_particle(
+    series_a: list[tuple[float, float, float]],
+    series_b: list[tuple[float, float, float]],
+    nbody: list[NbodyPoints] | None = None,
+    n_curve: int = 60,
+) -> Figure:
+    """Plot the test-particle validation (two panels) from precomputed store data.
+
+    The single-transient panel also carries the bias of the N-body origin rings for the
+    same ``|dL_z|`` weight, placed at the ring's ``alpha = k z_0``, and the analytic
+    weights of the two regimes; the legend of both panels is drawn in the
+    resonance-overlap panel, which has the room for it.
+
+    Parameters
+    ----------
+    series_a :
+        Single-transient points ``(alpha, bias_mean, bias_err)``.
+    series_b :
+        Resonance-overlap points ``(count, bias_mean, bias_err)``.
+    nbody :
+        Per baseline, a label and the ``(alpha, ln ratio)`` of the N-body origin rings.
+    n_curve :
+        Number of points in the analytic curves.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The built figure.
+    """
+    fig = Figure(figsize=(8.0, 3.5))
+    left = fig.add_subplot(1, 2, 1)
+    right = fig.add_subplot(1, 2, 2, sharey=left)
+    _single_transient_panel(left, series_a, nbody or [], n_curve)
     right.errorbar(
-        counts,
-        mean_b,
-        yerr=err_b,
+        [p[0] for p in series_b],
+        [p[1] for p in series_b],
+        yerr=[p[2] for p in series_b],
         fmt="o",
         color="#000000",
         markerfacecolor="white",
@@ -390,20 +426,253 @@ def figure_test_particle(
     )
     right.set_xlabel(r"$M$")
     right.tick_params(labelleft=False)
+    # The legend of both panels sits in the right one, which has the room for it.
+    handles, labels = left.get_legend_handles_labels()
+    right.legend(handles, labels, loc="lower left")
     return fig
+
+
+#: Colormap of the origin rings of the N-body test.
+RING_COLORMAP = "coolwarm"
+#: The three selection rules of the N-body test with their model weights, as stored in the tables.
+NBODY_RULES: tuple[tuple[str, str], ...] = (
+    ("|dLz| weight", r"$|\Delta L_z|$ weight, model $F$"),
+    ("dLz^2 weight", r"$(\Delta L_z)^2$ weight, model $F^2$"),
+    ("|dLz| > L_*", r"$|\Delta L_z| > L_*$, model $\mathrm{erfc}(\lambda/F)$"),
+)
+
+NbodyTables = dict[str, Any]
+
+
+def _ring_center(label: str) -> float:
+    """Return the center of a ring from its ``inner to outer`` label."""
+    inner, outer = (float(x) for x in label.split(" to "))
+    return 0.5 * (inner + outer)
+
+
+def _baseline_label(tables: NbodyTables) -> str:
+    """Return the baseline of a test in Gyr as a legend label."""
+    return f"{tables['meta']['baseline_gyr']:.2f} Gyr"
+
+
+def _ring_edges(tables: NbodyTables) -> list[float]:
+    """Return the radial edges of the origin rings, from the ``inner to outer`` labels."""
+    bounds = [[float(x) for x in bins["ring"].split(" to ")] for bins in tables["bins"]]
+    return [bounds[0][0]] + [outer for _, outer in bounds]
+
+
+def _variance_panel(axes: Axes, tables: NbodyTables, colors: list[Any], legend: bool) -> None:
+    """Draw the log of the normalized variance against the log of the normalized form factor of every ring.
+
+    Both quantities are natural logarithms on linear axes, so the $F^2$ prediction is the
+    line of slope 2 through the origin; it spans the range of the data and the legend names
+    it.
+    """
+    for bins, color in zip(tables["bins"], colors):
+        form, variance = bins["F"], bins["variance"]
+        x = np.log(np.asarray(form) / form[-1])
+        y = np.log(np.asarray(variance) / variance[-1])
+        axes.plot(x, y, color=color, linewidth=1.5)
+    x_min = min(np.log(bins["F"][0] / bins["F"][-1]) for bins in tables["bins"])
+    axes.plot([x_min, 0.0], [2.0 * x_min, 0.0], "-", color="#000000", linewidth=2.0, label="$F^2$")
+    if legend:
+        axes.legend(loc="lower right")
+    axes.text(0.05, 0.93, _baseline_label(tables), transform=axes.transAxes, ha="left", va="top")
+
+
+@figure("nbody-variance")
+def figure_nbody_variance(baselines: list[NbodyTables]) -> Figure:
+    """Plot the variance of dLz against the layer form factor per origin ring, one panel per baseline.
+
+    Both axes are normalized to the thinnest bin of each ring, so the $F^2$ law of the model
+    is the same line for every ring and the panels test the exponent alone. The rings are
+    colored by origin radius, with the color bar in the fourth panel.
+
+    Parameters
+    ----------
+    baselines :
+        Tables of the migration test, one per baseline, as written by ``nbody-migration``.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The built figure.
+    """
+    edges = _ring_edges(baselines[0])
+    cmap = colormaps[RING_COLORMAP]
+    norm = BoundaryNorm(edges, cmap.N)
+    colors = [cmap(norm(0.5 * (inner + outer))) for inner, outer in zip(edges[:-1], edges[1:])]
+    fig = Figure(figsize=(8.0, 5.4))
+    panels = fig.subplots(2, 2, sharex=True, sharey=True)
+    # The color bar takes the top-right panel, so that the bottom row carries the x labels
+    # and the shared axes leave no gap for labels between the rows.
+    for index, (axes, tables) in enumerate(zip((panels[0, 0], panels[1, 0], panels[1, 1]), baselines)):
+        _variance_panel(axes, tables, colors, legend=index == 0)
+    for axes in (panels[0, 0], panels[1, 0]):
+        axes.set_ylabel(r"$\ln \mathrm{Var}(\Delta L_z) / \mathrm{Var}_{\max}(\Delta L_z)$")
+    for axes in (panels[1, 0], panels[1, 1]):
+        axes.set_xlabel(r"$\ln F / F_{\max}$")
+    spare = panels[0, 1]
+    spare.axis("off")
+    colorbar = fig.colorbar(
+        ScalarMappable(norm=norm, cmap=cmap), cax=spare.inset_axes((0.2, 0.08, 0.1, 0.84)), ticks=edges
+    )
+    colorbar.set_label("$R_g$ (kpc)")
+    return fig
+
+
+@figure("nbody-exponents")
+def figure_nbody_exponents(baselines: list[NbodyTables], thin: NbodyTables | None = None) -> Figure:
+    """Plot the exponent of Var(dLz) against F and the spread of dLz per origin ring for every baseline.
+
+    The spread is drawn as the variance of ``dLz`` in units of the squared angular momentum
+    ``L_c = R_g V_c(R_g)`` of the circular orbit at the ring, on the model rotation curve.
+
+    Parameters
+    ----------
+    baselines :
+        Tables of the migration test with the layer form factor, one per baseline.
+    thin :
+        Tables of the same test with the razor-thin form factor, drawn for comparison.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The built figure.
+    """
+    fig = Figure(figsize=(3.8, 5.6))
+    top, bottom = fig.subplots(2, 1, sharex=True)
+    curve = model_rotation_curve()
+    for index, tables in enumerate(baselines):
+        radii = np.array([_ring_center(row["ring"]) for row in tables["core"]])
+        circular = radii * curve.at("v_circ", radii)
+        style = BASELINE_STYLES[index % len(BASELINE_STYLES)]
+        exponents = [row["exponent_F"] for row in tables["core"]]
+        top.plot(radii, exponents, style, color="#000000", label=_baseline_label(tables))
+        variance = np.array([row["sigma_dLz"] ** 2 for row in tables["core"]])
+        bottom.plot(radii, variance / circular**2, style, color="#000000")
+    if thin is not None:
+        thin_radii = [_ring_center(row["ring"]) for row in thin["core"]]
+        exponents = [row["exponent_F"] for row in thin["core"]]
+        label = rf"$e^{{-k|z|}}$, {_baseline_label(thin)}"
+        top.plot(thin_radii, exponents, "o", color="#000000", markerfacecolor="white", label=label)
+    top.axhline(2.0, color="#808080", linestyle=":", linewidth=1.5)
+    top.set_ylabel("$b$")
+    top.legend()
+    bottom.set_ylabel(r"$\mathrm{Var}(\Delta L_z)/L_c^2$")
+    bottom.set_xlabel("$R_g$ (kpc)")
+    return fig
+
+
+def _label_panel(axes: Axes, label: str) -> None:
+    """Write a panel label at the top left, adding headroom above the data so that nothing is covered."""
+    low, high = axes.get_ylim()
+    axes.set_ylim(low, high + 0.35 * (high - low))
+    axes.text(0.03, 0.93, label, transform=axes.transAxes, ha="left", va="top")
+
+
+@figure("nbody-rules")
+def figure_nbody_rules(tables: NbodyTables) -> Figure:
+    """Plot the measured and model dispersion ratios of the three selection rules against origin radius.
+
+    Parameters
+    ----------
+    tables :
+        Tables of the migration test for one baseline.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The built figure.
+    """
+    fig = Figure(figsize=(3.8, 7.4))
+    panels = fig.subplots(len(NBODY_RULES), 1, sharex=True)
+    for axes, (rule, label) in zip(panels, NBODY_RULES):
+        rows = [row for row in tables["rules"] if row["rule"] == rule]
+        radii = [_ring_center(row["ring"]) for row in rows]
+        axes.plot(radii, np.log([row["model_ratio"] for row in rows]), "-", color="#000000", label="model")
+        axes.plot(radii, np.log([row["measured"] for row in rows]), "o", color="#000000", label="measured")
+        axes.axhline(0.0, color="#808080", linestyle=":", linewidth=1.5)
+        axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$")
+        _label_panel(axes, label)
+    panels[-1].set_xlabel("$R_g$ (kpc)")
+    panels[0].legend(loc="upper right")
+    return fig
+
+
+@figure("nbody-destination")
+def figure_nbody_destination(tables: NbodyTables) -> Figure:
+    """Plot the dispersion of the arrivals over the non-migrators of the destination ring, inward and outward.
+
+    Parameters
+    ----------
+    tables :
+        Tables of the migration test for one baseline.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The built figure.
+    """
+    fig = Figure(figsize=(3.8, 5.6))
+    panels = fig.subplots(2, 1, sharex=True)
+    rows = tables["destination"]
+    radii = [_ring_center(row["ring"]) for row in rows]
+    for axes, direction in zip(panels, ("in", "out")):
+        predicted_jz = [row[f"pred_Jz_{direction}"] for row in rows]
+        predicted_ez = [row[f"pred_Ez_{direction}"] for row in rows]
+        axes.plot(radii, np.log(predicted_jz), "-", color="#000000", label="$J_z$ conserved")
+        axes.plot(radii, np.log(predicted_ez), "--", color="#000000", label=r"$\langle v_z^2 \rangle$ conserved")
+        measured = np.log([row[f"measured_{direction}"] for row in rows])
+        axes.plot(radii, measured, "o", color="#000000", label="measured")
+        axes.axhline(0.0, color="#808080", linestyle=":", linewidth=1.5)
+        axes.set_ylabel(r"$\ln\sigma_{z,\mathrm{arr}}/\sigma_{z,\mathrm{loc}}$")
+        _label_panel(axes, "inward" if direction == "in" else "outward")
+    panels[-1].set_xlabel("$R_g$ (kpc)")
+    panels[1].legend(loc="upper right")
+    return fig
+
+
+def make_nbody_figures(baselines: list[NbodyTables], thin: NbodyTables | None = None) -> dict[str, Figure]:
+    """Build and save the four figures of the N-body test from its cached tables.
+
+    The rules and destination figures show the longest baseline.
+
+    Parameters
+    ----------
+    baselines :
+        Tables of the migration test with the layer form factor, one per baseline.
+    thin :
+        Tables of the same test with the razor-thin form factor, for the exponent figure.
+
+    Returns
+    -------
+    dict[str, matplotlib.figure.Figure]
+        Mapping from figure name to the built figure.
+    """
+    longest = max(baselines, key=lambda tables: float(tables["meta"]["baseline_gyr"]))
+    return {
+        "nbody-variance": figure_nbody_variance(baselines),
+        "nbody-exponents": figure_nbody_exponents(baselines, thin),
+        "nbody-rules": figure_nbody_rules(longest),
+        "nbody-destination": figure_nbody_destination(longest),
+    }
 
 
 def make_all_figures(
     series_a: list[tuple[float, float, float]],
     series_b: list[tuple[float, float, float]],
+    nbody: list[NbodyPoints] | None = None,
 ) -> dict[str, Figure]:
-    """Build and save the full figure set to ``assets/figures``.
+    """Build and save the analytic figure set to ``assets/figures``.
 
     Every figure is analytic except ``test-particle-bias``, which only *plots* the
-    cached orbit-integration results passed in as ``series_a``/``series_b`` -- a cheap
-    operation. The expensive simulation that fills that cache is the separate
-    ``test-particle-simulate`` command; loading the cache is the caller's job (see the
-    ``figures`` command), keeping this module free of the simulation machinery.
+    cached orbit-integration results passed in as ``series_a``/``series_b`` and the
+    cached N-body points -- a cheap operation. The expensive steps that fill those
+    caches are the separate ``test-particle-simulate`` and ``nbody-*`` commands; loading
+    the caches is the caller's job (see the ``figures`` command), keeping this module
+    free of the simulation machinery. The N-body figures are built by
+    :func:`make_nbody_figures` from their own cache.
 
     Parameters
     ----------
@@ -411,6 +680,8 @@ def make_all_figures(
         Cached single-transient points ``(alpha, bias_mean, bias_err)``.
     series_b :
         Cached overlap points ``(count, bias_mean, bias_err)``.
+    nbody :
+        Per baseline, a label and the ``(alpha, ln ratio)`` of the N-body origin rings.
 
     Returns
     -------
@@ -426,5 +697,5 @@ def make_all_figures(
         "crossover-bias": figure_crossover_bias(),
         "finite-thickness": figure_finite_thickness(),
         "balescu-lenard": figure_balescu_lenard(),
-        "test-particle-bias": figure_test_particle(series_a, series_b),
+        "test-particle-bias": figure_test_particle(series_a, series_b, nbody),
     }

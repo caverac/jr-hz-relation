@@ -1,0 +1,146 @@
+---
+sidebar_position: 2
+title: Corotation and the pendulum
+---
+
+import PendulumPortrait from '@site/src/components/viz/PendulumPortrait'
+import RotatingFrame from '@site/src/components/viz/RotatingFrame'
+
+# Corotation and the pendulum
+
+**Goal of this page.** A spiral arm exchanges angular momentum with the stars that orbit
+at its own speed. The exchange is governed by the simplest nonlinear oscillator
+there is, a pendulum. We derive the pendulum from the motion in the frame of the arm,
+read the two kinds of motion off its phase portrait and map them back onto the disk,
+where they are the horseshoe orbits of Sellwood and Binney (2002). The paper's claim is
+that the depth of the pendulum well is proportional to the vertical form factor $F$,
+which is why both the island width and the number of trapped stars scale as
+$\sqrt{F}$.
+
+## The frame of the arm
+
+A steady $m$-armed spiral of pattern speed $\Omega_p$ is a perturbation $\Phi_s$ that
+depends on the azimuth and on time only through the combination $\phi - \Omega_p t$. In
+the frame that rotates with the pattern it is static, so the energy of a star in that
+frame, the Jacobi integral $H_J = H_0 - \Omega_p L_z + \Phi_s$ with $H_0$ the energy in the
+axisymmetric potential, is conserved. A star inside corotation has $\Omega > \Omega_p$
+and overtakes the pattern; a star outside lags behind it. Only a star at the corotation
+radius, where $\Omega(R_{\rm CR}) = \Omega_p$, sees the arm standing still, so only there
+can the torque of the arm act in one direction for longer than an orbital period. This
+is the resonance that migrates stars.
+
+## From the orbit to the pendulum
+
+Write the unperturbed motion in the actions and angles of the
+[previous page](/primer/orbits). The phase of the star relative to the pattern,
+$\theta_r = m(\theta_\phi - \Omega_p t) + \ldots$, advances at the rate
+$m(\Omega - \Omega_p)$, which vanishes at corotation: it is the slow angle of the
+problem. The radial and vertical angles keep advancing at $\kappa$ and $\nu_z$, tens of
+Myr per cycle, so any part of $\Phi_s$ that depends on them delivers alternating pushes
+that cancel over a few cycles. What survives is the average of $\Phi_s$ over the two fast
+angles, $\Psi\cos\theta_r$, with the amplitude $\Psi$ evaluated at fixed actions;
+[Section 3](/theory/corotation-hamiltonian) shows that this average factorizes into the
+in-plane amplitude times a radial factor times the vertical form factor,
+$\Psi = \Phi_0\,G(J_R)\,F(J_z,k)$.
+
+The slow motion then involves one angle and its conjugate action, the offset
+$p = L_z - L_{\rm CR}$ from the corotation circle. Expanding the axisymmetric part of
+$H_J$ about corotation, the linear term in $p$ has the coefficient $\Omega - \Omega_p$,
+which is zero there by definition, so the leading term is quadratic and the slow
+Hamiltonian is
+
+$$
+\bar H(p, \theta_r) = \frac{1}{2}\,g\,p^2 + \Psi\cos\theta_r , \qquad
+g \equiv \frac{\mathrm{d}\Omega}{\mathrm{d}L_z}\bigg|_{\rm CR} .
+$$
+
+This is the Hamiltonian of a pendulum: $p$ plays the momentum, $\theta_r$ the angle,
+$1/g$ the mass and $\Psi$ the strength of gravity on the bob. For a flat or declining
+rotation curve $\Omega$ decreases outward, so $g$ is negative, $g = -1/R_{\rm CR}^2$ for a
+flat curve in units where $V_c = 1$. A negative mass turns the pendulum upside down: the
+stable equilibrium sits where $\Psi\cos\theta_r$ is largest, at $\theta_r = 0$, which is
+the inter-arm region on the corotation circle, the analog of the Lagrange points $L_4$
+and $L_5$ of a bar (Binney and Tremaine 2008), while the unstable one sits on the arm at
+$\theta_r = \pi$. The equations of motion are $\dot\theta_r = g p$ and
+$\dot p = \Psi\sin\theta_r$.
+
+## The phase portrait
+
+The portrait of the pendulum in the $(\theta_r, p)$ plane has two kinds of curves. A
+star with a large $|p|$ circulates: it drifts past the arm in one direction, forward
+inside corotation and backward outside it, with the arm only modulating its drift. A star
+near $p = 0$ librates: it rocks back and forth about the stable point and never passes
+the arm. The boundary between the two, the separatrix, is the level curve through the
+unstable point, $\bar H = -\Psi$ in the sign convention above, which solved for $p$ gives
+
+$$
+p_{\rm sep}(\theta_r) = 2\sqrt{\frac{\Psi}{|g|}}\;\left|\cos\frac{\theta_r}{2}\right| ,
+$$
+
+widest at the stable point. The half-width of the libration island is therefore
+$\Delta p = 2\sqrt{\Psi/|g|}$, with small librations about the stable point at the
+frequency $\sqrt{|g|\Psi}$. Both scale as the square root of the coupling, which is the
+origin of the $\sqrt{F}$ of the paper.
+
+<PendulumPortrait />
+
+_**The corotation pendulum.** Level curves of $\bar H$ in the plane of the
+slow angle and the slow action, with the separatrix in bold and the island shaded. Dots
+are stars integrated on the pendulum: blue ones librate inside the island, red ones
+circulate. The slider sets the form factor, $\Psi = \Psi_0 F$. The dashed segment
+shows the half-width $2\sqrt{\Psi/|g|}$, which shrinks as $\sqrt{F}$: the island of a
+vertically hot star is narrower and captures fewer stars._
+
+## Back in the disk: horseshoe orbits
+
+Mapping $\theta_r$ back to the azimuth $\phi = \theta_r/m$ in the pattern frame and $p$ to
+the radial offset $\delta R = p/V_c$ of the guiding circle, a librating star traces a
+horseshoe. It approaches an arm from inside, where it moves forward; the pull of the arm
+ahead of it raises its angular momentum and lifts it outside corotation, where it drifts
+backward; it recedes from the arm, crosses the inter-arm point and approaches the other
+arm from outside, whose pull lowers its angular momentum and drops it back inside. The
+figure below runs the pendulum for a few dozen stars and draws them in the disk.
+
+<RotatingFrame />
+
+_**Horseshoe orbits.** The same pendulum mapped onto the corotation
+circle of a two-armed spiral, in the frame of the pattern. The island half-width in
+radius is $\Delta R/R_{\rm CR} = 2\sqrt{\epsilon F}$ for a flat rotation curve, with
+$\epsilon = |\Phi_s|/V_c^2$ the spiral strength ([Section 4](/theory/resonance-overlap)):
+for $\epsilon = 0.02$ and a midplane star the dashed circles sit 28 percent inside and
+outside corotation, with a libration taking $1/(m\sqrt{\epsilon F})$ orbital periods, 3.5
+for these values, about 0.8 Gyr at the solar circle. Switching the frame selector to
+the inertial frame turns the arms at $\Omega_p$ and sends every star around the center:
+the stars inside corotation gain on the arms, the ones outside fall behind, so that the
+horseshoe is the difference between the two motions seen from the pattern._
+
+Migration is what happens when the arm does not last a full libration. A transient arm
+that grows and fades within one libration period catches a star on the inner branch of
+its horseshoe, carries it to the outer branch and disappears before it can come back:
+the star is left on a new guiding circle, up to $2\Delta p$ away in angular momentum,
+with its epicycle no larger than before (Sellwood and Binney 2002). Which stars are
+carried is the question of the paper. The island captures the stars that fall inside the
+separatrix, a band of width $2\Delta p \propto \sqrt{\Psi}$ around corotation. Since
+$\Psi \propto F$, a vertically hot star sits in a narrower band. Counting the trapped
+area gives the single-resonance weight $W \propto \sqrt{F}$ of
+[Section 3](/theory/corotation-hamiltonian).
+
+## Numbers for the Milky Way
+
+The strength of the Galactic spiral is $\epsilon \sim 0.01$ to 0.03 (the density contrast
+of the arms translated into a potential, see Section 4), so the island half-width is 20
+to 35 percent of the corotation radius for a midplane star and $\sqrt{F}$ times that for
+a hot one; at the Milky Way thickness a star with $E_z = 3$ has $F = 0.36$ and an island
+60 percent as wide. These are large fractions of the radius, which is why a single
+transient can move a star by kiloparsecs. It is also why the islands of two patterns can
+overlap, the subject of the [next page](/primer/diffusion).
+
+:::tip What to carry forward
+At corotation the dynamics reduce to a pendulum whose well depth is the coupling
+$\Psi \propto F$. Stars inside the separatrix librate on horseshoe orbits and are the
+ones a transient arm can carry to a new radius; the island half-width is
+$2\sqrt{\Psi/|g|} \propto \sqrt{F}$, so vertically cold stars are captured preferentially.
+[Section 3](/theory/corotation-hamiltonian) turns the island into a trapped fraction
+and a bias of about $-7$ percent. The [next page](/primer/diffusion) then shows what
+happens when islands overlap.
+:::

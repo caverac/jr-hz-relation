@@ -1,0 +1,216 @@
+---
+sidebar_position: 2
+title: 2. The vertical form factor
+---
+
+import Figure from '@site/src/components/Figure'
+import FormFactorExplorer from '@site/src/components/viz/FormFactorExplorer'
+
+# 2. The vertical form factor
+
+**Goal of this section.** We build the object $F(J_z, k)$ from scratch. We first show why
+the gravity of a thin spiral falls off above the plane as $e^{-k|z|}$, then turn the
+orbit average of that fall-off into an integral that can be computed, evaluate it on a
+realistic disk model and correct it for the finite thickness of real arms. An
+interactive figure shows the average being taken along the orbit.
+
+## The potential of a thin spiral above the plane
+
+Above the disk there is almost no mass, so the potential $\Phi_s$ of the spiral obeys
+Laplace's equation, $\nabla^2\Phi_s = 0$ for $z \neq 0$. A tightly wound spiral varies in
+the radial direction like a wave of wavenumber $k$, locally $\Phi_s \propto e^{ikR}$ in
+the plane. Treating a small patch of the disk as flat, with $x$ along the radial
+direction and $z$ vertical, we write $\Phi_s(x, z) = f(z)\,e^{ikx}$, so that Laplace's equation
+becomes
+
+$$
+\frac{\partial^2 \Phi_s}{\partial x^2} + \frac{\partial^2 \Phi_s}{\partial z^2}
+= \big(-k^2 + f''/f\big)\,\Phi_s = 0
+\quad\Longrightarrow\quad f'' = k^2 f .
+$$
+
+The solutions are $f(z) \propto e^{\pm kz}$, of which the requirement that the potential
+stay finite far from the disk keeps only the decaying branch on each side:
+
+$$
+\Phi_s(x, z) = \Phi_s(x, 0)\,e^{-k|z|} .
+$$
+
+This is a standard result (Binney and Tremaine 2008): the more tightly wound the arm,
+the faster its influence dies away above the plane. The exponential is why vertical
+motion matters at all for the coupling of a star to an arm. If the potential did not
+fall off with height, every star would feel the same amplitude whatever its vertical
+excursion, so the vertical action would drop out of the problem.
+
+:::note Why a larger $k$ decays faster
+A spiral is a sequence of overdense and underdense lanes of alternating sign, spaced by
+half a wavelength, $\lambda/2 = \pi/k$. Just above an arm the overdensity dominates
+because it is the nearest mass. At a height comparable to the lane spacing the
+neighboring lanes of opposite sign lie at nearly the same distance and their pulls
+cancel, leaving an exponentially small net potential; a more tightly wound arm packs
+the canceling lanes closer together, so the cancellation sets in lower. Equivalently, a
+sinusoidal source of wavenumber $k$ has a single length scale, $1/k$, to which Laplace's
+equation adds no other, so the field can only vary vertically on that scale.
+:::
+
+## The orbit average
+
+A star oscillates vertically as $z(\theta_z; J_z)$, with the vertical angle
+$\theta_z = \nu_z t$ advancing uniformly ([primer](/primer/orbits)). Over one oscillation
+it samples a range of heights, therefore a range of amplitudes $e^{-k|z|}$. The
+coupling that governs the slow dynamics is the time average of the amplitude over the
+orbit, which, because the angle advances uniformly, is also an angle average:
+
+$$
+F(J_z, k) \equiv \big\langle e^{-k|z|}\big\rangle_{\theta_z}
+= \frac{1}{2\pi}\oint \mathrm{d}\theta_z\; e^{-k|z(\theta_z)|}
+= \frac{1}{T}\int_0^T \mathrm{d}t\; e^{-k|z(t)|} ,
+$$
+
+with $T = 2\pi/\nu_z$ the vertical period. The function $z(t)$ is not known in closed
+form, but the vertical velocity at each height follows from the conserved vertical
+energy, $E_z = v_z^2/2 + \Phi(z)$, so that $v_z = \sqrt{2[E_z - \Phi(z)]}$ and the time
+element can be traded for a height element, $\mathrm{d}t = \mathrm{d}z/|v_z|$. One period
+consists of four identical quarter swings between the midplane and the turning point
+$z_m$ where $\Phi(z_m) = E_z$, each contributing equally because $e^{-k|z|}$ is even
+in $z$. With $1/T = \nu_z/2\pi$ we obtain the working formula, Equation (1) of the
+paper,
+
+$$
+F(J_z, k) = \frac{2}{\pi}\int_0^{z_m} \mathrm{d}z\; e^{-kz}\,\frac{\nu_z}{|v_z|},
+\qquad v_z = \sqrt{2[E_z - \Phi(z)]} .
+$$
+
+The integrand has a direct reading: $\nu_z/|v_z|$ is proportional to the time per unit
+height that the star spends at $z$, long near the turning point and short through the
+midplane, while $e^{-kz}$ weights each height by the reach of the arm. $F$ is the time
+spent near the plane, weighted by the spiral's reach.
+
+## Evaluation on the isothermal sheet
+
+To obtain numbers we need a vertical potential. We use the self-consistent isothermal
+sheet of Spitzer (1942), $\Phi(z) = 2\ln\cosh z$ in units $G = \sigma_z = z_0 = 1$, the
+standard model of a stellar layer of a single velocity dispersion supported by its own
+gravity. Everything follows from this one function. Near the plane
+$\ln\cosh z \approx z^2/2$, so the potential is harmonic with
+$\Phi''(0) = 2$ and the small-amplitude vertical frequency is $\sqrt{2}$; at higher
+energy the orbit feels the flatter top of the well and $\nu_z$ drops. The turning point
+is $z_m = \mathrm{arccosh}\,e^{E_z/2}$. The vertical action
+$J_z = (2/\pi)\int_0^{z_m}\mathrm{d}z\,\sqrt{2[E_z - \Phi(z)]}$ maps each energy to an
+action, the abscissa of the figures below. With $\Phi$ fixed the only free parameter of
+$F$ is the combination
+
+$$
+\alpha \equiv k z_0 ,
+$$
+
+the wavenumber of the arm in units of the scale height of the disk: thickness and
+wavenumber appear together, as the dimensionless thickness $\alpha$.
+
+```shell
+uv run experiments form-factor-plot --n-energies 60
+```
+
+<Figure src="/figures/form-factor.png" alt="Vertical form factor F versus vertical action for three values of alpha" />
+
+_**The vertical form factor** $F(J_z, k) = \langle e^{-k|z|}\rangle$ against the vertical
+action $J_z$ for three wavenumbers $\alpha = k z_0$. By construction $F \to 1$ as
+$J_z \to 0$, since a midplane orbit feels the full amplitude; $F$ falls monotonically as
+the star gets vertically hotter, with a suppression that steepens for more tightly
+wound arms. The dashed curve, $\alpha = 0.84$, is the Milky Way value._
+
+<FormFactorExplorer />
+
+_**The average along the orbit.** Top left: the vertical orbit $z(t)$ of
+energy $E_z$ in the isothermal sheet, integrated over two periods, with the turning
+points dotted. Bottom left: the kernel of the arm along that orbit, $K(z(t)) = e^{-k|z|}$
+for a razor-thin arm or the softened kernel of the next subsection for $h > 0$, whose
+time average is $F$, marked by the dashed line. Right: the resulting $F(J_z)$ for the
+current $\alpha$, with the current orbit as the point; for $h > 0$ the razor-thin curve
+is drawn dashed for comparison. The readouts come from the same quadrature as the
+Python package, which agrees with it to a relative $10^{-11}$._
+
+Two features of the figure carry the argument. First, $F$ decreases monotonically with
+$J_z$: a hotter star feels a weaker orbit-averaged arm, which is the quantitative
+content of "cold stars couple more readily". For the Milky Way value $\alpha = 0.84$ the
+orbit of energy $E_z = 1$, at the mean of the population, has $F = 0.58$, against
+$F = 0.36$ for the orbit of $E_z = 3$. Second, the coupling is appreciably selective in $J_z$ for the
+Milky Way. A radial wavelength $\lambda_R \sim 3\,\mathrm{kpc}$
+($k = 2\pi/\lambda_R \sim 2\,\mathrm{kpc}^{-1}$; Reid et al. 2019) and a vertical scale
+$z_0 \sim 0.4\,\mathrm{kpc}$ (Bland-Hawthorn and Gerhard 2016) give $\alpha \approx 0.84$,
+of order unity. Had $\alpha$ been much smaller than 1, $F$ would be nearly flat across
+the population and the coupling barely selective. The size of the bias that the
+selectivity produces, if any, is not set by $F$ alone: it also depends on the weight
+$W(F)$ relating the coupling to the probability of migrating, which the resonance
+dynamics fix and which differs sharply between trapping and diffusion
+([Sections 3](/theory/corotation-hamiltonian) and [4](/theory/resonance-overlap)).
+
+## Arms of finite thickness
+
+The $e^{-k|z|}$ law is the razor-thin limit, in which all the mass of the arm sits in the
+plane and the kernel has a cusp at $z = 0$. A real arm is overdense disk material with a
+vertical extent $h_s$ comparable to the scale height $z_0$. Smearing the thin-sheet
+source over that thickness rounds the cusp (Toomre 1964). Take the vertical profile of
+the arm to be a normalized exponential, $g(z) = (\beta/2)\,e^{-\beta|z|}$ with
+$\beta \equiv 1/h_s$, keeping the in-plane pattern $\Sigma_0 e^{ikx}$, so that the density
+of the arm is $\rho(x, z) = \Sigma_0 e^{ikx} g(z)$ and we solve Poisson's equation
+$\nabla^2\Phi = 4\pi G\rho$ for it. Writing $\Phi = e^{ikx}\psi(z)$ turns
+$\partial_x^2$ into $-k^2$, exactly as above, leaving a one-dimensional equation for
+the vertical shape,
+
+$$
+\psi''(z) - k^2\,\psi(z) = 4\pi G\,\Sigma_0\,g(z) .
+$$
+
+The Green's function of $\partial_z^2 - k^2$ is $\mathcal{G}(z) = -e^{-k|z|}/2k$, the
+razor-thin kernel itself, with the prefactor fixed by the unit jump that $\mathcal{G}'$
+makes across $z = 0$. The potential of a thick arm is therefore the source convolved
+with the thin-sheet kernel,
+
+$$
+\psi(z) \propto \int \mathrm{d}z'\; e^{-k|z-z'|}\,g(z')
+= \frac{\beta\big(k\,e^{-\beta|z|} - \beta\,e^{-k|z|}\big)}{k^2 - \beta^2} ,
+$$
+
+where the convolution of two two-sided exponentials is elementary, splitting the
+integral at $z' = 0$ and $z' = z$. Dividing by the value at the midplane,
+$\beta/(k + \beta)$, gives the softened kernel
+
+$$
+K(z) = \frac{\beta\,e^{-k|z|} - k\,e^{-\beta|z|}}{\beta - k} ,
+$$
+
+which equals 1 at $z = 0$ and recovers $e^{-k|z|}$ as $h_s \to 0$. The orbit average is
+linear in the $z$ dependence, so each exponential is itself a form factor at its own
+wavenumber, $\langle e^{-k|z|}\rangle = F(J_z, \alpha)$ and
+$\langle e^{-\beta|z|}\rangle = F(J_z, 1/h)$ with $h \equiv h_s/z_0$, so that
+
+$$
+F_{\rm soft}(J_z; \alpha, h) = \frac{F(J_z, \alpha) - \alpha h\,F(J_z, 1/h)}{1 - \alpha h} ,
+$$
+
+Equation (2) of the paper. It is a fixed linear combination of the bare form factor at
+two wavenumbers, with the limits $F_{\rm soft} \to F$ as $h \to 0$ and $F_{\rm soft} \to 1$
+as $h \to \infty$, when the star never escapes the arm. The slider $h$ of the interactive
+figure applies it: at $E_z = 1$ and $\alpha = 0.84$ an arm 0.8 scale heights thick raises
+$F$ from 0.58 to 0.83. We use $F_{\rm soft}$ in place of $F$ when we put in Milky Way
+numbers, where it weakens the single-resonance bias by an order-unity factor
+([Section 3](/theory/corotation-hamiltonian)).
+
+The thickness is not a refinement that can be left out. In the $N$-body disk of
+[Section 6](/results/nbody-test) the arms have a measured $\mathrm{sech}^2$ scale of
+$z_a = 0.25$ kpc, 0.8 of the disk's $z_0$, for which the razor-thin $F$ gives a variance
+of the angular-momentum change that grows as $F^{0.9}$ to $F^{1.35}$ inside 8 kpc instead
+of the predicted $F^2$. With the same convolution for the measured profile, a $\mathrm{sech}^2$
+layer in place of the exponential, the exponent is 1.4 to 1.9 there and 2.0 to 2.8
+outside, 1.9 to 2.0 on average. The razor-thin kernel underestimates the exponent by a
+factor of about 1.4 because its cusp at $z = 0$ makes $F$ vary too fast across the
+heights that most stars reach, which are all inside the arm.
+
+:::tip What to carry forward
+$F(J_z, k)$ is the orbit-averaged amplitude of the spiral that a star feels. It equals 1
+for a midplane orbit, falls with the vertical action, depends on thickness and
+wavenumber only through $\alpha = k z_0$ and softens toward 1 when the arm has a finite
+thickness $h$. The [next section](/theory/corotation-hamiltonian) shows that this same
+$F$ is the coupling that traps stars at corotation: it was never a free choice.
+:::

@@ -1,0 +1,184 @@
+---
+sidebar_position: 1
+title: 5. The bias and the J_R-h_Z relation
+sidebar_label: 5. The bias and the $J_R$-$h_Z$ relation
+---
+
+import Figure from '@site/src/components/Figure'
+import ReweightingExplorer from '@site/src/components/viz/ReweightingExplorer'
+import SlopeExplorer from '@site/src/components/viz/SlopeExplorer'
+
+# 5. The provenance bias and the $J_R^{\max}$-$h_Z$ relation
+
+**Goal of this section.** We now cash in the machinery. We first separate what the
+Hamiltonian fixes, the scaling of the diffusion coefficient, from what it leaves to the
+definition of a migrator, the dispersion offset per selection rule; we write a compact
+closure for the diffusive regime and use it to predict the size of the bias and its
+dependence on the thickness and on the spiral strength. We then derive the slope of the
+empirical $J_R^{\max}$-$h_Z$ relation of Palicio et al. (2025) and find that it should
+flatten with stellar age, a testable consequence.
+
+## The diffusion coefficient and the selection rules
+
+What the corotation Hamiltonian of [Section 3](/theory/corotation-hamiltonian) fixes,
+once the disk is in the diffusive regime of [Section 4](/theory/resonance-overlap), is
+the scaling $D_{L_z} \propto F^2$. A star that diffuses with that coefficient for a time
+$\Delta t$ has a change $\Delta L_z$ of variance $V_1 F^2$, with $V_1$ the variance at
+$F = 1$. The dispersion offset of a migrator population follows from it only together
+with the rule that defines a migrator ([primer](/primer/diffusion)): a population
+weighted by $|\Delta L_z|$ weights its stars by $F$, one weighted by $(\Delta L_z)^2$ by
+$F^2$, while the stars with $|\Delta L_z|$ above a threshold $L_*$ carry the weight
+$\mathrm{erfc}(\lambda/F)$ with $\lambda = L_*/\sqrt{2V_1}$. At $\alpha = 0.84$ the first
+two give offsets of $-14$ and $-27$ percent, while the threshold rule is steeper than $F^2$
+for a high percentile. [Section 6](/results/nbody-test) measures all three in a
+self-consistent disk, where the offset is 5 to 9, 10 to 16 or 16 to 22 percent according
+to the rule, each reproduced by the matching weight to within 0.05 in the dispersion ratio.
+
+## A Boltzmann capture weight
+
+A compact closure for the diffusive regime treats capture into migration as a
+competition between the radial random energy $\sigma_R^2$ of a star (which carries it off
+resonance) and the resonant coupling energy $|\Phi_s|\,F$, the spiral well reduced by the
+vertical form factor. A Boltzmann capture probability
+$\propto \exp(-\sigma_R^2/|\Phi_s|F)$ is the three-dimensional form of the random-energy
+criterion of Daniel and Wyse (2015), whose in-plane criterion is the case $F = 1$.
+Normalizing to a midplane orbit gives Equation (14) of the paper,
+
+$$
+W(J_z) = \exp\!\left[-s\left(\frac{1}{F(J_z, k)} - 1\right)\right],
+\qquad s \equiv \frac{\sigma_R^2}{|\Phi_s|} ,
+$$
+
+with the single parameter $s$ controlling how sharp the selection is: a midplane star
+has $W = 1$ and a vertically hot one, with $1/F > 1$, is exponentially suppressed. It is
+the smooth, phenomenological counterpart of the crossover weight of Section 4 at
+$S_0 \approx 2$ to 3, a closure rather than a consequence of the Hamiltonian.
+
+## Reweighting and the size of the bias
+
+The reweighting is the one of Section 3: the equilibrium distribution
+$\mathrm{d}N/\mathrm{d}E_z \propto e^{-E_z}/\nu_z$ multiplied by $W(J_z)$, then the
+migrator-to-parent dispersion ratio formed from the two mean vertical energies. The
+figure below runs it for every weight of the paper.
+
+<ReweightingExplorer />
+
+_**The reweighting.** Left: the parent distribution of vertical energy
+(gray) and the migrators, the same distribution reweighted by $W(F(E_z))$ (blue), each
+normalized to its value at the lowest energy, with the weight dashed and the two mean
+energies as ticks on the axis. Right: the bias $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$
+of the current weight against the thickness, with the Milky Way value dotted. The
+drop-down selects the capture weight of this section, a power law $F^p$, the threshold
+rule, the exact trapped fraction of Section 3, the crossover weight or the
+Balescu-Lenard weight of Section 4._
+
+```shell
+uv run experiments provenance-bias-plot
+```
+
+<Figure src="/figures/provenance-bias.png" alt="Predicted migrator bias versus disk thickness" />
+
+_**The predicted bias** $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ against the disk
+thickness $\alpha = k h_Z$, as a band over the physical spiral-strength range
+$s = 0.8$ to 2, that is $|\Phi_s| \sim 1$ to 3 percent of $V_c^2$. The bias deepens with
+thickness, reaching $-20$ to $-41$ percent at the Milky Way value $\alpha = 0.84$
+(dotted)._
+
+At the Milky Way thickness the predicted bias spans $-20$ to $-41$ percent across the
+physical strength range, covering the derived diffusive band of $-20$ to $-27$ percent
+with no tuning. The closure makes two trends explicit: the bias weakens as the spiral
+strengthens, since a smaller $s$ is a deeper well that captures hot stars too, matching
+the strength dependence found by Mikkola et al. (2020); and it strengthens with the
+thickness $\alpha$, independently of the spiral morphology, matching Vera-Ciro, D'Onghia
+and Navarro (2016). The $-20$ to $-41$ percent band is the range of the closure over
+$s$, not a measurement; the numbers to compare with a simulation are the offsets per
+rule above.
+
+## The $J_R^{\max}$-$h_Z$ slope
+
+The same vertical structure links the bias to a different observable, the linear
+relation $J_R^{\max} = a\,h_Z + b$ of Palicio et al. (2025). Two structural ingredients
+give the slope. Vertically, the hydrostatic equilibrium of a self-gravitating
+isothermal sheet between the pressure $\sigma_z^2$ and the gravity of a surface density
+$\Sigma$ gives the scale height $h_Z = \sigma_z^2/(\pi G\Sigma)$. Radially, the epicyclic
+action of a star with radial dispersion $\sigma_R$ and epicyclic frequency $\kappa$
+scales as $\sigma_R^2/\kappa$, of which the hot tail that defines $J_R^{\max}$ is a fixed
+multiple, $J_R^{\max} = c_{\max}\,\sigma_R^2/\kappa$ with $c_{\max}$ of order unity.
+Dividing the two gives Equation (15) of the paper,
+
+$$
+a = \frac{J_R^{\max}}{h_Z}
+= c_{\max}\,\frac{\pi G\Sigma}{\kappa}\left(\frac{\sigma_R}{\sigma_z}\right)^2 ,
+$$
+
+the squared radial-to-vertical heating-anisotropy ratio scaled by the structural
+factor $\pi G\Sigma/\kappa$. A disk that is hotter radially than vertically reaches a
+large $J_R^{\max}$ for a given $h_Z$, that is, a steep slope. For solar-neighborhood
+values, $\Sigma = 50\,M_\odot\,\mathrm{pc}^{-2}$,
+$\kappa = 0.037\,\mathrm{km\,s^{-1}\,pc^{-1}}$, $\sigma_R = 35$ and
+$\sigma_z = 18\,\mathrm{km\,s^{-1}}$, with $c_{\max} = 1$, the structural factor is a
+velocity of $18\,\mathrm{km\,s^{-1}}$, the anisotropy ratio is $(35/18)^2 = 3.78$, so that
+
+$$
+a \approx 69\,\mathrm{km\,s^{-1}} = 3.6\times10^{-2}\,L_\odot\,\mathrm{kpc}^{-1},
+$$
+
+within a few percent of the measured $3.7\times10^{-2}$. The dimensions are those of an
+action per unit length, as $J_R^{\max}/h_Z$ must be.
+
+:::caution $L_\odot$ is the angular momentum of the Sun
+The relation is quoted in $L_\odot/\mathrm{kpc}$, where
+$L_\odot \equiv R_0 V_0 \approx 1.9\times10^{3}\,\mathrm{kpc\,km\,s^{-1}}$ is the orbital
+angular momentum of the Sun, an action, not the solar luminosity. Since $L_\odot$ is
+a length times a velocity, $L_\odot/\mathrm{kpc}$ is a velocity, which is why
+$3.6\times10^{-2}\,L_\odot\,\mathrm{kpc}^{-1} = 69\,\mathrm{km\,s^{-1}}$. The engine computes
+$a$ in $\mathrm{km\,s^{-1}}$ and divides by $R_0 V_0$ only to report it in these units.
+:::
+
+One bookkeeping caveat: our $h_Z$ is the self-gravitating $\mathrm{sech}^2$ scale height,
+whereas Palicio et al. (2025) fit an exponential vertical scale length; the two differ
+by an order-unity factor that we absorb into $c_{\max}$. The slope is structural, not
+the third decimal.
+
+## The slope runs with age
+
+In Equation (15) the surface density and the epicyclic frequency are structural,
+properties of the disk at a given radius that are the same for old and young stars.
+The only factor that depends on the population selected is the anisotropy ratio
+$(\sigma_R/\sigma_z)^2$, in which each dispersion grows with stellar age through an
+age-velocity-dispersion relation, $\sigma \propto \mathrm{age}^{\beta}$, with a different
+exponent for the two channels. Hence Equation (16) of the paper,
+
+$$
+a(\mathrm{age}) \propto \mathrm{age}^{\,2(\beta_R - \beta_z)} .
+$$
+
+The measured exponents are $\beta_z \approx 0.5$ and $\beta_R \approx 0.35$ (Aumer,
+Binney and Schoenrich 2016; Sun et al. 2025), so the exponent is
+$2(0.35 - 0.50) = -0.3$ and an 8 Gyr population has a slope $8^{-0.3} = 0.54$ times that
+of a 1 Gyr population: the $J_R^{\max}$-$h_Z$ relation should flatten with age.
+
+<SlopeExplorer />
+
+_**The structural slope and its age running.** Left: the slope against
+the heating anisotropy $\sigma_R/\sigma_z$ for the current surface density and
+$c_{\max}$, with the measured value dashed and the current point marked. Right: the slope
+relative to a 1 Gyr population against age for the current exponents, with the 8 Gyr
+point marked. Setting $\beta_R = \beta_z$ flattens the curve._
+
+This is a sharp, falsifiable test. Re-fitting the relation in mono-age or
+mono-abundance bins of current Gaia, APOGEE and LAMOST data measures $\beta_R - \beta_z$
+from spiral-arm kinematics; an age-independent slope would instead require
+$\beta_R = \beta_z$, a different statement about how disks heat.
+
+:::tip What to carry forward
+One object, the vertical form factor, links the size of the provenance bias to the
+slope of the $J_R^{\max}$-$h_Z$ relation through the same thickness $\alpha = k h_Z$.
+Neither magnitude is set by $F$ alone: the bias needs the migration weight of the
+resonance regime and the rule that defines a migrator, while the slope,
+$3.6\times10^{-2}\,L_\odot\,\mathrm{kpc}^{-1}$ or $69\,\mathrm{km\,s^{-1}}$, comes from the
+structural factor $\pi G\Sigma/\kappa\,(\sigma_R/\sigma_z)^2$, with $F$ selecting the
+cold migrators that populate $J_R^{\max}$. The slope should flatten with age. The
+[$N$-body test](/results/nbody-test) measures the scaling, the offsets per rule, the
+symmetry of capture and the state of the arrivals.
+:::

@@ -1,0 +1,326 @@
+/* Interactive figures: colors as custom properties so that SVG drawings follow
+   the color mode, and a canvas can read the same values. */
+:root {
+  --viz-fg: #1c1e21;
+  --viz-muted: #7a7f87;
+  --viz-grid: rgba(0, 0, 0, 0.1);
+  --viz-cold: #2563eb;
+  --viz-hot: #dc2626;
+  --viz-accent: #d97706;
+  --viz-background: #ffffff;
+  --viz-fill-cold: rgba(37, 99, 235, 0.18);
+  --viz-fill-hot: rgba(220, 38, 38, 0.18);
+  --viz-fill-muted: rgba(122, 127, 135, 0.15);
+  /* One font and size for tick labels, axis titles and in-plot text: the KaTeX
+     text face, so that a number on an axis matches the math of its title. */
+  --viz-font-family: KaTeX_Main, 'Times New Roman', serif;
+  --viz-font-size: 0.85rem;
+}
+
+[data-theme='dark'] {
+  --viz-fg: #e3e3e3;
+  --viz-muted: #9aa0a6;
+  --viz-grid: rgba(255, 255, 255, 0.12);
+  --viz-cold: #60a5fa;
+  --viz-hot: #f87171;
+  --viz-accent: #fbbf24;
+  --viz-background: #1b1b1d;
+  --viz-fill-cold: rgba(96, 165, 250, 0.22);
+  --viz-fill-hot: rgba(248, 113, 113, 0.22);
+  --viz-fill-muted: rgba(154, 160, 166, 0.18);
+}
+
+/* The figure box. */
+.viz {
+  margin: 1.5rem 0;
+  padding: 0.75rem 0.75rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+}
+
+.viz__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.viz__row > * {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+/* The chart grid: rotated y label, SVG, x label. */
+.viz-chart {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'ylabel svg'
+    '. xlabel';
+  width: 100%;
+}
+
+.viz-chart__ylabel {
+  grid-area: ylabel;
+  position: relative;
+  width: 26px;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
+  color: var(--viz-fg);
+}
+
+.viz-chart__ylabel-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  white-space: nowrap;
+}
+
+.viz-chart__svg {
+  grid-area: svg;
+  display: block;
+  overflow: visible;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
+  color: var(--viz-fg);
+}
+
+.viz-chart__xlabel {
+  grid-area: xlabel;
+  text-align: center;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
+  color: var(--viz-fg);
+}
+
+/* KaTeX scales its output by 1.21; the titles take the tick size instead. */
+.viz-chart .katex {
+  font-size: var(--viz-font-size);
+}
+
+/* D3 sets a 10 px sans-serif font on every axis group; the chart font wins. */
+.viz-axis {
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
+}
+
+.viz-axis path,
+.viz-axis line {
+  stroke: var(--viz-fg);
+}
+
+.viz-axis text {
+  fill: var(--viz-fg);
+}
+
+.viz-axis line.viz-grid {
+  stroke: var(--viz-grid);
+}
+
+.viz-canvas {
+  display: block;
+  width: 100%;
+}
+
+/* Strokes and fills used by the drawings. */
+.viz-line {
+  fill: none;
+  stroke: var(--viz-fg);
+  stroke-width: 1.5;
+}
+
+.viz-line--cold {
+  stroke: var(--viz-cold);
+}
+
+.viz-line--hot {
+  stroke: var(--viz-hot);
+}
+
+.viz-line--accent {
+  stroke: var(--viz-accent);
+}
+
+.viz-line--muted {
+  stroke: var(--viz-muted);
+}
+
+.viz-line--dashed {
+  stroke-dasharray: 5 4;
+}
+
+.viz-line--dotted {
+  stroke-dasharray: 1.5 3.5;
+}
+
+.viz-line--thin {
+  stroke-width: 1;
+}
+
+.viz-line--bold {
+  stroke-width: 2.5;
+}
+
+.viz-fill--cold {
+  fill: var(--viz-fill-cold);
+}
+
+.viz-fill--hot {
+  fill: var(--viz-fill-hot);
+}
+
+.viz-fill--muted {
+  fill: var(--viz-fill-muted);
+}
+
+.viz-dot {
+  fill: var(--viz-fg);
+}
+
+.viz-dot--cold {
+  fill: var(--viz-cold);
+}
+
+.viz-dot--hot {
+  fill: var(--viz-hot);
+}
+
+.viz-dot--accent {
+  fill: var(--viz-accent);
+}
+
+.viz-dot--open {
+  fill: var(--viz-background);
+  stroke: var(--viz-fg);
+  stroke-width: 1.5;
+}
+
+.viz-text {
+  fill: var(--viz-fg);
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
+}
+
+.viz-text--muted {
+  fill: var(--viz-muted);
+}
+
+.viz-text--cold {
+  fill: var(--viz-cold);
+}
+
+.viz-text--hot {
+  fill: var(--viz-hot);
+}
+
+/* Controls under the drawing. */
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.viz-slider {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Math in the controls and notes at the size of the text around it. */
+.viz-controls .katex,
+.viz-note .katex {
+  font-size: 1.05em;
+}
+
+.viz-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.55rem;
+  line-height: 1;
+}
+
+.viz-icon-button svg {
+  display: block;
+}
+
+.viz-slider input[type='range'] {
+  width: 140px;
+  accent-color: var(--ifm-color-primary);
+}
+
+.viz-slider__label {
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.viz-slider__value {
+  min-width: 3.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.viz-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.viz-readout__item {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: baseline;
+}
+
+.viz-readout dt {
+  font-weight: 400;
+  color: var(--viz-muted);
+}
+
+.viz-readout dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.viz-note {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--viz-muted);
+}
+
+@media (max-width: 600px) {
+  .viz-slider input[type='range'] {
+    width: 100px;
+  }
+}
+
+/* Color legend of the ring explorer. */
+.viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--viz-muted);
+}
+
+.viz-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.viz-legend__swatch {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 2px;
+}
