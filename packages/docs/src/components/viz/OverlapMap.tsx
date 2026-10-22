@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import { Controls, Note, Readout, Slider } from '@site/src/components/viz/Controls'
 import { useElementWidth } from '@site/src/components/viz/hooks'
 import { type PendulumState, separatrix, strobeMap } from '@site/src/physics/pendulum'
 import * as d3 from 'd3'
@@ -113,11 +113,7 @@ export default function OverlapMap(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        H = -p^2/2 + Psi [cos(theta) + cos(theta + t)], sampled once per period of the second wave.
-        The thin curves are the separatrices each resonance would have alone; the dots of one color
-        belong to one orbit.
-      </p>
+      <Note text="$H = -p^2/2 + \Psi[\cos\theta + \cos(\theta + t)]$, sampled once per period of the second wave. The thin curves are the separatrices each resonance would have alone; the dots of one color belong to one orbit." />
     </div>
   )
 }

@@ -11,6 +11,10 @@
   --viz-fill-cold: rgba(37, 99, 235, 0.18);
   --viz-fill-hot: rgba(220, 38, 38, 0.18);
   --viz-fill-muted: rgba(122, 127, 135, 0.15);
+  /* One font and size for tick labels, axis titles and in-plot text: the KaTeX
+     text face, so that a number on an axis matches the math of its title. */
+  --viz-font-family: KaTeX_Main, 'Times New Roman', serif;
+  --viz-font-size: 0.85rem;
 }
 
 [data-theme='dark'] {
@@ -61,7 +65,8 @@
   grid-area: ylabel;
   position: relative;
   width: 26px;
-  font-size: 0.9rem;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
   color: var(--viz-fg);
 }
 
@@ -77,15 +82,28 @@
   grid-area: svg;
   display: block;
   overflow: visible;
-  font-size: 0.75rem;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
   color: var(--viz-fg);
 }
 
 .viz-chart__xlabel {
   grid-area: xlabel;
   text-align: center;
-  font-size: 0.9rem;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
   color: var(--viz-fg);
+}
+
+/* KaTeX scales its output by 1.21; the titles take the tick size instead. */
+.viz-chart .katex {
+  font-size: var(--viz-font-size);
+}
+
+/* D3 sets a 10 px sans-serif font on every axis group; the chart font wins. */
+.viz-axis {
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
 }
 
 .viz-axis path,
@@ -181,7 +199,8 @@
 
 .viz-text {
   fill: var(--viz-fg);
-  font-size: 0.75rem;
+  font-family: var(--viz-font-family);
+  font-size: var(--viz-font-size);
 }
 
 .viz-text--muted {
@@ -212,6 +231,24 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
+}
+
+/* Math in the controls and notes at the size of the text around it. */
+.viz-controls .katex,
+.viz-note .katex {
+  font-size: 1.05em;
+}
+
+.viz-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.55rem;
+  line-height: 1;
+}
+
+.viz-icon-button svg {
+  display: block;
 }
 
 .viz-slider input[type='range'] {

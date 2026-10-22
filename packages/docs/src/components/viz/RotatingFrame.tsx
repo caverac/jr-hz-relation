@@ -1,18 +1,19 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Button, Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import {
+  Controls,
+  IconButton,
+  Note,
+  Readout,
+  Select,
+  Slider
+} from '@site/src/components/viz/Controls'
 import {
   makeRandom,
   useAnimationFrame,
   useElementWidth,
   useInView
 } from '@site/src/components/viz/hooks'
-import {
-  type Pendulum,
-  type PendulumState,
-  isTrapped,
-  step,
-  wrapAngle
-} from '@site/src/physics/pendulum'
+import { type Pendulum, type PendulumState, isTrapped, step } from '@site/src/physics/pendulum'
 import * as d3 from 'd3'
 import React, { type ReactNode, useMemo, useRef, useState } from 'react'
 
@@ -33,11 +34,28 @@ const SPEED = (2 * Math.PI) / 6
 const RADIUS_MIN = 0.45
 const RADIUS_MAX = 1.55
 
+/** The frame the stars are drawn in. */
+type View = 'pattern' | 'inertial'
+
+const VIEWS: ReadonlyArray<readonly [View, string]> = [
+  ['pattern', 'rotating with the pattern'],
+  ['inertial', 'inertial']
+]
+
+interface TrailPoint {
+  readonly state: PendulumState
+  /** Time of the point in units of 1/Omega at corotation. */
+  readonly time: number
+}
+
 interface Star {
   state: PendulumState
-  trail: PendulumState[]
-  /** Which of the m identical sectors of the pattern the star is drawn in. */
-  readonly branch: number
+  trail: TrailPoint[]
+}
+
+interface Snapshot {
+  readonly stars: readonly Star[]
+  readonly time: number
 }
 
 const format2 = d3.format('.2f')
@@ -52,68 +70,89 @@ function pendulumOf(strength: number, formFactor: number): Pendulum {
   return { psi: ARMS * strength * formFactor, gAbs: ARMS }
 }
 
+/**
+ * The slow angle is left unwrapped and seeded over m turns, so that the
+ * azimuth theta_r / m covers the whole disk and never jumps between sectors.
+ */
 function seedStars(): Star[] {
   const random = makeRandom(11)
-  return d3.range(STARS).map((i) => {
+  return d3.range(STARS).map(() => {
     const state: PendulumState = {
-      theta: wrapAngle(2 * Math.PI * random() - Math.PI),
+      theta: ARMS * (2 * Math.PI * random() - Math.PI),
       p: -0.42 + 0.84 * random()
     }
-    return { state, trail: [state], branch: i % ARMS }
+    return { state, trail: [{ state, time: 0 }] }
   })
 }
 
-/** Position in the pattern frame: azimuth theta_r / m in the star's sector, radius 1 + x. */
-function place(state: PendulumState, branch: number): readonly [number, number] {
-  const phi = state.theta / ARMS + (2 * Math.PI * branch) / ARMS
+/**
+ * Position at radius 1 + x and azimuth theta_r / m in the pattern frame, turned
+ * by the angle the pattern has swept, Omega_p t with Omega_p = 1 in these units,
+ * when the inertial frame is drawn.
+ */
+function place(state: PendulumState, rotation: number): readonly [number, number] {
+  const phi = state.theta / ARMS + rotation
   const radius = 1 + state.p
   return [radius * Math.cos(phi), radius * Math.sin(phi)]
 }
 
 /**
- * Stars near corotation in the frame that rotates with a two-armed pattern. The
- * arms sit at theta_r = +/- pi, the inter-arm points at theta_r = 0, and each star
- * follows the pendulum of Section 3 mapped to the disk: trapped stars librate
- * about the inter-arm corotation points on horseshoe paths, the others circulate.
+ * Stars near corotation of a two-armed pattern, in the frame that rotates with
+ * the pattern or in the inertial frame. The arms sit at theta_r = +/- pi, the
+ * inter-arm points at theta_r = 0, and each star follows the pendulum of
+ * Section 3 mapped to the disk: in the pattern frame the trapped stars librate
+ * about the inter-arm corotation points on horseshoe paths and the others
+ * circulate; in the inertial frame every star orbits and the arms turn with
+ * them, so the horseshoes are seen to exist only relative to the pattern.
  */
 export default function RotatingFrame(): ReactNode {
   const [ref, width] = useElementWidth<HTMLDivElement>()
   const inView = useInView(ref)
   const [strength, setStrength] = useState(0.02)
   const [formFactor, setFormFactor] = useState(1)
+  const [view, setView] = useState<View>('pattern')
   const [playing, setPlaying] = useState(true)
   const pendulum = useMemo(() => pendulumOf(strength, formFactor), [strength, formFactor])
   const stars = useRef<Star[]>(seedStars())
-  const [frame, setFrame] = useState<Star[]>(() => stars.current.map((s) => ({ ...s })))
-  const clock = useRef(0)
+  const elapsed = useRef(0)
+  const [snapshot, setSnapshot] = useState<Snapshot>(() => ({
+    stars: stars.current.map((s) => ({ ...s })),
+    time: 0
+  }))
 
   const reset = (): void => {
     stars.current = seedStars()
-    clock.current = 0
-    setFrame(stars.current.map((s) => ({ ...s })))
+    elapsed.current = 0
+    setSnapshot({ stars: stars.current.map((s) => ({ ...s })), time: 0 })
   }
 
   useAnimationFrame(playing && inView, (dt) => {
-    const h = (dt * SPEED) / SUBSTEPS
+    const advance = dt * SPEED
+    const h = advance / SUBSTEPS
+    elapsed.current += advance
     for (const star of stars.current) {
       let state = star.state
       for (let i = 0; i < SUBSTEPS; i += 1) {
-        state = step(state, clock.current, h, pendulum)
-        clock.current += h
+        state = step(state, elapsed.current, h, pendulum)
       }
-      star.state = { theta: wrapAngle(state.theta), p: state.p }
-      star.trail.push(star.state)
+      star.state = state
+      star.trail.push({ state, time: elapsed.current })
       if (star.trail.length > TRAIL) {
         star.trail.splice(0, star.trail.length - TRAIL)
       }
     }
-    setFrame(stars.current.map((s) => ({ state: s.state, trail: [...s.trail], branch: s.branch })))
+    setSnapshot({
+      stars: stars.current.map((s) => ({ state: s.state, trail: [...s.trail] })),
+      time: elapsed.current
+    })
   })
 
   const size = Math.min(width - 24, 460)
   const halfWidth = 2 * Math.sqrt(strength * formFactor)
   const librationPeriod = (2 * Math.PI) / (ARMS * Math.sqrt(strength * formFactor)) / (2 * Math.PI)
-  const trapped = frame.filter((star) => isTrapped(star.state, pendulum)).length
+  const trapped = snapshot.stars.filter((star) => isTrapped(star.state, pendulum)).length
+  const inertial = view === 'inertial'
+  const rotationAt = (time: number): number => (inertial ? time : 0)
 
   return (
     <div className="viz" ref={ref}>
@@ -134,23 +173,12 @@ export default function RotatingFrame(): ReactNode {
               linePath(
                 d3.range(Math.log(RADIUS_MIN), Math.log(RADIUS_MAX), 0.01).map((logRadius) => {
                   const radius = Math.exp(logRadius)
-                  const phi = phase - logRadius / Math.tan(PITCH)
+                  const phi = phase + rotationAt(snapshot.time) - logRadius / Math.tan(PITCH)
                   return pixel([radius * Math.cos(phi), radius * Math.sin(phi)])
                 })
               )
-            const trailOf = (star: Star): string => {
-              const segments: PendulumState[][] = [[]]
-              star.trail.forEach((point, i) => {
-                const previous = star.trail[i - 1]
-                if (previous !== undefined && Math.abs(point.theta - previous.theta) > Math.PI) {
-                  segments.push([])
-                }
-                segments[segments.length - 1].push(point)
-              })
-              return segments
-                .map((segment) => linePath(segment.map((s) => pixel(place(s, star.branch)))))
-                .join(' ')
-            }
+            const trailOf = (star: Star): string =>
+              linePath(star.trail.map((point) => pixel(place(point.state, rotationAt(point.time)))))
             return (
               <>
                 <g clipPath={inner.clip}>
@@ -181,9 +209,9 @@ export default function RotatingFrame(): ReactNode {
                       strokeLinecap="round"
                     />
                   ))}
-                  {frame.map((star, i) => {
+                  {snapshot.stars.map((star, i) => {
                     const trappedStar = isTrapped(star.state, pendulum)
-                    const [cx, cy] = pixel(place(star.state, star.branch))
+                    const [cx, cy] = pixel(place(star.state, rotationAt(snapshot.time)))
                     return (
                       <React.Fragment key={i}>
                         <path
@@ -214,6 +242,12 @@ export default function RotatingFrame(): ReactNode {
         </Chart>
       </div>
       <Controls>
+        <Select
+          label="frame"
+          value={view}
+          options={VIEWS}
+          onChange={(value) => setView(value as View)}
+        />
         <Slider
           label="$\epsilon$"
           value={strength}
@@ -231,8 +265,13 @@ export default function RotatingFrame(): ReactNode {
           step={0.01}
           onChange={setFormFactor}
         />
-        <Button label={playing ? 'Pause' : 'Play'} onClick={() => setPlaying(!playing)} primary />
-        <Button label="Reset" onClick={reset} />
+        <IconButton
+          icon={playing ? 'pause' : 'play'}
+          label={playing ? 'Pause' : 'Play'}
+          onClick={() => setPlaying(!playing)}
+          primary
+        />
+        <IconButton icon="reset" label="Reset" onClick={reset} />
         <Readout
           items={[
             ['$\\Delta R/R_{\\rm CR}$', format2(halfWidth)],
@@ -241,11 +280,7 @@ export default function RotatingFrame(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        The frame rotates with the pattern, so the arms stand still and the disk turns
-        counterclockwise inside corotation and clockwise outside it. Dashed circles mark the island
-        half-width 2 sqrt(epsilon F) R_CR, the trapped stars are blue.
-      </p>
+      <Note text="In the frame of the pattern the arms stand still and the disk turns counterclockwise inside corotation and clockwise outside it; in the inertial frame the arms turn at $\Omega_p$ and every star orbits with them. The dashed circles sit at $R_{\rm CR}(1 \pm 2\sqrt{\epsilon F})$, the island half-width; the trapped stars are blue." />
     </div>
   )
 }

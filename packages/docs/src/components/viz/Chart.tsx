@@ -130,6 +130,85 @@ export function Axis({
   return <g ref={ref} className="viz-axis" transform={transform} />
 }
 
+interface ScriptPart {
+  readonly kind: 'text' | 'sub' | 'sup'
+  readonly value: string
+}
+
+/**
+ * Splits a label such as `2πJ_R` or `F^2` into runs of text, subscripts and
+ * superscripts. A script is the character after `_` or `^`, or the group in
+ * braces after it.
+ */
+function parseScripts(text: string): ScriptPart[] {
+  const parts: ScriptPart[] = []
+  let run = ''
+  let i = 0
+  while (i < text.length) {
+    const char = text[i]
+    if ((char === '_' || char === '^') && i + 1 < text.length) {
+      if (run !== '') {
+        parts.push({ kind: 'text', value: run })
+        run = ''
+      }
+      const kind = char === '_' ? 'sub' : 'sup'
+      if (text[i + 1] === '{') {
+        const close = text.indexOf('}', i + 2)
+        const end = close === -1 ? text.length : close
+        parts.push({ kind, value: text.slice(i + 2, end) })
+        i = end + 1
+      } else {
+        parts.push({ kind, value: text[i + 1] })
+        i += 2
+      }
+    } else {
+      run += char
+      i += 1
+    }
+  }
+  if (run !== '') {
+    parts.push({ kind: 'text', value: run })
+  }
+  return parts
+}
+
+/** Vertical offsets of a script, in px, and the return to the baseline after it. */
+const SCRIPT_SHIFT = { sub: 3, sup: -5 }
+
+interface SvgLabelProps {
+  readonly x: number
+  readonly y: number
+  /** The label, with `_` and `^` introducing a subscript or a superscript. */
+  readonly text: string
+  readonly anchor?: 'start' | 'middle' | 'end'
+  readonly className?: string
+}
+
+/** A short label inside the plot, with subscripts and superscripts as tspans. */
+export function SvgLabel({
+  x,
+  y,
+  text,
+  anchor = 'start',
+  className = 'viz-text'
+}: SvgLabelProps): ReactNode {
+  let pending = 0
+  return (
+    <text x={x} y={y} textAnchor={anchor} className={className}>
+      {parseScripts(text).map((part, index) => {
+        const shift = part.kind === 'text' ? 0 : SCRIPT_SHIFT[part.kind]
+        const dy = shift - pending
+        pending = shift
+        return (
+          <tspan key={index} dy={dy} fontSize={part.kind === 'text' ? undefined : '75%'}>
+            {part.value}
+          </tspan>
+        )
+      })}
+    </text>
+  )
+}
+
 /** A path through (x, y) pairs already in pixel coordinates. */
 export function linePath(points: ReadonlyArray<readonly [number, number]>): string {
   const generator = d3

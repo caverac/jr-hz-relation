@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Button, Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import { Controls, IconButton, Readout, Slider } from '@site/src/components/viz/Controls'
 import {
   makeRandom,
   useAnimationFrame,
@@ -225,8 +225,13 @@ export default function PendulumPortrait(): ReactNode {
           step={0.01}
           onChange={setFormFactor}
         />
-        <Button label={playing ? 'Pause' : 'Play'} onClick={() => setPlaying(!playing)} primary />
-        <Button label="Reset" onClick={reset} />
+        <IconButton
+          icon={playing ? 'pause' : 'play'}
+          label={playing ? 'Pause' : 'Play'}
+          onClick={() => setPlaying(!playing)}
+          primary
+        />
+        <IconButton icon="reset" label="Reset" onClick={reset} />
         <Readout
           items={[
             ['$\\Psi/\\Psi_0$', format2(formFactor)],

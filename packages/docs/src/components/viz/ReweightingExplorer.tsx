@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Controls, Readout, Select, Slider } from '@site/src/components/viz/Controls'
+import { Controls, Note, Readout, Select, Slider } from '@site/src/components/viz/Controls'
 import { columnWidth, columnsFor, useElementWidth } from '@site/src/components/viz/hooks'
 import {
   type Weight,
@@ -35,7 +35,7 @@ interface Family {
 
 const FAMILIES: Record<Kind, Family> = {
   capture: {
-    text: 'capture, exp[-s (1/F - 1)]',
+    text: 'capture weight',
     parameter: '$s$',
     min: 0,
     max: 4,
@@ -44,7 +44,7 @@ const FAMILIES: Record<Kind, Family> = {
     weight: captureWeight
   },
   power: {
-    text: 'power law, F^p',
+    text: 'power law',
     parameter: '$p$',
     min: 0,
     max: 3,
@@ -53,7 +53,7 @@ const FAMILIES: Record<Kind, Family> = {
     weight: powerWeight
   },
   threshold: {
-    text: 'threshold, erfc(lambda / F)',
+    text: 'threshold rule',
     parameter: '$\\lambda$',
     min: 0,
     max: 3,
@@ -62,7 +62,7 @@ const FAMILIES: Record<Kind, Family> = {
     weight: thresholdWeight
   },
   trapped: {
-    text: 'trapped fraction, Equation (9)',
+    text: 'trapped fraction',
     parameter: '$\\kappa$',
     min: 0.05,
     max: 6,
@@ -71,7 +71,7 @@ const FAMILIES: Record<Kind, Family> = {
     weight: trappedWeight
   },
   crossover: {
-    text: 'crossover, F^p(S)',
+    text: 'crossover weight',
     parameter: '$S_0$',
     min: 0,
     max: 5,
@@ -80,7 +80,7 @@ const FAMILIES: Record<Kind, Family> = {
     weight: crossoverWeight
   },
   diffusion: {
-    text: 'Balescu-Lenard, F^2 / (1 + b sqrt F)',
+    text: 'Balescu-Lenard weight',
     parameter: '$b$',
     min: 0,
     max: 10,
@@ -267,11 +267,7 @@ export default function ReweightingExplorer(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        Left: the parent distribution (gray) and the migrators (blue), each normalized to its value
-        at the lowest energy, with the weight dashed in red and the two mean energies as ticks.
-        Right: the bias against the thickness, the Milky Way value dotted.
-      </p>
+      <Note text="Left: the parent distribution (gray) and the migrators (blue), each normalized to its value at the lowest energy, with the weight $W$ dashed in red and the two mean energies as ticks. Right: the bias against the thickness, the Milky Way value dotted." />
     </div>
   )
 }

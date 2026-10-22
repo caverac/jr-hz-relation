@@ -1,5 +1,5 @@
-import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Button, Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import Chart, { Axis, SvgLabel, linePath } from '@site/src/components/viz/Chart'
+import { Controls, IconButton, Note, Readout, Slider } from '@site/src/components/viz/Controls'
 import {
   columnWidth,
   columnsFor,
@@ -237,9 +237,7 @@ export default function OrbitExplorer(): ReactNode {
                 <path d={`${linePath(ellipse)} Z`} className="viz-fill--cold" />
                 <path d={linePath(ellipse)} className="viz-line viz-line--cold" />
                 <circle cx={x(radial)} cy={y(speed)} r={5} className="viz-dot--accent" />
-                <text x={x(0)} y={y(0) + 4} textAnchor="middle" className="viz-text">
-                  2{'π'}J_R
-                </text>
+                <SvgLabel x={x(0)} y={y(0) + 4} anchor="middle" text="2πJ_R" />
                 <Axis scale={y} orientation="left" ticks={5} />
                 <Axis
                   scale={x}
@@ -261,9 +259,7 @@ export default function OrbitExplorer(): ReactNode {
                 <path d={`${linePath(points)} Z`} className="viz-fill--cold" />
                 <path d={linePath(points)} className="viz-line viz-line--cold" />
                 <circle cx={x(snapshot.z)} cy={y(snapshot.vz)} r={5} className="viz-dot--accent" />
-                <text x={x(0)} y={y(0) + 4} textAnchor="middle" className="viz-text">
-                  2{'π'}J_z
-                </text>
+                <SvgLabel x={x(0)} y={y(0) + 4} anchor="middle" text="2πJ_z" />
                 <Axis scale={y} orientation="left" ticks={5} />
                 <Axis
                   scale={x}
@@ -296,8 +292,13 @@ export default function OrbitExplorer(): ReactNode {
             reset(value)
           }}
         />
-        <Button label={playing ? 'Pause' : 'Play'} onClick={() => setPlaying(!playing)} primary />
-        <Button label="Reset" onClick={() => reset(energy)} />
+        <IconButton
+          icon={playing ? 'pause' : 'play'}
+          label={playing ? 'Pause' : 'Play'}
+          onClick={() => setPlaying(!playing)}
+          primary
+        />
+        <IconButton icon="reset" label="Reset" onClick={() => reset(energy)} />
         <Readout
           items={[
             ['$J_R/(R_gV_c)$', format3(radialAction)],
@@ -310,11 +311,9 @@ export default function OrbitExplorer(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        Units R_g = V_c = 1 for the in-plane motion and z_0 = {Z0} R_g for the vertical one, whose
-        scale is stretched in the edge-on view. The in-plane motion is the epicycle approximation;
-        the vertical one is integrated in the isothermal sheet.
-      </p>
+      <Note
+        text={`Units $R_g = V_c = 1$ for the in-plane motion and $z_0 = ${Z0}\\,R_g$ for the vertical one, whose scale is stretched in the edge-on view. The in-plane motion is the epicycle approximation; the vertical one is integrated in the isothermal sheet.`}
+      />
     </div>
   )
 }

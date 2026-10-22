@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Button, Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import { Controls, IconButton, Note, Readout, Slider } from '@site/src/components/viz/Controls'
 import {
   columnWidth,
   columnsFor,
@@ -232,9 +232,14 @@ export default function RandomWalk(): ReactNode {
             reset()
           }}
         />
-        <Button label="One transient" onClick={kick} />
-        <Button label={running ? 'Pause' : 'Run'} onClick={() => setRunning(!running)} primary />
-        <Button label="Reset" onClick={reset} />
+        <IconButton icon="step" label="One transient" onClick={kick} />
+        <IconButton
+          icon={running ? 'pause' : 'play'}
+          label={running ? 'Pause' : 'Run'}
+          onClick={() => setRunning(!running)}
+          primary
+        />
+        <IconButton icon="reset" label="Reset" onClick={reset} />
         <Readout
           items={[
             ['$F$', format3(formFactor)],
@@ -247,10 +252,7 @@ export default function RandomWalk(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        Blue: the cold population (F = 1). Red: the hot one, with F from the isothermal sheet at the
-        Milky Way thickness. Dashed lines and curves are the prediction n (Psi)^2 / 2 for each.
-      </p>
+      <Note text="Blue: the cold population, $F = 1$. Red: the hot one, with $F$ from the isothermal sheet at the Milky Way thickness. Dashed lines and curves: the prediction $n\Psi^2/2$ for each." />
     </div>
   )
 }

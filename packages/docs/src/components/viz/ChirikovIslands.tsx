@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Controls, Readout, Select, Slider } from '@site/src/components/viz/Controls'
+import { Controls, Note, Readout, Select, Slider } from '@site/src/components/viz/Controls'
 import { columnWidth, columnsFor, useElementWidth } from '@site/src/components/viz/hooks'
 import {
   BAR_PATTERN_SPEEDS,
@@ -279,11 +279,7 @@ export default function ChirikovIslands(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        Pattern speeds in km/s/kpc with V_c = 230 km/s. Left: the libration islands of the two
-        corotation resonances, overlapping where the gray band appears. Right: S against the spiral
-        strength, with the threshold S = 1 dashed and the physical band shaded.
-      </p>
+      <Note text="Pattern speeds in $\mathrm{km\,s^{-1}\,kpc^{-1}}$ with $V_c = 230\,\mathrm{km\,s^{-1}}$. Left: the libration islands of the two corotation resonances, overlapping where the gray band appears. Right: $S$ against the spiral strength, with the threshold $S = 1$ dashed and the physical band shaded." />
     </div>
   )
 }

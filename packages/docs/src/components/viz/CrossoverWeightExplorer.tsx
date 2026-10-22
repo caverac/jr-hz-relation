@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import { Controls, Note, Readout, Slider } from '@site/src/components/viz/Controls'
 import { columnWidth, columnsFor, useElementWidth } from '@site/src/components/viz/hooks'
 import {
   MILKY_WAY_ALPHA,
@@ -205,11 +205,7 @@ export default function CrossoverWeightExplorer(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        Left: the exponent p (red), the weight F^p (blue) and the bare F (gray) against the vertical
-        action; the dashed line marks F = F_crit. Right: the bias against S_0 between the trapping
-        floor and the diffusive value (dotted), with the bar-plus-spiral range shaded.
-      </p>
+      <Note text="Left: the exponent $p$ (red), the weight $F^p$ (blue) and the bare $F$ (gray) against the vertical action; the dashed line marks $F = F_{\rm crit}$. Right: the bias against $S_0$ between the trapping floor and the diffusive value (dotted), with the bar-plus-spiral range shaded." />
     </div>
   )
 }

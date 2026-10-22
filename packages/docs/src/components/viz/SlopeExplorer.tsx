@@ -1,5 +1,5 @@
 import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Controls, Readout, Slider } from '@site/src/components/viz/Controls'
+import { Controls, Note, Readout, Slider } from '@site/src/components/viz/Controls'
 import { columnWidth, columnsFor, useElementWidth } from '@site/src/components/viz/hooks'
 import {
   SOLAR_NEIGHBORHOOD,
@@ -180,10 +180,7 @@ export default function SlopeExplorer(): ReactNode {
           ]}
         />
       </Controls>
-      <p className="viz-note">
-        Dispersions in km/s, the surface density in solar masses per square parsec, the epicyclic
-        frequency fixed at 37 km/s/kpc and L_sun = R_0 V_0 with R_0 = 8.2 kpc and V_0 = 233 km/s.
-      </p>
+      <Note text="Dispersions in $\mathrm{km\,s^{-1}}$, the surface density in $M_\odot\,\mathrm{pc}^{-2}$, the epicyclic frequency fixed at $37\,\mathrm{km\,s^{-1}\,kpc^{-1}}$ and $L_\odot = R_0 V_0$ with $R_0 = 8.2$ kpc and $V_0 = 233\,\mathrm{km\,s^{-1}}$." />
     </div>
   )
 }

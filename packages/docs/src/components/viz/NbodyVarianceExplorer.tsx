@@ -1,6 +1,6 @@
 import useBaseUrl from '@docusaurus/useBaseUrl'
-import Chart, { Axis, linePath } from '@site/src/components/viz/Chart'
-import { Controls, Readout, Select } from '@site/src/components/viz/Controls'
+import Chart, { Axis, SvgLabel, linePath } from '@site/src/components/viz/Chart'
+import { Controls, Note, Readout, Select } from '@site/src/components/viz/Controls'
 import { columnWidth, columnsFor, useElementWidth } from '@site/src/components/viz/hooks'
 import * as d3 from 'd3'
 import React, { type ReactNode, useEffect, useState } from 'react'
@@ -161,9 +161,7 @@ export default function NbodyVarianceExplorer(): ReactNode {
                     </g>
                   )
                 })}
-                <text x={inner.width - 4} y={14} textAnchor="end" className="viz-text">
-                  F^2
-                </text>
+                <SvgLabel x={x(0.85 * xMin) + 6} y={y(1.7 * xMin) - 6} text="F^2" />
                 <Axis scale={y} orientation="left" ticks={5} gridLength={inner.width} />
                 <Axis
                   scale={x}
@@ -258,11 +256,7 @@ export default function NbodyVarianceExplorer(): ReactNode {
           </span>
         ))}
       </div>
-      <p className="viz-note">
-        Left: the nine origin rings at the selected baseline, the black line is F^2; hover a point
-        for the ring and its fitted exponent. Right: the exponent per ring at the three baselines,
-        the selected one in blue, with the prediction b = 2 dotted.
-      </p>
+      <Note text="Left: the nine origin rings at the selected baseline, the black line is $F^2$; hover a point for the ring and its fitted exponent. Right: the exponent per ring at the three baselines, the selected one in blue, with the prediction $b = 2$ dotted." />
     </div>
   )
 }
