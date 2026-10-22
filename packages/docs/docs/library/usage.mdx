@@ -5,7 +5,8 @@ title: Usage
 
 # Using the library
 
-The `experiments` package implements every result here.
+The `experiments` package implements every result of these pages, and the
+interactive figures run the same equations in the browser.
 
 Scalar diagnostics print a single number:
 
@@ -15,12 +16,13 @@ uv run experiments bias --alpha 0.84 --strength 0.9
 uv run experiments anchor --alpha 0.84 --target 0.90
 uv run experiments slope --c-max 1.0
 uv run experiments age-running --age 8 --ref 1 --beta-r 0.35 --beta-z 0.5
+uv run experiments overlap --bar-speed 38 --spiral-speed 20
 ```
 
-Each figure has its own command (with per-figure options), or generate the whole
-set at once. Every figure is written to `assets/figures/` as both a `.png` (for
-this docs site) and a `.pdf` (for the paper), and is only rewritten when its
-content actually changed:
+Each figure has its own command, with per-figure options, or the whole set is
+generated at once. Every figure is written to `assets/figures/` as both a `.png`, for
+this site, and a `.pdf`, for the paper, and is only rewritten when its content
+changed:
 
 ```bash
 uv run experiments form-factor-plot --n-energies 60
@@ -28,7 +30,7 @@ uv run experiments balescu-lenard-plot --n-b 24
 uv run experiments figures   # the full set
 ```
 
-Run `uv run experiments --help` for the full command list.
+`uv run experiments --help` lists every command.
 
 ## The N-body test
 
@@ -66,6 +68,31 @@ uv run experiments nbody-plot
 instead of the layer factor, `--harmonics m` one harmonic instead of the combined
 $m = 5$ to $8$, and `--k-sweep` adds the exponent against $F_k$ for every wavenumber of
 the stored grid.
+
+## The interactive figures
+
+The figures that respond to sliders are React components drawn with D3 under
+`packages/docs/src/components/viz/`, and the physics behind them lives in
+`packages/docs/src/physics/`, a TypeScript mirror of the Python modules: `sheet.ts`
+holds the isothermal sheet, the form factor, every migration weight and the
+reweighting that gives the dispersion ratio; `pendulum.ts` the corotation pendulum and
+the two-resonance map; `overlap.ts` the Chirikov parameter; and `slope.ts` the
+structural slope. The mirror is checked against the Python package on 37 quantities,
+form factors, frequencies, actions, trapped fractions and dispersion ratios, and
+agrees to a relative $2\times10^{-11}$; the quadratures use the same energy grid as the
+package, so the readouts of a figure are the numbers of the paper. The N-body explorer
+of Section 6 reads the cached tables of `assets/data/nbody/` directly.
+
+| Figure | Page | Module |
+| --- | --- | --- |
+| orbit explorer | [primer: orbits](/primer/orbits) | `sheet.ts` |
+| pendulum portrait, horseshoe orbits | [primer: resonance](/primer/resonance), Sections 1 and 3 | `pendulum.ts` |
+| two-resonance map, random walk | [primer: diffusion](/primer/diffusion) | `pendulum.ts`, `sheet.ts` |
+| form factor along the orbit | [Section 2](/theory/form-factor) | `sheet.ts` |
+| trapped weight | [Section 3](/theory/corotation-hamiltonian) | `sheet.ts` |
+| Chirikov islands, crossover weight | [Section 4](/theory/resonance-overlap) | `overlap.ts`, `sheet.ts` |
+| reweighting, slope | [Section 5](/results/provenance-bias) | `sheet.ts`, `slope.ts` |
+| ring-by-ring variance | [Section 6](/results/nbody-test) | the cached tables |
 
 From Python:
 

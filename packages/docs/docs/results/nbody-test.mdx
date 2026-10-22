@@ -4,25 +4,91 @@ title: 6. The N-body test
 sidebar_label: 6. The $N$-body test
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import Figure from '@site/src/components/Figure'
+import NbodyVarianceExplorer from '@site/src/components/viz/NbodyVarianceExplorer'
 
 # 6. The test in a self-consistent N-body disk
 
-**Goal of this section.** The test-particle experiment of
-[Section 5](/results/provenance-bias) shares the assumptions of the model: a fixed
-background, an imposed spiral, a razor-thin arm. Here we check the four predictions of
-Sections 2 to 5 in a simulation that shares none of them, the LD ("light disk") model of
-Vera-Ciro, D'Onghia and Navarro (2016), the disk introduced by D'Onghia, Vogelsberger and
-Hernquist (2013) and analyzed by Vera-Ciro et al. (2014), in its $10^8$-particle
-realization with recurrent multi-arm spirals, and we measure the form factor on the
-simulation's own orbits instead of modeling it. The outcome: the variance of the angular-momentum change follows the form
-factor squared, the dispersion of the migrators follows the selection rule, capture is
-symmetric in direction, and the arrivals keep their vertical action. One correction
-comes out of the test: the arms have a vertical thickness of their own, and the form
-factor must use the potential of a thick arm rather than the razor-thin $e^{-k|z|}$.
-The commands that reproduce every number are listed in [Using the library](/library/usage).
+**Goal of this section.** The predictions of Sections 3 to 5 are tested in two steps.
+First by direct orbit integration in an imposed spiral, which checks the mechanism with
+no analytic input but shares the assumptions of the model, a fixed background, an
+imposed spiral and a razor-thin arm. Then in a simulation that shares none of them, the
+LD ("light disk") model of Vera-Ciro, D'Onghia and Navarro (2016), the disk introduced
+by D'Onghia, Vogelsberger and Hernquist (2013) and analyzed by Vera-Ciro et al. (2014),
+in its $10^8$-particle realization with recurrent multi-arm spirals, where the form
+factor is measured on the simulation's own orbits instead of modeled. The outcome: the
+variance of the angular-momentum change follows the form factor squared, the
+dispersion of the migrators follows the selection rule, capture is symmetric in
+direction, and the arrivals keep their vertical action. One correction comes out of the
+test: the arms have a vertical thickness of their own, and the form factor must use the
+potential of a thick arm rather than the razor-thin $e^{-k|z|}$. The commands that
+reproduce every number are listed in [Using the library](/library/usage).
 
-## What the model predicts
+## Test particles
+
+We integrate about 3000 near-circular orbits whose guiding radii are spread around
+corotation, at $R \approx 1$ in units $R_0 = V_0 = 1$, each with a vertical velocity
+dispersion $\sigma_z$, in the Galactic potential `MWPotential2014` of Bovy (2015), together
+with one imposed transient spiral, a two-armed arm of pitch angle 15 degrees switched on
+and off by a Gaussian envelope in time. The orbits run for a few orbital periods, and
+each star is weighted by how much angular momentum it churned, $|\Delta L_z|$, the
+numerical counterpart of the migration weight $W$. The vertical dispersion of the
+weighted migrators is compared with that of the whole population, and the log of the
+ratio is the bias plotted below.
+
+The experiment is controlled by a few parameters, each tied to a quantity of the model:
+
+| symbol | in the simulation | in the model |
+| --- | --- | --- |
+| $z_0$ | the vertical scale height of the disk, $z_0 = \sigma_z/\nu_z(R{=}1) \approx 0.04$, about 0.4 kpc | the isothermal-sheet scale $z_0$ |
+| $k$ | the radial wavenumber of the spiral, set by the arm number $m = 2$ and the pitch angle $i$, $k = m/(R\tan i) \approx 7.5$, held fixed | the wavenumber of $\Phi_s \propto e^{ikR}$ |
+| $H$ | the vertical scale height of the spiral, the knob swept in the left panel | the vertical reach $1/k$ of the $e^{-k\lvert z\rvert}$ fall-off |
+| $M$ | the number of overlapping patterns, distinct transients of different pattern speed with the same $m$ and $k$, the knob swept in the right panel | no single-number counterpart: $M$ raises the effective overlap $S$ through the spacing and widths of the resonances |
+
+In the analytic model one number does double duty: $k$ sets the radial winding and,
+through Laplace's equation, the vertical fall-off, so the vertical reach of the spiral
+is locked to $1/k$. The simulation separates the two, with $k$ pinned by the geometry of
+the arm and the vertical extent $H$ dialed independently, which lets us vary the
+vertical thinness on its own and watch the form factor respond. The controlled knob is
+the dimensionless thinness $\alpha \equiv z_0/H$, the counterpart of the analytic
+$\alpha = k z_0$ with the model's $1/k$ replaced by $H$; the correspondence is only
+approximate, since the vertical profile of the galpy spiral is a $\mathrm{sech}$-type
+form rather than a pure exponential, although the ratio $z_0/H$ itself is exact. We
+sweep $\alpha$ from 0.1 to 1 by setting $H = z_0/\alpha$; the Galactic point is
+$\alpha \sim 1$, matching the analytic Milky Way value of 0.84.
+
+```shell
+uv run experiments test-particle-plot
+```
+
+<Figure src="/figures/test-particle-bias.png" alt="Bias of the test particles and of the N-body origin rings against the thinness, with the analytic weights" wide />
+
+_**Both tests in one variable.** Left: the test particles in a single transient spiral
+(open circles, seed-averaged over eight realizations with the standard error) weighted
+by their churning $|\Delta L_z|$, against the thinness $\alpha = z_0/H$, and the origin
+rings of the $N$-body disk below under the same $|\Delta L_z|$ weight at the three
+baselines (filled symbols), placed at $\alpha = k z_0$ with the arm wavenumber of the
+ring. The curves are the analytic bias for the single-resonance census $W \propto \sqrt F$
+(solid), the diffusive $|\Delta L_z|$ weight $W \propto F$ with the razor-thin form factor
+(dashed) and with the softened form factor of an arm 0.8 disk scale heights thick
+(dash-dotted), the thickness measured in the $N$-body disk. Right: stacking $M$
+overlapping patterns of staggered pattern speed deepens the test-particle bias
+monotonically._
+
+The migrators are vertically colder, and the bias strengthens with $\alpha$ in agreement
+with the single-resonance prediction, reaching $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}
+\approx -0.06$ near the Galactic $\alpha \sim 1$. The solid curve is the dilute $\sqrt{F}$
+floor, the strongest bias a single resonance can produce, so points at or just below it
+are the expected behavior at finite island width rather than a discrepancy. The right
+panel carries no analytic curve because the overlap regime is governed by the effective
+overlap $S$, set by the spacing and widths of the resonances and not by the bare count
+$M$; it is a trend test, and the trend is the one the diffusive argument requires. The
+$N$-body rings lie between the single-resonance curve and the razor-thin diffusive
+curve, and on the diffusive curve of the thick arm, whose thickness is the one measured
+below: the self-consistent disk sits where the diffusive regime with a thick arm puts
+it, with no parameter adjusted.
+
+## What the model predicts for the N-body disk
 
 The robust statement of the paper is the corotation coupling $\Psi \propto F(J_z, k)$ of
 [Section 3](/theory/corotation-hamiltonian). In the diffusive regime of
@@ -37,15 +103,15 @@ proportional to $F$. Four things follow, and the test checks each of them.
    weight of a star in the migrator population is $F$ when migrators are weighted by
    $\lvert\Delta L_z\rvert$, $F^2$ when weighted by $(\Delta L_z)^2$, and
    $\mathrm{erfc}(\lambda/F)$ with $\lambda = L_*/\sqrt{2V_1}$ when they are the stars
-   with $\lvert\Delta L_z\rvert > L_*$, where $V_1$ is the variance of $\Delta L_z$ at $F = 1$. The
-   model ratio for each rule is the ratio obtained by reweighting the same stars with
-   that weight.
+   with $\lvert\Delta L_z\rvert > L_*$, where $V_1$ is the variance of $\Delta L_z$ at
+   $F = 1$. The model ratio for each rule is the ratio obtained by reweighting the same
+   stars with that weight.
 3. The weight depends on $J_z$ only, so inward and outward migrators of one origin ring
    have the same $J_z$ distribution.
-4. A migrator keeps its vertical action, so at the destination its $\langle v_z^2\rangle$
-   is $J_z \nu_z$ with the local vertical frequency. The alternative, a migrator that keeps
-   its vertical energy, predicts a different dispersion, and the simulation decides
-   between the two.
+4. A migrator keeps its vertical action, so at the destination its
+   $\langle v_z^2\rangle$ is $J_z \nu_z$ with the local vertical frequency. The
+   alternative, a migrator that keeps its vertical energy, predicts a different
+   dispersion, and the simulation decides between the two.
 
 ## The simulation
 
@@ -111,15 +177,21 @@ uv run experiments nbody-migration staging/LD/analysis/windows/t_0.500.npz \
 uv run experiments nbody-plot
 ```
 
-<figure class="scientific wide">
-  <img src={useBaseUrl('/figures/nbody-variance.png')} alt="Normalized variance of the angular-momentum change against the normalized form factor, per origin ring and baseline" />
-</figure>
+<Figure src="/figures/nbody-variance.png" alt="Normalized variance of the angular-momentum change against the normalized form factor, per origin ring and baseline" wide />
 
-*__The core test.__ The variance of $\Delta L_z$ in eight quantile bins of the layer form
+_**The core test.** The variance of $\Delta L_z$ in eight quantile bins of the layer form
 factor $F$ for the nine origin rings from 3 to 12 kpc, colored by origin radius as the
 bar shows, at the three baselines, with both axes normalized to the bin of largest $F$
-of each ring, the maximum over its eight bins. The black line, named in the legend, is
-$F^2$, the prediction of the diffusive regime.*
+of each ring. The black line, named in the legend, is $F^2$, the prediction of the
+diffusive regime._
+
+<NbodyVarianceExplorer />
+
+_**The core test, ring by ring (interactive).** The same tables, read from the cache of
+the repository. Left: the nine rings at the baseline chosen in the drop-down, against
+the $F^2$ line; a point reveals its ring and fitted exponent. Right: the fitted exponent
+per ring at the three baselines, with the prediction $b = 2$ dotted, and the rms scatter
+of the rings about one power law in $F$ and in $|z|$ in the readouts._
 
 The exponent of $\mathrm{Var}(\Delta L_z) \propto F^b$ is fitted by weighted least squares
 in the log. Over the nine rings it averages 1.98, 1.98 and 1.88 in the three baselines;
@@ -130,15 +202,13 @@ variance of $\Delta L_z$ grows as a random walk would: inside 9 kpc it is 7,200 
 12,600 (kpc km/s)$^2$ at 0.49 Gyr and 26,300 to 46,600 at 1.96 Gyr, a factor 3.4 to 4.1
 over the fourfold interval.
 
-<figure class="scientific">
-  <img src={useBaseUrl('/figures/nbody-exponents.png')} alt="Exponent of the variance against the form factor, and the spread of the angular-momentum change, per origin ring for the three baselines" />
-</figure>
+<Figure src="/figures/nbody-exponents.png" alt="Exponent of the variance against the form factor, and the spread of the angular-momentum change, per origin ring for the three baselines" />
 
-*__The exponent per ring.__ Top: the exponent $b$ for the three baselines with the layer
+_**The exponent per ring.** Top: the exponent $b$ for the three baselines with the layer
 form factor (lines) and for the 0.49 Gyr baseline with the razor-thin
 $\langle e^{-k\lvert z\rvert}\rangle$ at the wavenumber of $m = 7$ (circles); the dotted
 line is the prediction $b = 2$. Bottom: the variance of $\Delta L_z$ of the same rings,
-which grows in proportion to the baseline.*
+which grows in proportion to the baseline._
 
 ### The arms are thick, and the razor-thin form factor fails inside 8 kpc
 
@@ -167,9 +237,9 @@ midplane arm by up to 50 degrees. The implied scale of a $\mathrm{sech}^2$ layer
 arm's second moment is $z_a = 0.24$ to 0.29 kpc for every harmonic inside 10 kpc, 0.77 to
 0.93 of the disk's $z_0 = 0.313$ kpc, and 0.25 to 0.26 kpc for the strongest harmonic.
 
-The correction is the one derived in [Section 2, Step 4](/theory/form-factor), with the
-arm's measured profile in place of the exponential: the in-plane Fourier component of
-the potential of an arm whose density follows $\mathrm{sech}^2(z/z_a)$ is
+The correction is the one derived in [Section 2](/theory/form-factor), with the arm's
+measured profile in place of the exponential: the in-plane Fourier component of the
+potential of an arm whose density follows $\mathrm{sech}^2(z/z_a)$ is
 
 $$
 \phi_k(z) \propto \int \mathrm{sech}^2\!\left(\frac{z'}{z_a}\right) e^{-k|z - z'|}\,\mathrm{d}z' ,
@@ -187,15 +257,13 @@ the disk's thickness gives 2.5 to 3.4.
 
 ## Result 2: the bias follows the selection rule
 
-<figure class="scientific">
-  <img src={useBaseUrl('/figures/nbody-rules.png')} alt="Measured and model dispersion ratios of the migrators for the three selection rules against origin radius" />
-</figure>
+<Figure src="/figures/nbody-rules.png" alt="Measured and model dispersion ratios of the migrators for the three selection rules against origin radius" />
 
-*__The bias per selection rule__ at the 1.96 Gyr baseline. In each origin ring the
+_**The bias per selection rule** at the 1.96 Gyr baseline. In each origin ring the
 measured $\sigma_{z,\rm mig}/\sigma_{z,\rm all}$ (points) is compared with the model
 obtained by reweighting the same stars with $F$, $F^2$ and $\mathrm{erfc}(\lambda/F)$
 (lines), for migrators weighted by $\lvert\Delta L_z\rvert$, by $(\Delta L_z)^2$, and
-selected by $\lvert\Delta L_z\rvert$ above the 90th percentile.*
+selected by $\lvert\Delta L_z\rvert$ above the 90th percentile._
 
 | Selection rule | Measured ratio, 3 to 12 kpc | Model ratio | Misfit (points) |
 | --- | --- | --- | --- |
@@ -210,31 +278,9 @@ exponent of Result 1. The ordering of the rules is the predicted one in every ri
 threshold selects the coldest stars, the linear weight the least cold. The bias in this
 disk is therefore 5 to 9 percent, 10 to 16 percent or 16 to 22 percent depending on how
 migrators are defined, which is why the paper quotes the offset per rule rather than as
-one number.
-
-The same rings are placed next to the test particles and the analytic weights in one
-variable, the thinness $\alpha = k z_0$ of each ring:
-
-```shell
-uv run experiments test-particle-plot
-```
-
-<figure class="scientific wide">
-  <img src={useBaseUrl('/figures/test-particle-bias.png')} alt="Bias of the test particles and of the N-body origin rings against the thinness, with the analytic weights" />
-</figure>
-
-*__Both tests in one variable.__ Left: the test particles of
-[Section 5](/results/provenance-bias) (open circles) and the N-body origin rings at the
-three baselines (filled symbols), both under the $\lvert\Delta L_z\rvert$ weight,
-against $\alpha$; the curves are the analytic bias for $W \propto \sqrt{F}$, for
-$W \propto F$ with the razor-thin form factor and for $W \propto F$ with the softened
-form factor of an arm 0.8 disk scale heights thick. Right: the test particles against
-the number of overlapping patterns.*
-
-The N-body rings lie between the single-resonance curve and the razor-thin diffusive
-curve, and on the diffusive curve of the thick arm, whose thickness is the one measured
-above. The self-consistent disk therefore sits where the diffusive regime with a thick
-arm puts it, with no parameter adjusted.
+one number. The same rings appear in the test-particle figure above, placed at the
+thinness $\alpha = k z_0$ of each ring next to the test particles and the analytic
+weights.
 
 ## Result 3: capture is symmetric, and arrivals keep $J_z$
 
@@ -245,14 +291,12 @@ ring sends most of its migrators outward and the outermost inward, which is the 
 drift of the disk (the mean $\Delta L_z$ is $+25$ kpc km/s at 3 to 4 kpc and $-26$ at
 11 to 12 kpc after 1.96 Gyr) and not an asymmetry of the capture.
 
-<figure class="scientific">
-  <img src={useBaseUrl('/figures/nbody-destination.png')} alt="Vertical dispersion of the arrivals relative to the non-migrators of the destination ring, inward and outward, with the two predictions" />
-</figure>
+<Figure src="/figures/nbody-destination.png" alt="Vertical dispersion of the arrivals relative to the non-migrators of the destination ring, inward and outward, with the two predictions" />
 
-*__The destination state__ at the 1.96 Gyr baseline. The vertical dispersion of the
+_**The destination state** at the 1.96 Gyr baseline. The vertical dispersion of the
 arrivals in each ring relative to the stars that stayed there (points), for inward
 (top) and outward (bottom) migrators, against the prediction with $J_z$ conserved
-(solid) and with $\langle v_z^2\rangle$ conserved (dashed).*
+(solid) and with $\langle v_z^2\rangle$ conserved (dashed)._
 
 Inside 9 kpc the $J_z$-conserving prediction is within 1.5 to 7 points of the
 measurement both ways, while the energy-conserving one is off by 11 to 15 points and
@@ -267,10 +311,10 @@ would produce; the quantitative claims of the paper stop at 9 kpc for this reaso
 
 ## What else the simulation shows
 
-**The perturbers are not the direct cause.** `nbody-floor` compares the same particles
-in the control run: between $t = 0.5$ and 0.8 the disk's own variance of $\Delta L_z$ is
-0.4 to 0.8 percent of the run's in every ring. The perturbers stay in for the whole run,
-so their direct scattering is not separated by a control. What separates it from
+The perturbers are not the direct cause. `nbody-floor` compares the same particles in
+the control run: between $t = 0.5$ and 0.8 the disk's own variance of $\Delta L_z$ is 0.4
+to 0.8 percent of the run's in every ring. The perturbers stay in for the whole run, so
+their direct scattering is not separated by a control. What separates it from
 corotation churning is the radial action: inside 8 kpc the migrators' median relative
 change of $J_R$ is 0.22 to 0.51 against 0.29 to 0.53 for the rest of the same rings, and
 the distribution of $\Delta L_z$ has an excess kurtosis of 0.2 to 1.7 inside 10 kpc.
@@ -281,7 +325,7 @@ neither.
 uv run experiments nbody-floor staging/LD-control staging/LD --times 0.5,0.8
 ```
 
-**The result does not depend on the drift of the arms.** The wavenumber is set once, in
+The result does not depend on the drift of the arms. The wavenumber is set once, in
 the origin window, and drifts by 20 percent on average (up to 40 percent at single radii)
 between the three test windows. The exponents measured against the origin-window $F$
 change between the baselines by less than the ring-to-ring scatter.
@@ -304,10 +348,10 @@ change between the baselines by less than the ring-to-ring scatter.
 The whole chain runs with the `nbody-*` commands of the library, from the GADGET
 snapshots on an external drive to the figures of this page. The extraction products
 live in the `staging/` folder of the repository, which is not committed (15 GB); the
-cached tables under `assets/data/nbody/` let `nbody-plot` and `figures` redraw the
-figures without them. The extraction takes about 10 hours for the 611 snapshots; every
-later step takes seconds to a minute. The commands, with their inputs and outputs, are
-tabulated in [Using the library](/library/usage).
+cached tables under `assets/data/nbody/` let `nbody-plot`, `figures` and the interactive
+figure above redraw the results without them. The extraction takes about 10 hours for
+the 611 snapshots; every later step takes seconds to a minute. The commands, with their
+inputs and outputs, are tabulated in [Using the library](/library/usage).
 
 :::tip What to carry forward
 In a self-consistent disk the variance of the angular-momentum change grows as

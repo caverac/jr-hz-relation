@@ -1,0 +1,133 @@
+---
+sidebar_position: 3
+title: From trapping to diffusion
+---
+
+import OverlapMap from '@site/src/components/viz/OverlapMap'
+import RandomWalk from '@site/src/components/viz/RandomWalk'
+
+# From trapping to diffusion
+
+**Goal of this page.** One resonance traps stars in a pendulum island. Two resonances
+whose islands overlap destroy the regular libration and let a star wander between them,
+and many transient arms turn that wandering into a random walk in angular momentum. We
+show the overlap on the stroboscopic map of two resonances, then the random walk of an
+ensemble of stars, and we derive the one fact the paper builds on: in the diffusive
+regime the spread in $L_z$ grows with the square of the coupling, so the diffusion
+coefficient is proportional to $F^2$ and not to $\sqrt{F}$.
+
+## Two resonances
+
+Take two patterns with different pattern speeds, the bar and a spiral, say. Each has its
+own corotation radius and its own pendulum island, and in the slow action $p$ the two
+islands are centered at different values, separated by $\Delta p$ and of half-widths
+$\Delta p_1$ and $\Delta p_2$. Chirikov (1979) gave the criterion for when the two can
+no longer be treated separately: the islands overlap when the sum of their half-widths
+exceeds their separation,
+
+$$
+S \equiv \frac{\Delta p_1 + \Delta p_2}{\Delta p} \ge 1 .
+$$
+
+Below the threshold each island keeps its librating stars, and between the islands
+there are invariant curves that no star can cross. Above it the two separatrices, each
+surrounded by a thin chaotic layer even in isolation, merge into one connected chaotic
+region, and a star started in one island can reach the other. The criterion is a rule
+of thumb, since the last invariant curve between two equal resonances breaks already at
+about two thirds of the simple estimate (Chirikov 1979), but it captures the transition
+to within that factor.
+
+The figure below integrates the simplest system with two resonances, a pendulum driven
+by a second wave of the same amplitude that moves at unit speed in $\theta$,
+
+$$
+H = -\frac{1}{2}\,p^2 + \Psi\left[\cos\theta + \cos(\theta + t)\right] ,
+$$
+
+whose resonances sit at $p = 0$ and $p = 1$ with half-widths $2\sqrt{\Psi}$ each, so that
+$S = 4\sqrt{\Psi}$. Because the second wave makes the Hamiltonian time dependent, the
+orbits are shown once per period of the drive, a stroboscopic map: a regular orbit then
+appears as a curve, a chaotic one as a cloud of points.
+
+<OverlapMap />
+
+_**Two overlapping resonances (interactive).** The stroboscopic map of 36 orbits for the
+Chirikov parameter set by the slider. Thin black curves are the separatrices each
+resonance would have alone. At small $S$ the two islands are separated by invariant
+curves; near $S = 0.7$ the chaotic layers around the two separatrices join, and by
+$S = 1$ a star started near one resonance visits the other. The islands themselves
+survive longest, shrinking as the sea grows._
+
+## The random walk
+
+Inside the chaotic region a star's angular momentum no longer oscillates about a fixed
+value. Each passage near a resonance, or each transient arm that grows and fades, gives
+it a kick $\delta L_z$ whose sign depends on the phase $\theta_r$ at which the arm finds
+the star, and the phases of successive arms are unrelated. The kicks add like the steps
+of a random walk. If an arm of coupling $\Psi$ acts for a time $\tau$ on a star at phase
+$\theta_r$, the pendulum equation $\dot p = \Psi\sin\theta_r$ gives
+$\delta L_z = \Psi\tau\sin\theta_r$, with mean zero and variance $(\Psi\tau)^2/2$ over a
+uniform phase. After $n$ arms the mean is still zero and the variance is the sum,
+
+$$
+\mathrm{Var}(\Delta L_z) = \frac{n}{2}\,(\Psi\tau)^2 ,
+$$
+
+and the distribution of $\Delta L_z$ tends to a Gaussian by the central limit theorem,
+whatever the shape of a single kick. The growth linear in $n$, or in time, is what
+defines diffusion, and the coefficient of proportionality, the diffusion coefficient
+$D_{L_z}$, carries the square of the coupling.
+
+<RandomWalk />
+
+_**Diffusion as a random walk (interactive).** Two populations of 800 stars start at the
+same angular momentum. Each transient kicks every star by $\Psi\sin\theta_r$ with its own
+random phase, $\Psi = 1$ for the cold population and $\Psi = F(E_z)$ for the hot one at the
+Milky Way thickness. Left: the histograms after $n$ transients, with the Gaussians of
+variance $n\Psi^2/2$ that the random walk predicts. Right: the two variances against
+$n$, growing along the predicted lines, whose slopes differ by $F^2$._
+
+## Why the square of the coupling
+
+The two regimes weight the vertical action differently, and the difference is the
+reason the paper needs the diffusive regime. In the trapping regime the arm carries
+whatever sits inside its island, so the number of migrators from a population counts
+the island's area, proportional to the half-width $2\sqrt{\Psi/|g|}$: the weight is
+$\sqrt{F}$. In the diffusive regime the arm kicks every star, and what distinguishes a
+hot star from a cold one is the size of the kick, proportional to $\Psi$; the spread in
+$L_z$ after many kicks grows as the variance, proportional to $\Psi^2$: the diffusion
+coefficient scales as $F^2$. Whether such a star counts as a migrator then depends on
+the rule: a population weighted by $|\Delta L_z|$ weights its stars by the root-mean-square
+kick, $F$; one weighted by $(\Delta L_z)^2$ weights them by $F^2$; and one defined by a
+threshold $|\Delta L_z| > L_*$ selects the fraction of a Gaussian of variance $V_1 F^2$
+beyond $L_*$, the weight $\mathrm{erfc}(\lambda/F)$ with $\lambda = L_*/\sqrt{2V_1}$.
+[Section 5](/results/provenance-bias) states these rules and
+[Section 6](/results/nbody-test) measures all three in the simulation.
+
+## The kinetic theory behind it
+
+The random walk above is the content of the quasilinear theory of a disk with a
+fluctuating spiral spectrum. The inhomogeneous Balescu-Lenard equation (Heyvaerts 2010;
+Fouvry, Pichon and Magorrian 2015) gives the angular-momentum diffusion coefficient of
+a star of actions $J$ as a sum over the resonances,
+
+$$
+D_{L_z}(J) = \pi\sum_m |\Psi_m(J)|^2\,C_m(\Omega) ,
+$$
+
+where $C_m$ is the power spectrum of the fluctuations at the resonant frequency and
+$\Psi_m$ the same resonant coupling as in the pendulum. Since the coupling at corotation
+carries the vertical form factor, $|\Psi_m|^2 \propto F^2$, which is the diffusive weight
+of [Section 4](/theory/resonance-overlap). The pendulum and the random walk are the two
+limits of one problem: an isolated resonance traps, overlapping resonances diffuse, and
+the vertical form factor enters both, once to the power one half and once to the power
+two.
+
+:::tip What to carry forward
+Overlapping resonances replace libration by a random walk in $L_z$ whose variance grows
+linearly in time with a coefficient proportional to the square of the coupling,
+$D_{L_z} \propto F^2$. The bias of the migrators then depends on how migrators are
+counted, with weights $F$, $F^2$ or $\mathrm{erfc}(\lambda/F)$, all steeper than the
+$\sqrt{F}$ of trapping. [Section 4](/theory/resonance-overlap) shows that the Milky Way
+bar and spiral sit at the overlap threshold, and that cold stars cross it first.
+:::

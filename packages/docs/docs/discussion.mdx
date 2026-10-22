@@ -1,0 +1,155 @@
+---
+sidebar_position: 6
+title: 7. Discussion
+---
+
+# 7. Discussion
+
+**Goal of this section.** We step back and see the whole argument as one structure,
+distinguish it from a result it is often confused with, state the caveats that bound
+the calculation, and restate the prediction that could falsify it.
+
+## One object, three faces
+
+The thread running through every section is a single analytic object, the vertical
+form factor $F(k h_Z)$, and three things that looked unrelated are tied together by it.
+$F$ is the common thread and not the sole determinant of each: the bias magnitude and
+the slope each draw on their own additional physics.
+
+1. The provenance bias. [Section 3](/theory/corotation-hamiltonian) showed that $F$ is
+   the exact vertical Fourier coefficient of the spiral at corotation, Equation (5), so
+   the pendulum well that traps migrating stars is deeper for cold stars by exactly
+   $\sqrt{F}$. That is the origin of the bias at the single-resonance level; the
+   observed magnitude additionally needs the regime physics of the next point.
+2. The vertical selectivity of capture. [Section 4](/theory/resonance-overlap) showed
+   that the same $F$ controls when resonances overlap, so cold stars enter the diffusive
+   regime first and the weight steepens from $F^{1/2}$ toward $F^2$.
+3. The spiral $J_R^{\max}$-$h_Z$ relation. $F$ depends on wavenumber and thickness only
+   through $\alpha = k h_Z$, the thickness that anchors the relation of Palicio et al.
+   (2025). [Section 5](/results/provenance-bias) derives the slope from the structural
+   anisotropy factor $\pi G\Sigma/\kappa\,(\sigma_R/\sigma_z)^2$; the form factor does
+   not enter the slope directly, its role being to select the cold-migrator population
+   that defines $J_R^{\max}$ and to share the same thickness. The model predicts that
+   the slope flattens with age.
+
+What was already known going in: the radial twin of $F$, the in-plane selectivity of
+Daniel and Wyse (2015), our $G$ factor; the $e^{-k|z|}$ fall-off of a thin spiral
+(Binney and Tremaine 2008); and the bias itself, seen in simulations (Vera-Ciro,
+D'Onghia and Navarro 2016; Mikkola et al. 2020). What was missing, and what this work
+supplies, is the vertical extension that turns the verbal "cold stars couple more
+readily" into Equations (5) to (8) and connects it to the measured slope.
+
+What the $N$-body disk of [Section 6](/results/nbody-test) adds is the measurement that
+the extension is right where it can be checked. The variance of $\Delta L_z$ over 0.5 to
+2 Gyr grows as $F^{1.9}$ to $F^{2.0}$ on average over 3 to 12 kpc, the rings collapse on
+$F$ twice as well as on $|z|$, the dispersion of the migrators is reproduced per
+selection rule to within 5 points, capture is symmetric in the sign of $\Delta L_z$, and
+inside 9 kpc the arrivals keep their vertical action. The one thing the simulation
+corrects is the kernel: the arms are 0.8 as thick as the disk, and only the form factor
+built on the potential of a thick arm gives the exponent 2.
+
+The form factor should not be conflated with the finite-thickness reduction factors of
+classical density-wave theory (Toomre 1964), which weaken the collective response of a
+self-gravitating disk to a density wave. $F$ is the orbit average of an externally
+imposed spiral felt by a single star at fixed $J_z$, a test-particle coupling and not a
+modification of the self-gravitating response. Both involve the vertical structure of
+the disk, but they act on different objects.
+
+## Selectivity is not the same as fate
+
+A closely related result is easy to conflate with this one. Roskar et al. (2013)
+showed, from the conservation of the vertical action, that when a star migrates outward
+its scale height grows as
+
+$$
+\frac{h_{Z,f}}{h_{Z,i}} = \exp\!\left(\frac{\Delta R}{2 R_d}\right),
+$$
+
+with $R_d$ the scale length of the disk. That law governs the fate of a star after it
+has migrated, what happens to its vertical structure once it lands. The form factor
+governs the selectivity of capture, which stars are picked up to migrate at all. The two
+are distinct and complementary, and only the latter produces the provenance bias. A
+population is reshaped both by who migrates and by what migration does to them, and
+this work is entirely about the former.
+
+The simulation of Section 6 measures both halves and settles which picture of the
+post-migration state the framework is consistent with. Schoenrich and Binney (2009)
+argued that outward migration contributes to disk thickening because migrators keep
+their vertical velocity dispersion as they move to a weaker restoring force, in the
+reading of Loebman et al. (2011) and Roskar et al. (2013), and Loebman et al. (2011)
+invoked that picture for the thickening in their simulation without comparing inward
+and outward migrators with the population at their destination. Minchev et al. (2012),
+assuming instead the approximate conservation of the vertical action, found that
+outward migrators cool and inward migrators heat, so that their effect on the local
+disk must be assessed relative to the destination population, and Vera-Ciro et al.
+(2014) found in the disk used here that the vertical dispersion of outward migrators
+always decreases while that of inward migrators increases; Minchev, Chiappini and
+Martig (2014) showed that a massive merger reverses the roles. In Section 6 the capture
+bias is symmetric in direction, with a Kolmogorov-Smirnov distance of 0.02 to 0.12
+between the $J_z$ distributions of inward and outward migrators, and the arrivals follow
+$J_z$ conservation inside 9 kpc: inward migrators arrive 24 to 29 percent colder than
+the stars already there and outward migrators 6 to 12 percent colder, the numbers that
+the provenance ratio times $e^{\Delta R/4R_d}$ gives, whereas conservation of the
+vertical energy would make outward migrators hotter than the locals. The framework is
+therefore consistent with Minchev et al. (2012) and Vera-Ciro et al. (2014) and not with
+the energy-conserving picture, and the fate law of Roskar et al. (2013), which assumes
+the conservation of $J_z$, is the one to combine with it.
+
+## The two regimes are two ends of one axis
+
+The form factor distinguishes two dynamical regimes that are the two limits of a single
+weight $W(J_z) = F^p$. Single-resonance trapping, $p = 1/2$, is the clean pendulum of
+Section 3, which floors the bias near $-7$ percent, weaker with finite arm thickness.
+Resonance-overlap diffusion, $p \to 2$, is the inhomogeneous Balescu-Lenard description
+of secular evolution in tightly wound disks (Fouvry et al. 2015), whose linear-response
+complement is the perturbed distribution function of Monari, Famaey and Siebert (2016),
+and gives a near-parameter-free $-20$ to $-27$ percent. A fully rigorous treatment would
+compute $W(J_z)$ as the phase-space trapped fraction across the overlap transition
+rather than in its two limits, a separate calculation that we defer.
+
+## Caveats
+
+Several caveats bound the calculation.
+
+- Finite arm thickness. The $e^{-k|z|}$ kernel is the razor-thin leading term; at the
+  Galactic $\alpha \sim 1$ the finite-thickness softening of Equation (2) is an
+  order-unity correction, and in the $N$-body disk it is not optional: the arms have a
+  measured $\mathrm{sech}^2$ scale of 0.8 disk scale heights, and the razor-thin kernel
+  underestimates the exponent of the variance by a factor of about 1.4 inside 8 kpc. The
+  thickness of the Galactic arms is not measured in the same way, and the softened $F$
+  of Section 2 with $h \sim 0.5$ to 1 is the range to carry.
+- Pattern-speed separation. The overlap parameter of Equation (11) depends on the gap
+  between the bar and spiral pattern speeds. The table of Section 4 shows that the
+  threshold conclusion holds across the literature range of the bar, and a slower bar,
+  a faster spiral or the recurrent transient spirals of the Milky Way only deepen the
+  overlap.
+- The magnitude of the bias depends on how migrators are selected. In the $N$-body disk
+  the dispersion offset is 5 to 9 percent for migrators weighted by $|\Delta L_z|$, 10 to
+  16 percent for $(\Delta L_z)^2$ and 16 to 22 percent for a threshold at the 90th
+  percentile, each reproduced by the matching weight in $F$. A single number for "the"
+  bias is not meaningful without the rule, and the comparison with Vera-Ciro, D'Onghia
+  and Navarro (2016) and Mikkola et al. (2020), who establish the cold-migrator
+  preference without a dispersion offset per rule, is at the level of the regime
+  ordering: single-resonance trapping near $-7$ percent against the $F^{3/2}$ to $F^2$
+  weights of the diffusive regime.
+- The quantitative claims hold inside 9 kpc and for baselines up to 2 Gyr. Outside 9
+  kpc the arrivals in the simulation are hotter than $J_z$ conservation predicts, by a
+  gap that grows with time, and the exponent of the variance is above 2.
+
+## The clean, testable prediction
+
+The strongest forward-looking result is the age running of the slope, Equation (16):
+the $J_R^{\max}$-$h_Z$ relation should flatten with population age, with the exponent
+$2(\beta_R - \beta_z) \approx -0.3$, so that an 8 Gyr population has roughly half the
+slope of a 1 Gyr population. To our knowledge this is an untested and clean prediction
+for current Gaia, APOGEE and LAMOST data: re-fit the relation in mono-age or
+mono-abundance bins and read $\beta_R - \beta_z$ off spiral-arm kinematics.
+
+## Reproducibility
+
+Every number and figure on these pages is produced by the open-source engine, with a
+full test suite ([Using the library](/library/usage)), and the interactive figures run
+the same equations in the browser. Nothing here is a fit to the simulations: the
+analytic chain runs from Laplace's equation ([Section 2](/theory/form-factor)) to the
+measurable slope ([Section 5](/results/provenance-bias)) with the spiral strength as
+the only physical input, and that input lands inside its independently known range.
