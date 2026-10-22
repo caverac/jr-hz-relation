@@ -9,7 +9,7 @@ MAIN     = ms
 # assets/figures/. This Makefile only *syncs* (copies) the finished PDFs in here, so
 # the manuscript -- and its submission tarball -- stay self-contained.
 ASSETSDIR = ../../assets/figures
-FIGURES   = form-factor.pdf provenance-bias.pdf resonance-overlap.pdf trapped-weight.pdf trapping-cap.pdf crossover-bias.pdf finite-thickness.pdf balescu-lenard.pdf test-particle-bias.pdf
+FIGURES   = form-factor.pdf provenance-bias.pdf resonance-overlap.pdf trapped-weight.pdf trapping-cap.pdf crossover-bias.pdf finite-thickness.pdf balescu-lenard.pdf test-particle-bias.pdf nbody-variance.pdf nbody-exponents.pdf nbody-rules.pdf nbody-destination.pdf
 
 .PHONY: all clean distclean sync-figures submission
 
