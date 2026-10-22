@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
-title: 5. The bias & the J_R–h_Z relation
+title: 5. The bias and the J_R-h_Z relation
+sidebar_label: 5. The bias and the $J_R\text{--}h_Z$ relation
 ---
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -11,7 +12,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 effective weight for the diffusive regime and use it to predict the **size** of the
 provenance bias and how it depends on disk thickness and spiral strength. Then we
 derive the **slope** of the empirical $J_R^{\max}$–$h_Z$ relation of Palicio et al.
-(2024) from first principles — and find it predicts that the relation should
+(2025) from first principles — and find it predicts that the relation should
 **flatten with stellar age**, a clean, testable consequence.
 
 ## Part A — the magnitude of the bias
@@ -94,10 +95,20 @@ Two points anchor the result:
   2. the bias **strengthens with disk thickness** $\alpha$ — and is independent of
      spiral morphology, matching Vera-Ciro et al. (2016).
 
+The capture weight of Equation 11 is a closure: it turns the coupling $F$ into a
+migration probability through the one parameter $s$. The scaling it rests on,
+$D_{L_z} \propto F^2$, and the fact that the dispersion offset depends on how migrators
+are selected are measured directly in [Section 6](/results/nbody-test): in the N-body
+disk the ratio is 0.91 to 0.95 for migrators weighted by $\lvert\Delta L_z\rvert$ (the
+weight $F$), 0.84 to 0.90 for $(\Delta L_z)^2$ (the weight $F^2$) and 0.78 to 0.84 for a
+threshold at the 90th percentile (the weight $\mathrm{erfc}(\lambda/F)$), each reproduced
+by reweighting the simulation's own stars to within 5 points. The $-20$ to $-41$ percent
+band above is the range of the closure over $s$, not a measurement.
+
 ## Part B — the $J_R^{\max}$–$h_Z$ slope
 
 The same form factor that controls the bias links it to a completely different
-observable: the Palicio et al. (2024) linear relation
+observable: the Palicio et al. (2025) linear relation
 $J_R^{\max}=a\,h_Z+b$. We now derive the slope $a$.
 
 ### Step 3 — two structural ingredients
@@ -207,7 +218,7 @@ $$
 
 Measured exponents are $\beta_z\approx0.5$ (vertical heating is efficient) and
 $\beta_R\approx0.35$ (radial heating less so) (Aumer, Binney & Schönrich 2016; Sun et
-al. 2024). So the exponent is
+al. 2025). So the exponent is
 
 $$
 2(\beta_R-\beta_z) = 2(0.35-0.50) = -0.3 ,

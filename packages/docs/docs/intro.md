@@ -118,7 +118,7 @@ measurable. **Turning that sentence into a quantitative model is the goal of thi
 
 ## A second clue: the spiral $J_R^{\max}$–$h_Z$ relation
 
-Independently, Palicio et al. (2024) measured something suggestive across simulated
+Independently, Palicio et al. (2025) measured something suggestive across simulated
 spiral galaxies (and found it holds for the Milky Way too): the **maximum radial
 action** $J_R^{\max}$ reached by spiral-arm stars grows *linearly* with the disk's
 vertical scale height $h_Z$,
@@ -189,8 +189,13 @@ Here is the logic, section by section, with links to the detailed walkthroughs:
 4. **[The provenance bias and the $J_R^{\max}$–$h_Z$ relation](/results/provenance-bias)**
    — recover the bias magnitude, the measured slope, and a prediction that the slope
    *flattens with stellar age*. *(Section 5)*
-5. **[Discussion](/discussion)** — how the pieces fit together, and the caveats.
+5. **[The N-body test](/results/nbody-test)**: measure the model in a self-consistent
+   disk of $10^8$ particles. The variance of the angular-momentum change follows $F^2$,
+   the bias of the migrators follows the selection rule, and the arrivals keep their
+   vertical action; the arms are thick, and $F$ must use the potential of a thick arm.
    *(Section 6)*
+6. **[Discussion](/discussion)** — how the pieces fit together, and the caveats.
+   *(Section 7)*
 
 The companion **[library](/library/usage)** is the open-source engine that derives
 every number and figure here, with a full test suite.

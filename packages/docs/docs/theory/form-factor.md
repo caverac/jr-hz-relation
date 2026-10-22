@@ -292,6 +292,16 @@ it). We will use $F_{\rm soft}$ in place of the razor-thin $F$ when we put in
 Milky-Way numbers, and it turns out to *weaken* the bias by an order-unity factor —
 quantified in [Section 3](/theory/corotation-hamiltonian).
 
+The thickness is not a refinement that can be left out. In the N-body disk of
+[Section 6](/results/nbody-test) the arms have a measured $\mathrm{sech}^2$ scale of
+$z_a = 0.25$ kpc, 0.8 of the disk's $z_0$, and with the razor-thin $F$ the variance of
+the angular-momentum change grows as $F^{0.9}$ to $F^{1.35}$ inside 8 kpc instead of the
+predicted $F^2$. With the same convolution for the arm's measured profile, a
+$\mathrm{sech}^2$ layer in place of the exponential, the exponent is 1.4 to 1.9 there and
+2.0 to 2.8 outside, 1.9 to 2.0 on average. The razor-thin kernel underestimates the
+exponent by a factor of about 1.4 because its cusp at $z = 0$ makes $F$ vary too fast
+across the heights that most stars reach, which are all inside the arm.
+
 :::tip What to carry forward
 $F(J_z,k)$ is the orbit-averaged spiral amplitude a star feels. It equals $1$ for a
 mid-plane orbit, falls with vertical action, depends on thickness and wavenumber only

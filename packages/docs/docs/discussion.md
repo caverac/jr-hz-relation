@@ -1,9 +1,9 @@
 ---
-sidebar_position: 5
-title: 6. Discussion
+sidebar_position: 6
+title: 7. Discussion
 ---
 
-# 6. Discussion — how the pieces fit together
+# 7. Discussion — how the pieces fit together
 
 **Goal of this section.** Step back and see the whole argument as one structure,
 distinguish it from a result it is often confused with, lay out the honest caveats,
@@ -26,7 +26,7 @@ below, the bias magnitude and the slope each draw on their own additional physic
    diffusive churning regime first — the bias steepens from $F^{1/2}$ toward $F^2$.
 3. **The spiral $J_R^{\max}$–$h_Z$ relation.** $F$ depends on wavenumber and thickness
    only through $\alpha=k\,h_Z$ — the same disk thickness that anchors the Palicio et
-   al. (2024) relation. [Section 5](/results/provenance-bias) derives that relation's
+   al. (2025) relation. [Section 5](/results/provenance-bias) derives that relation's
    slope from a structural anisotropy factor $\pi G\Sigma/\kappa\,(\sigma_R/\sigma_z)^2$
    (the form factor does not enter the slope directly); $F$'s role is to select the
    cold-migrator population that defines $J_R^{\max}$, tying the two observables to one
@@ -38,6 +38,15 @@ spiral (Binney & Tremaine 2008); and the bias itself, seen in simulations (Vera-
 et al. 2016; Mikkola et al. 2020). **What was missing — and what this paper supplies —
 is the vertical extension** that turns the verbal "cold stars couple more readily"
 into Equations 4–5 and connects it to the measured slope.
+
+What the N-body disk of [Section 6](/results/nbody-test) adds is the measurement that
+the extension is right where it can be checked. The variance of $\Delta L_z$ over 0.5 to
+2 Gyr grows as $F^{1.9}$ to $F^{2.0}$ on average over 3 to 12 kpc, the rings collapse on
+$F$ twice as well as on $\lvert z\rvert$, the dispersion of the migrators is reproduced
+per selection rule to within 5 points, capture is symmetric in the sign of
+$\Delta L_z$, and inside 9 kpc the arrivals keep their vertical action. The one thing the
+simulation corrects is the kernel: the arms are 0.8 as thick as the disk, and only the
+form factor built on the potential of a thick arm gives the exponent 2.
 
 One thing $F$ is *not*: it should not be conflated with the finite-thickness
 reduction factors of classical density-wave theory (Toomre 1964), which weaken a
@@ -65,6 +74,16 @@ only the latter produces the provenance bias. Keeping them separate is important
 population can be reshaped both by *who migrates* (selectivity) and by *what migration
 does to them* (fate), and this paper is entirely about the former.
 
+The simulation of [Section 6](/results/nbody-test) measures both halves. The
+selectivity is symmetric: inward and outward migrators of one origin ring share the
+same $J_z$ distribution (Kolmogorov-Smirnov distance 0.02 to 0.12), because the weight
+depends on $J_z$ only. The fate follows $J_z$ conservation inside 9 kpc: inward
+migrators arrive 24 to 29 percent colder than the stars already there and outward
+migrators 6 to 12 percent colder, the numbers that the provenance ratio times
+$e^{\Delta R/4R_d}$ gives, whereas conservation of the vertical energy would make
+outward migrators hotter than the locals. That is the picture of Minchev et al.
+(2012) and of Vera-Ciro et al. (2014), not that of Schoenrich and Binney (2009).
+
 ## The two regimes are two ends of one axis
 
 The form factor distinguishes two dynamical regimes that are really the two limits of
@@ -88,18 +107,26 @@ Honesty about the limits of the argument:
 
 - **Finite arm thickness.** The $e^{-k|z|}$ kernel is the razor-thin leading term; at
   the Galactic $\alpha\sim1$ the finite-thickness softening (Equation 2) is an
-  order-unity correction. We carried it for an exponential arm profile; a
-  self-consistent profile would refine the number but not the picture.
+  order-unity correction, and in the N-body disk it is not optional: the arms have a
+  measured $\mathrm{sech}^2$ scale of 0.8 disk scale heights, and the razor-thin kernel
+  underestimates the exponent of the variance by a factor of about 1.4 inside 8 kpc.
+  The Milky Way's arm thickness is not measured in the same way; the softened $F$ of
+  Section 2 with $h \sim 0.5$ to 1 is the range to carry.
 - **Pattern-speed separation.** The overlap parameter (Equation 8) depends on the
   bar–spiral pattern-speed gap. The well-separated values we adopted are
   *conservative*; the Milky Way's recurrent transient spirals add more resonances,
   which only *increases* the overlap and the bias.
-- **The bias magnitude is not yet robustly measured.** Vera-Ciro et al. (2016)
-  establish the cold-migrator preference *qualitatively* — there is no published
-  migrator dispersion offset $\sigma_z^{\rm mig}/\sigma_z^{\rm all}$ to match against.
-  Our conclusions therefore rest on the **regime ordering** — single-resonance
-  trapping floors near $-7\%$, the diffusive regime predicts $-20$ to $-27\%$ — and on
-  that qualitative cold-migrator preference, *not* on a precise value.
+- **The bias magnitude depends on how migrators are selected.** In the N-body disk the
+  dispersion offset is 5 to 9 percent for migrators weighted by
+  $\lvert\Delta L_z\rvert$, 10 to 16 percent for $(\Delta L_z)^2$ and 16 to 22 percent for
+  a threshold at the 90th percentile, each reproduced by the matching weight in $F$.
+  A single number for "the" bias is therefore not meaningful without the rule, and the
+  comparison with Vera-Ciro et al. (2016), who establish the cold-migrator preference
+  qualitatively, is at the level of the regime ordering: single-resonance trapping
+  floors near $-7\%$, the diffusive regime gives $F^{3/2}$ to $F^2$ weights.
+- **The quantitative claims hold inside 9 kpc and for baselines up to 2 Gyr.** Outside
+  9 kpc the arrivals in the simulation are hotter than $J_z$ conservation predicts, by
+  a gap that grows with time, and the exponent of the variance is above 2.
 
 ## The clean, testable prediction
 

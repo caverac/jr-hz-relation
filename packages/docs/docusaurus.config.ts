@@ -1,3 +1,4 @@
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -6,6 +7,31 @@ import type { Config } from '@docusaurus/types'
 import { themes as prismThemes } from 'prism-react-renderer'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
+
+import remarkTocMath from './src/remark/tocMath'
+
+type Stylesheet = NonNullable<Config['stylesheets']>[number]
+
+/**
+ * Stylesheet entry for KaTeX, derived from the copy in `node_modules` rather
+ * than written out by hand. The stylesheet has to match the KaTeX that
+ * `rehype-katex`, the table of contents and the sidebar labels render with, and
+ * its integrity hash has to match the stylesheet, so pinning either by hand
+ * invites a silent mismatch: a stale hash makes browsers refuse the file and
+ * every formula on the site loses its layout.
+ */
+function katexStylesheet(): Stylesheet {
+  const packageDir = path.dirname(require.resolve('katex/package.json'))
+  const manifest = JSON.parse(fs.readFileSync(path.join(packageDir, 'package.json'), 'utf-8'))
+  const css = fs.readFileSync(path.join(packageDir, 'dist', 'katex.min.css'))
+
+  return {
+    href: `https://cdn.jsdelivr.net/npm/katex@${manifest.version}/dist/katex.min.css`,
+    type: 'text/css',
+    integrity: `sha384-${crypto.createHash('sha384').update(css).digest('base64')}`,
+    crossorigin: 'anonymous'
+  }
+}
 
 const baseUrl = process.env.DOCS_BASE_URL ?? '/jr-hz-relation/'
 
@@ -48,14 +74,7 @@ const config: Config = {
     locales: ['en']
   },
 
-  stylesheets: [
-    {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css',
-      type: 'text/css',
-      integrity: 'sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+',
-      crossorigin: 'anonymous'
-    }
-  ],
+  stylesheets: [katexStylesheet()],
 
   markdown: {
     hooks: {
@@ -84,6 +103,9 @@ const config: Config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
+          // Must run before Docusaurus builds the table of contents, which the
+          // regular `remarkPlugins` hook is too late for.
+          beforeDefaultRemarkPlugins: [remarkTocMath],
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex]
         },

@@ -314,15 +314,20 @@ uv run experiments test-particle-plot
 *__Test-particle validation__ (seed-averaged; error bars are the standard error).
 The vertical axis is the log dispersion ratio $\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}$
 (more negative $=$ colder migrators $=$ stronger bias), as in the figures above.
-__Left:__ a single transient spiral — the churning-weighted bias deepens with the
-spiral thinness $\alpha=z_0/H$, tracking the analytic single-resonance prediction (curve)
-and reaching $\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}\approx-0.06$ (migrators
-$\approx6\%$ colder) near the Galactic $\alpha\sim1$. The curve is the dilute
+__Left:__ a single transient spiral (open circles) — the churning-weighted bias deepens
+with the spiral thinness $\alpha=z_0/H$, tracking the analytic single-resonance
+prediction (solid curve) and reaching
+$\ln\sigma_{z,\mathrm{mig}}/\sigma_{z,\mathrm{all}}\approx-0.06$ (migrators
+$\approx6\%$ colder) near the Galactic $\alpha\sim1$. The solid curve is the dilute
 ($\kappa\to0$) $\sqrt F$ **floor** — the *strongest* bias a single resonance can
 produce — so points lying at or just below it are the expected single-resonance
-behavior at finite island width, not a discrepancy. __Right:__ stacking $M$ overlapping
-patterns of different pattern speed deepens the bias monotonically — a direct
-confirmation of the resonance-overlap mechanism.*
+behavior at finite island width, not a discrepancy. The dashed and dash-dotted curves
+are the diffusive weight $W \propto F$ with the razor-thin form factor and with the
+softened form factor of an arm 0.8 disk scale heights thick, and the filled symbols are
+the origin rings of the N-body disk of [Section 6](/results/nbody-test) under the same
+$\lvert\Delta L_z\rvert$ weight at its three baselines, placed at $\alpha = k z_0$.
+__Right:__ stacking $M$ overlapping patterns of different pattern speed deepens the bias
+monotonically — a direct confirmation of the resonance-overlap mechanism.*
 
 Both predictions come out: migrators are vertically colder, the single-resonance bias
 matches the $\sqrt F$ analytics and its magnitude, and *overlapping* patterns push the

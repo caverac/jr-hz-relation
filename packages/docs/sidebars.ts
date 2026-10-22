@@ -15,7 +15,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Results',
       collapsed: false,
-      items: ['results/provenance-bias']
+      items: ['results/provenance-bias', 'results/nbody-test']
     },
     'discussion',
     {
