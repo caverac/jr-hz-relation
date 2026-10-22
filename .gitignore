@@ -40,6 +40,11 @@ htmlcov/
 # === Research record (local-only; anti-scooping) ===
 notebooks/
 
+# === Staging area for the N-body extraction products (15 GB, local-only) ===
+# The nbody-* commands read and write here; only the small tables under
+# assets/data/nbody/ and the figures under assets/figures/ are committed.
+staging/
+
 # === IDE ===
 .idea/
 .vscode/
@@ -72,3 +77,6 @@ yarn-error.log*
 *.synctex.gz
 *.toc
 *.out
+
+# Reviews
+packages/reviews/*

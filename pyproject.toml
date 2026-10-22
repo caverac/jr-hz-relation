@@ -81,6 +81,10 @@ ignore_missing_imports = true
 module = "galpy.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "h5py.*"
+ignore_missing_imports = true
+
 # Pylance/Pyright (editor only; not part of the gate): the IDE analogue of the mypy
 # ignore_missing_imports above. scipy and galpy ship no type stubs, so silence the
 # "stub file not found" nag rather than require stubs for untyped third-party libs.
