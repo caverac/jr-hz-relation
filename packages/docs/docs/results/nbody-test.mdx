@@ -19,8 +19,8 @@ in its $10^8$-particle realization with recurrent multi-arm spirals, where the f
 factor is measured on the simulation's own orbits instead of modeled. The outcome: the
 variance of the angular-momentum change follows the form factor squared, the
 dispersion of the migrators follows the selection rule, capture is symmetric in
-direction, and the arrivals keep their vertical action. One correction comes out of the
-test: the arms have a vertical thickness of their own, and the form factor must use the
+direction and the arrivals keep their vertical action. One correction comes out of the
+test: the arms have a vertical thickness of their own, so the form factor must use the
 potential of a thick arm rather than the razor-thin $e^{-k|z|}$. The commands that
 reproduce every number are listed in [Using the library](/library/usage).
 
@@ -30,11 +30,11 @@ We integrate about 3000 near-circular orbits whose guiding radii are spread arou
 corotation, at $R \approx 1$ in units $R_0 = V_0 = 1$, each with a vertical velocity
 dispersion $\sigma_z$, in the Galactic potential `MWPotential2014` of Bovy (2015), together
 with one imposed transient spiral, a two-armed arm of pitch angle 15 degrees switched on
-and off by a Gaussian envelope in time. The orbits run for a few orbital periods, and
-each star is weighted by how much angular momentum it churned, $|\Delta L_z|$, the
-numerical counterpart of the migration weight $W$. The vertical dispersion of the
-weighted migrators is compared with that of the whole population, and the log of the
-ratio is the bias plotted below.
+and off by a Gaussian envelope in time. The orbits run for a few orbital periods, after
+which each star is weighted by how much angular momentum it churned, $|\Delta L_z|$, the
+numerical counterpart of the migration weight $W$. The log of the ratio between the
+vertical dispersion of the weighted migrators and that of the whole population is the
+bias plotted below.
 
 The experiment is controlled by a few parameters, each tied to a quantity of the model:
 
@@ -65,7 +65,7 @@ uv run experiments test-particle-plot
 
 _**Both tests in one variable.** Left: the test particles in a single transient spiral
 (open circles, seed-averaged over eight realizations with the standard error) weighted
-by their churning $|\Delta L_z|$, against the thinness $\alpha = z_0/H$, and the origin
+by their churning $|\Delta L_z|$, against the thinness $\alpha = z_0/H$, together with the origin
 rings of the $N$-body disk below under the same $|\Delta L_z|$ weight at the three
 baselines (filled symbols), placed at $\alpha = k z_0$ with the arm wavenumber of the
 ring. The curves are the analytic bias for the single-resonance census $W \propto \sqrt F$
@@ -75,16 +75,16 @@ ring. The curves are the analytic bias for the single-resonance census $W \propt
 overlapping patterns of staggered pattern speed deepens the test-particle bias
 monotonically._
 
-The migrators are vertically colder, and the bias strengthens with $\alpha$ in agreement
-with the single-resonance prediction, reaching $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}
+The migrators are vertically colder, with a bias that strengthens with $\alpha$ in
+agreement with the single-resonance prediction, reaching $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}
 \approx -0.06$ near the Galactic $\alpha \sim 1$. The solid curve is the dilute $\sqrt{F}$
 floor, the strongest bias a single resonance can produce, so points at or just below it
 are the expected behavior at finite island width rather than a discrepancy. The right
 panel carries no analytic curve because the overlap regime is governed by the effective
 overlap $S$, set by the spacing and widths of the resonances and not by the bare count
-$M$; it is a trend test, and the trend is the one the diffusive argument requires. The
+$M$; it is a trend test, whose trend is the one the diffusive argument requires. The
 $N$-body rings lie between the single-resonance curve and the razor-thin diffusive
-curve, and on the diffusive curve of the thick arm, whose thickness is the one measured
+curve, right on the diffusive curve of the thick arm, whose thickness is the one measured
 below: the self-consistent disk sits where the diffusive regime with a thick arm puts
 it, with no parameter adjusted.
 
@@ -94,14 +94,14 @@ The robust statement of the paper is the corotation coupling $\Psi \propto F(J_z
 [Section 3](/theory/corotation-hamiltonian). In the diffusive regime of
 [Section 4](/theory/resonance-overlap) it gives $D_{L_z} \propto F^2$, so a star that
 diffuses in $L_z$ for a time $\Delta t$ has a change $\Delta L_z$ whose root mean square is
-proportional to $F$. Four things follow, and the test checks each of them.
+proportional to $F$. Four things follow, each of which the test checks.
 
 1. In a ring of origin radius, $\mathrm{Var}(\Delta L_z)$ against $F$ is a power law of
    exponent 2, with no free parameter.
 2. The vertical dispersion of the migrators relative to the whole ring,
    $\sigma_{z,\rm mig}/\sigma_{z,\rm all}$, depends on how migrators are selected. The
    weight of a star in the migrator population is $F$ when migrators are weighted by
-   $\lvert\Delta L_z\rvert$, $F^2$ when weighted by $(\Delta L_z)^2$, and
+   $\lvert\Delta L_z\rvert$, $F^2$ when weighted by $(\Delta L_z)^2$ and
    $\mathrm{erfc}(\lambda/F)$ with $\lambda = L_*/\sqrt{2V_1}$ when they are the stars
    with $\lvert\Delta L_z\rvert > L_*$, where $V_1$ is the variance of $\Delta L_z$ at
    $F = 1$. The model ratio for each rule is the ratio obtained by reweighting the same
@@ -111,7 +111,7 @@ proportional to $F$. Four things follow, and the test checks each of them.
 4. A migrator keeps its vertical action, so at the destination its
    $\langle v_z^2\rangle$ is $J_z \nu_z$ with the local vertical frequency. The
    alternative, a migrator that keeps its vertical energy, predicts a different
-   dispersion, and the simulation decides between the two.
+   dispersion, so the simulation decides between the two.
 
 ## The simulation
 
@@ -128,8 +128,8 @@ The perturbers seed the arms, which then grow by swing amplification (D'Onghia e
 2013). The spiral is a set of local corotating features rather than one global mode:
 in the origin window of the test, $t = 0.5$ to 0.8, the harmonics $m = 5$ to 8 dominate
 with density amplitudes of 9 to 13 percent at 5 to 8 kpc, pitch angles of 20 to 40
-degrees and radial wavenumbers of 1.4 to 2.5 kpc$^{-1}$, and each harmonic shows several
-spectrogram peaks whose corotation lies within 1 kpc of the peak radius. The amplitudes
+degrees and radial wavenumbers of 1.4 to 2.5 kpc$^{-1}$, with each harmonic showing
+several spectrogram peaks whose corotation lies within 1 kpc of the peak radius. The amplitudes
 decline slowly, to 7 to 10 percent at $t = 1.5$ to 1.8 and 5 to 8 percent at $t = 2.5$
 to 2.8, while the combined wavenumber drifts by 20 percent on average.
 
@@ -139,7 +139,7 @@ uv run experiments nbody-spiral staging/LD --windows 0.5:0.8,1.5:1.8,2.5:2.8
 
 The snapshots are read once by `nbody-extract`, which keeps a random $10^6$ disk
 particles as time series (the tracks) and, per snapshot, sums over all $10^8$ particles
-in 80 rings of 0.25 kpc (counts, $\sum\cos m\phi$ and $\sum\sin m\phi$ for $m = 1$ to 8,
+in 80 rings of 0.25 kpc (counts, $\sum\cos m\phi$ and $\sum\sin m\phi$ for $m = 1$ to 8
 and the moments of $z$, $v_R$, $v_\phi$ and $v_z$). The products take 15 GB and stay
 outside the repository; the tables of the test are cached under `assets/data/nbody/`.
 
@@ -148,7 +148,7 @@ outside the repository; the tables of the test are cached under `assets/data/nbo
 `nbody-window` summarizes every tracked particle over a window of 293 Myr (60
 snapshots): the mean $L_z$ and radius, the actions $J_z = \frac{1}{2\pi}\oint v_z\,dz$
 and $J_R = \frac{1}{2\pi}\oint v_R\,dR$ as loop integrals between the first and the last
-upward crossing, the periods from the same crossings, and the form factor
+upward crossing, the periods from the same crossings and the form factor
 $F = \langle\phi_k(z)/\phi_k(0)\rangle$ along the orbit for wavenumbers from 0.5 to 4
 kpc$^{-1}$. The loop integrals recover synthetic orbits sampled at the run's cadence to
 0.1 percent. In the origin window 85 percent of the tracked stars complete a vertical
@@ -161,7 +161,7 @@ uv run experiments nbody-window staging/LD --start 1.0
 ```
 
 Each disk star gets an origin ring from the guiding radius of its mean $L_z$ on the
-model rotation curve, and $\Delta L_z$ is the change of its window-mean $L_z$ to a later
+model rotation curve, with $\Delta L_z$ the change of its window-mean $L_z$ to a later
 window. The three baselines are 0.49, 0.98 and 1.96 Gyr, from the origin window to
 $t = 1.0$, 1.5 and 2.5. The form factor of a ring is evaluated at the ring's wavenumber,
 the mean over $m = 5$ to 8 of each harmonic's wavenumber with the squared amplitudes as
@@ -190,7 +190,7 @@ diffusive regime._
 _**The core test, ring by ring.** The same tables, read from the cache of
 the repository. Left: the nine rings at the baseline chosen in the drop-down, against
 the $F^2$ line; a point reveals its ring and fitted exponent. Right: the fitted exponent
-per ring at the three baselines, with the prediction $b = 2$ dotted, and the rms scatter
+per ring at the three baselines, with the prediction $b = 2$ dotted, plus the rms scatter
 of the rings about one power law in $F$ and in $|z|$ in the readouts._
 
 The exponent of $\mathrm{Var}(\Delta L_z) \propto F^b$ is fitted by weighted least squares
@@ -202,7 +202,7 @@ variance of $\Delta L_z$ grows as a random walk would: inside 9 kpc it is 7,200 
 12,600 (kpc km/s)$^2$ at 0.49 Gyr and 26,300 to 46,600 at 1.96 Gyr, a factor 3.4 to 4.1
 over the fourfold interval.
 
-<Figure src="/figures/nbody-exponents.png" alt="Exponent of the variance against the form factor, and the spread of the angular-momentum change, per origin ring for the three baselines" />
+<Figure src="/figures/nbody-exponents.png" alt="Exponent of the variance against the form factor and the spread of the angular-momentum change, per origin ring for the three baselines" />
 
 _**The exponent per ring.** Top: the exponent $b$ for the three baselines with the layer
 form factor (lines) and for the 0.49 Gyr baseline with the razor-thin
@@ -210,7 +210,7 @@ $\langle e^{-k\lvert z\rvert}\rangle$ at the wavenumber of $m = 7$ (circles); th
 line is the prediction $b = 2$. Bottom: the variance of $\Delta L_z$ of the same rings,
 which grows in proportion to the baseline._
 
-### The arms are thick, and the razor-thin form factor fails inside 8 kpc
+### The arms are thick: the razor-thin form factor fails inside 8 kpc
 
 With $F = \langle e^{-k|z|}\rangle$, the exponents inside 8 kpc are 0.9 to 1.35 (the
 circles of the figure), which the decision rule of the plan would have read as the
@@ -218,8 +218,8 @@ crossover regime of [Section 4](/theory/resonance-overlap). A sweep of the waven
 $F$ over the stored grid explains the pattern: in each ring the product $b_k k$ is
 nearly constant while $b_k$ itself falls by a factor of 6 from $k = 0.5$ to 4
 kpc$^{-1}$. The variance therefore follows $\exp(-2k_{\rm eff}\langle|z|\rangle)$ with
-one effective wavenumber per ring, and that $k_{\rm eff}$ is about half the arm
-wavenumber inside 8 kpc. The local slopes also flatten toward high $F$, that is, at small
+one effective wavenumber per ring, a $k_{\rm eff}$ about half the arm wavenumber
+inside 8 kpc. The local slopes also flatten toward high $F$, that is, at small
 $|z|$. Both are what the potential of a thick arm produces: it is flat for $|z|$ below the
 arm's vertical scale and decays as $e^{-k|z|}$ only outside it.
 
@@ -235,7 +235,7 @@ $|z| < 0.1$ kpc, 8.6 to 9.0 percent at 0.3 to 0.45 kpc, 4.8 to 7.0 percent at 0.
 0.65 kpc and 2.2 to 4.0 percent at 0.65 to 1 kpc, with the arm at height lagging the
 midplane arm by up to 50 degrees. The implied scale of a $\mathrm{sech}^2$ layer with the
 arm's second moment is $z_a = 0.24$ to 0.29 kpc for every harmonic inside 10 kpc, 0.77 to
-0.93 of the disk's $z_0 = 0.313$ kpc, and 0.25 to 0.26 kpc for the strongest harmonic.
+0.93 of the disk's $z_0 = 0.313$ kpc, with 0.25 to 0.26 kpc for the strongest harmonic.
 
 The correction is the one derived in [Section 2](/theory/form-factor), with the arm's
 measured profile in place of the exponential: the in-plane Fourier component of the
@@ -246,9 +246,9 @@ $$
 $$
 
 and the layer form factor is $F = \langle\phi_k(z)/\phi_k(0)\rangle$ along the orbit. It
-is flat for $|z| \lesssim z_a$ and decays as $e^{-k|z|}$ outside, and it tends to the
+is flat for $|z| \lesssim z_a$ and decays as $e^{-k|z|}$ outside, tending to the
 razor-thin $F$ as $z_a \to 0$. `nbody-window` stores both factors (`form` and
-`form_layer`, with `--arm-scale` defaulting to the measured 0.25 kpc), and
+`form_layer`, with `--arm-scale` defaulting to the measured 0.25 kpc), while
 `nbody-migration --form layer` is the default. With it the exponents move to the values
 quoted above. A scan of the arm scale confirms the choice: at the arm wavenumber a layer
 as thick as the disk gives 1.5 to 2.2 inside 8 kpc with local slopes near 2 across the
@@ -262,7 +262,7 @@ the disk's thickness gives 2.5 to 3.4.
 _**The bias per selection rule** at the 1.96 Gyr baseline. In each origin ring the
 measured $\sigma_{z,\rm mig}/\sigma_{z,\rm all}$ (points) is compared with the model
 obtained by reweighting the same stars with $F$, $F^2$ and $\mathrm{erfc}(\lambda/F)$
-(lines), for migrators weighted by $\lvert\Delta L_z\rvert$, by $(\Delta L_z)^2$, and
+(lines), for migrators weighted by $\lvert\Delta L_z\rvert$, by $(\Delta L_z)^2$ and
 selected by $\lvert\Delta L_z\rvert$ above the 90th percentile._
 
 | Selection rule | Measured ratio, 3 to 12 kpc | Model ratio | Misfit (points) |
@@ -282,11 +282,11 @@ one number. The same rings appear in the test-particle figure above, placed at t
 thinness $\alpha = k z_0$ of each ring next to the test particles and the analytic
 weights.
 
-## Result 3: capture is symmetric, and arrivals keep $J_z$
+## Result 3: capture is symmetric and arrivals keep $J_z$
 
 In every origin ring the inward and the outward migrators have the same $J_z$
 distribution: the Kolmogorov-Smirnov distance between them is 0.02 to 0.12 in the three
-baselines, and both groups have 0.55 to 0.8 of the ring's median $J_z$. The innermost
+baselines, with both groups at 0.55 to 0.8 of the ring's median $J_z$. The innermost
 ring sends most of its migrators outward and the outermost inward, which is the mean
 drift of the disk (the mean $\Delta L_z$ is $+25$ kpc km/s at 3 to 4 kpc and $-26$ at
 11 to 12 kpc after 1.96 Gyr) and not an asymmetry of the capture.
@@ -316,7 +316,7 @@ the control run: between $t = 0.5$ and 0.8 the disk's own variance of $\Delta L_
 to 0.8 percent of the run's in every ring. The perturbers stay in for the whole run, so
 their direct scattering is not separated by a control. What separates it from
 corotation churning is the radial action: inside 8 kpc the migrators' median relative
-change of $J_R$ is 0.22 to 0.51 against 0.29 to 0.53 for the rest of the same rings, and
+change of $J_R$ is 0.22 to 0.51 against 0.29 to 0.53 for the rest of the same rings, while
 the distribution of $\Delta L_z$ has an excess kurtosis of 0.2 to 1.7 inside 10 kpc.
 Scattering would heat the migrators radially everywhere and leave a tail; churning does
 neither.
@@ -326,7 +326,7 @@ uv run experiments nbody-floor staging/LD-control staging/LD --times 0.5,0.8
 ```
 
 The result does not depend on the drift of the arms. The wavenumber is set once, in
-the origin window, and drifts by 20 percent on average (up to 40 percent at single radii)
+the origin window, then drifts by 20 percent on average (up to 40 percent at single radii)
 between the three test windows. The exponents measured against the origin-window $F$
 change between the baselines by less than the ring-to-ring scatter.
 
@@ -334,7 +334,7 @@ change between the baselines by less than the ring-to-ring scatter.
 
 - The form factor is measured along the orbits, not modeled: the test checks the
   exponent and the reweighting, not the isothermal-sheet $F(J_z, k)$ of Section 2.
-- The arm scale is one number, 0.25 kpc, for all radii, and the wavenumber of a ring is
+- The arm scale is one number, 0.25 kpc, for all radii, as the wavenumber of a ring is
   one number for the whole baseline.
 - Outside 9 kpc the arrivals do not follow $J_z$ conservation and the exponents are above
   2.
@@ -357,7 +357,7 @@ inputs and outputs, are tabulated in [Using the library](/library/usage).
 In a self-consistent disk the variance of the angular-momentum change grows as
 $F^{1.9}$ to $F^{2.0}$ over 0.5 to 2 Gyr, the bias of the migrators is reproduced per
 selection rule by the matching weight in $F$ to within 5 points, capture is symmetric
-in direction, and inside 9 kpc the arrivals keep $J_z$. The form factor that does this
+in direction and inside 9 kpc the arrivals keep $J_z$. The form factor that does this
 is the orbit average of the potential of a thick arm, with the arm's measured scale of
 0.8 disk scale heights; the razor-thin $e^{-k|z|}$ underestimates the exponent by a
 factor of 1.4. The [Discussion](/discussion) places the result against the thickening

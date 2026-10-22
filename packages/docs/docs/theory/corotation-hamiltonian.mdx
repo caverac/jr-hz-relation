@@ -12,7 +12,7 @@ import TrappedWeightExplorer from '@site/src/components/viz/TrappedWeightExplore
 **Goal of this section.** This is the core of the argument. We show that the form factor
 $F$ of [Section 2](/theory/form-factor) is not an inserted weight but the exact vertical
 coupling of the spiral at corotation. We then reduce the resonance to a pendulum, read
-off which stars are trapped and migrate, and compute the resulting provenance bias. The
+off which stars are trapped and migrate, then compute the resulting provenance bias. The
 outcome is that a single arm produces a bias of at most about $-7$ percent, which forces
 the analysis into the overlap regime of [Section 4](/theory/resonance-overlap).
 
@@ -28,7 +28,7 @@ $$
 e^{\,i\left(m\phi + \int\! \mathrm{d}R\, k - m\Omega_p t\right)}\right] ,
 $$
 
-with $\Phi_0(R)$ the in-plane amplitude, $e^{-k|z|}$ the vertical fall-off of Section 2,
+with $\Phi_0(R)$ the in-plane amplitude, $e^{-k|z|}$ the vertical fall-off of Section 2
 and a phase that describes an $m$-armed pattern winding through the disk and rotating
 at $\Omega_p$. The position of a star is itself an oscillating function of its angles,
 so we expand $\Phi_s$ as a Fourier series in the background angles, the natural basis
@@ -39,8 +39,8 @@ $$
 e^{\,i\left(n_R\theta_R + m\theta_\phi + n_z\theta_z - m\Omega_p t\right)} .
 $$
 
-Here $n_R$ and $n_z$ are the integer harmonics of the radial and vertical angles, and the
-azimuthal harmonic is fixed at the arm number $m$. Each coefficient is an average over
+Here $n_R$ and $n_z$ are the integer harmonics of the radial and vertical angles, while
+the azimuthal harmonic is fixed at the arm number $m$. Each coefficient is an average over
 the fast angles $\theta_R$ and $\theta_z$, which wind through $2\pi$ at $\kappa$ and
 $\nu_z$, tens of Myr per cycle, at fixed actions. The slow angle, the phase of the star
 relative to the pattern, is not averaged away; it survives as the pendulum coordinate
@@ -106,7 +106,7 @@ Equation (5) of the paper. The complex phase of $\Phi_s$ does not depend on the 
 angles and passes through the average untouched, collapsing to $e^{i\theta_r}$ in the
 slow angle, so the surviving term of the potential is $\Psi\cos\theta_r$. This is the
 central identification of the paper: $F$ is the exact vertical Fourier coefficient of
-the spiral at corotation, and the provenance bias is the $F$ factor of the corotation
+the spiral at corotation, so the provenance bias is the $F$ factor of the corotation
 coupling, as the in-plane selectivity of Daniel and Wyse (2015) is its $G$ factor.
 
 ## The resonance is a pendulum
@@ -120,7 +120,7 @@ the ensemble sense: Minchev et al. (2012) found the vertical action conserved on
 as stellar samples change guiding radius, Vera-Ciro and D'Onghia (2016) measured in a
 $5\times10^6$-particle realization of the disk of [Section 6](/results/nbody-test) a
 median fractional change below 1 percent over 40 orbital periods with a dispersion of 20
-percent at 2 Gyr, and the migrators of Section 6 change their $J_z$ by 0 to 16 percent in
+percent at 2 Gyr, while the migrators of Section 6 change their $J_z$ by 0 to 16 percent in
 the median over 2 Gyr. Expanding the axisymmetric part $\bar H_0(L_z) \equiv H_0 - \Omega_p L_z$
 about corotation in the offset $p \equiv L_z - L_{\rm CR}$,
 
@@ -148,24 +148,24 @@ $$
 \qquad g \equiv \frac{\mathrm{d}\Omega}{\mathrm{d}L_z}\bigg|_{\rm CR} .
 $$
 
-The depth of the well is the coupling $\Psi$, and through $\Psi$ it is set by $F$.
+The depth of the well is the coupling $\Psi$, hence it is set by $F$.
 
 :::note Background: the pendulum
 The [primer](/primer/resonance) derives the same Hamiltonian from the motion in the
-frame of the arm, draws its phase portrait, and maps the two kinds of motion back onto
+frame of the arm, draws its phase portrait and maps the two kinds of motion back onto
 the disk as horseshoe orbits. For a flat or declining rotation curve $g$ is negative,
 so the stable point of the pendulum sits at $\theta_r = 0$, the inter-arm region of the
-corotation circle, and the unstable one on the arm at $\theta_r = \pi$; the paper's
+corotation circle, the unstable one on the arm at $\theta_r = \pi$; the paper's
 Appendix B writes the separatrix after the shift $\theta_r \to \theta_r + \pi$, which
 places the island at $\pi$. The island width below does not depend on the choice.
 :::
 
 ## The trapping island is $\propto\sqrt{F}$
 
-A pendulum has two kinds of motion, circulation, a star that drifts past corotation,
-and libration, a star trapped at corotation that is carried along with the arm and
-migrates, separated by the separatrix through the unstable point. With $g < 0$ the
-unstable point is $\theta_r = \pi$, at the energy $\bar H = -\Psi$, and the separatrix is
+A pendulum has two kinds of motion, circulation (a star that drifts past corotation)
+and libration (a star trapped at corotation that is carried along with the arm and
+migrates), separated by the separatrix through the unstable point. With $g < 0$ the
+unstable point is $\theta_r = \pi$, at the energy $\bar H = -\Psi$, so the separatrix is
 the level curve through it,
 
 $$
@@ -181,23 +181,23 @@ $$
 $$
 
 because $\Psi \propto F$. This is the key inequality of the mechanism: vertically cold
-stars, with large $F$, sit in wider trapping islands and are captured, and migrate,
+stars, with large $F$, sit in wider trapping islands, so they are captured and migrate
 preferentially.
 
 <PendulumPortrait />
 
 _**The island shrinks as $\sqrt{F}$.** The phase portrait of the pendulum
-with $\Psi = \Psi_0 F$ and $|g| = 1$, the separatrix in bold, the island shaded, and
+with $\Psi = \Psi_0 F$ and $|g| = 1$, the separatrix in bold, the island shaded and
 stars integrated on it, blue when trapped and red when circulating. The dashed segment
 is the half-width $2\sqrt{\Psi/|g|}$; moving the slider from $F = 1$ to $F = 0.25$ halves
 it and the number of trapped stars drops._
 
 The weight follows from counting. The parent stars have a smooth distribution $N(p)$ in
-the slow action, centered on the corotation circle, and the island captures those that
-fall inside it, a range of $p$ of order its width around $p = 0$. If the island is narrow
+the slow action, centered on the corotation circle, out of which the island captures
+those that fall inside it, a range of $p$ of order its width around $p = 0$. If the island is narrow
 compared with the spread $\sigma_p$ of the parent distribution, $N(p)$ barely varies
 across it, so the trapped number is the density times the width,
-$N_{\rm trap} \approx N(0)\,\Delta p$, and the migration weight is
+$N_{\rm trap} \approx N(0)\,\Delta p$, so that the migration weight is
 
 $$
 W(J_z) \propto \Delta p \propto F(J_z, k)^{1/2} ,
@@ -211,7 +211,7 @@ below drops.
 
 Model the parent population as a Gaussian in $p$ of dispersion $\sigma_p$,
 $N(p) \propto e^{-p^2/2\sigma_p^2}$. At a fixed angle $\theta_r$ a star is trapped if
-$|p| < p_{\rm sep}(\theta_r)$, and the fraction of the Gaussian inside that band is
+$|p| < p_{\rm sep}(\theta_r)$, so the fraction of the Gaussian inside that band is
 $\mathrm{erf}(p_{\rm sep}/\sqrt{2}\,\sigma_p)$. Writing
 $p_{\rm sep} = p_{\max}\sqrt{F}\,|\cos(\theta_r/2)|$ with $p_{\max} = 2\sqrt{\Psi_0/|g|}$ the
 half-width of a midplane orbit, defining the island-width parameter
@@ -271,9 +271,9 @@ $$
 $$
 
 The provenance bias is the log dispersion ratio $\ln\sigma_z^{\rm mig}/\sigma_z^{\rm all}$,
-the quantity every figure plots. It is negative because $W$ favors small $E_z$, and the
-more negative the stronger the bias; $-0.07$ means that the migrators are about 7
-percent colder. It is a population-integrated number, the whole distribution
+the quantity every figure plots. It is negative because $W$ favors small $E_z$, more
+negative for a stronger bias: $-0.07$ means that the migrators are about 7 percent
+colder. It is a population-integrated number, the whole distribution
 reweighted, not the value of $W$ or $F$ for any single star.
 
 ```shell
@@ -284,15 +284,15 @@ uv run experiments trapping-cap-plot
 
 _**The single-resonance floor.** The provenance bias from the exact trapped weight at
 the Milky Way thickness against the island width $\kappa$. It is most negative in the
-dilute limit, where $W \propto \sqrt{F}$ gives the steepest weighting, and weakens toward
+dilute limit, where $W \propto \sqrt{F}$ gives the steepest weighting, then weakens toward
 0 as the islands saturate: a single corotation resonance is bounded at about $-7$
 percent for any spiral strength._
 
 The conclusion is strong and slightly counterintuitive. Making the spiral stronger,
 which raises $\kappa$, does not strengthen the single-resonance bias but weakens it,
 because wide islands trap hot and cold stars alike. The most negative value the bias
-can take, its floor, is the dilute value with $W \propto \sqrt{F}$, and at the Milky Way
-thickness that floor is $-7$ percent.
+can take, its floor, is the dilute value with $W \propto \sqrt{F}$, which at the Milky
+Way thickness is $-7$ percent.
 
 :::caution The $-7$ percent is the log dispersion ratio, not a value of $\sqrt{F}$
 Across the population $\sqrt{F}$ runs over roughly 0.3 to 1. The $-7$ percent is the

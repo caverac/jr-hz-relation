@@ -15,7 +15,7 @@ match the simulations. Here we show that when several patterns are present, the 
 the spiral plus the transient arms, their trapping islands overlap and the regular
 pendulum trapping turns into stochastic, diffusive churning. Diffusion is steeper in
 $F$ and deepens the bias into a derived band of $-20$ to $-27$ percent. We test with the
-Chirikov criterion that the Milky Way sits at this transition, and we find that the
+Chirikov criterion that the Milky Way sits at this transition. We find that the
 transition is itself biased toward cold stars.
 
 ## The island width as a fraction of the radius
@@ -24,7 +24,7 @@ The trapping island of Section 3 has the half-width $\Delta p = 2\sqrt{\Psi/|g|}
 slow action $p = L_z - L_{\rm CR}$. To compare islands of different patterns we need their
 widths in radius. For a flat rotation curve, $\Omega = V_c/R$, the angular momentum of a
 circular orbit is $L_z = RV_c$, so a shift in $L_z$ is a shift in radius,
-$\Delta R = \Delta p/V_c$, and the curvature of the pendulum is
+$\Delta R = \Delta p/V_c$, while the curvature of the pendulum is
 
 $$
 g = \frac{\mathrm{d}\Omega}{\mathrm{d}L_z}
@@ -41,8 +41,8 @@ $$
 $$
 
 so the island is a fixed fraction of the corotation radius, set by the dimensionless
-spiral strength $\epsilon$, typically 1 to 3 percent, and through $F$ by the vertical
-action of the star. The dependence $\Delta R \propto \sqrt{F}$ is the point to hold on to.
+spiral strength $\epsilon$, typically 1 to 3 percent, together with the vertical
+action of the star through $F$. The dependence $\Delta R \propto \sqrt{F}$ is the point to hold on to.
 
 ## The Chirikov criterion
 
@@ -59,7 +59,7 @@ $$
 Writing the radii through the pattern speeds, $R = V_c/\Omega$, the numerator is
 $2\sqrt{\epsilon GF}\,V_c\,(\Omega_{\rm in} + \Omega_{\rm out})/(\Omega_{\rm in}\Omega_{\rm out})$
 and the denominator $V_c\,(\Omega_{\rm in} - \Omega_{\rm out})/(\Omega_{\rm in}\Omega_{\rm out})$,
-and the common factor cancels, which leaves Equation (11) of the paper:
+so the common factor cancels, which leaves Equation (11) of the paper:
 
 $$
 S = 2\sqrt{\epsilon\,G\,F}\;
@@ -70,7 +70,7 @@ $$
 The [primer](/primer/diffusion) integrates the simplest system with two resonances and
 shows its stroboscopic map as the Chirikov parameter grows: below the threshold
 invariant curves separate the two islands, near it the chaotic layers of the two
-separatrices join, and above it a star started at one resonance reaches the other. The
+separatrices join, above it a star started at one resonance reaches the other. The
 criterion is a rule of thumb, since the last invariant curve breaks at about two thirds
 of the simple estimate, but it captures the transition to within that factor.
 :::
@@ -80,7 +80,7 @@ of the simple estimate, but it captures the transition to within that factor.
 The two dominant patterns are the bar and the spiral. With the fiducial pattern speeds
 $\Omega_p \approx 38$ and $20\,\mathrm{km\,s^{-1}\,kpc^{-1}}$, corotation at 6.0 and 11.5
 kpc for $V_c = 230\,\mathrm{km\,s^{-1}}$, the pattern-speed factor is
-$(38 + 20)/(38 - 20) = 3.22$, and for a midplane star with an order-unity radial factor
+$(38 + 20)/(38 - 20) = 3.22$, so for a midplane star with an order-unity radial factor
 $S = 2\sqrt{\epsilon}\times 3.22$, that is
 
 $$
@@ -92,8 +92,8 @@ overlap threshold, the mechanism of Minchev and Famaey (2010). Quillen (2003) fi
 applied the overlap argument to the Galactic bar and spiral, for the inner Lindblad
 resonance of the spiral against the outer Lindblad resonance of the bar near the Sun,
 a different pair from the corotation pair estimated here. The conclusion depends on the
-two pattern speeds, and the table gives $S$ at $\epsilon = 0.02$ and $F = 1$ across the
-literature range.
+two pattern speeds, for which the table gives $S$ at $\epsilon = 0.02$ and $F = 1$ across
+the literature range.
 
 | $\Omega_{p,\rm bar}$ | $\Omega_{p,\rm sp}$ | $R_{\rm CR}$ bar, spiral (kpc) | $S$ | source |
 | --- | --- | --- | --- | --- |
@@ -108,7 +108,7 @@ literature range.
 Pattern speeds are in $\mathrm{km\,s^{-1}\,kpc^{-1}}$; Sanders et al. (2019) obtain
 $31 \pm 1$ when the far side of the bar is included, for which $S = 1.31$. For the
 mainstream values of the bar, 33 to 41, $S$ runs from 1.13 to 0.82, so the Milky Way stays
-at the threshold, and the slow bar of Horta et al. (2025) places it well inside the
+at the threshold, while the slow bar of Horta et al. (2025) places it well inside the
 overlap regime. The spiral pattern speed matters as much: with the bar at 38, $S = 0.78$
 for the Perseus arm and 1.91 for the single pattern speed of Dias et al. (2019). No
 plausible pair of pattern speeds puts $S$ far below unity at the physical strengths.
@@ -132,7 +132,7 @@ uv run experiments resonance-overlap-plot
 
 _**Overlap is selective in vertical action.** The Chirikov parameter $S$ of the bar and
 spiral corotation resonances against the spiral strength $\epsilon$, for cold ($F = 1$)
-and hot ($F = 0.5$) stars. Overlap sets in at $S = 1$; cold stars cross first, and within
+and hot ($F = 0.5$) stars. Overlap sets in at $S = 1$; cold stars cross first, so within
 the physical band (shaded) only the cold population is in the diffusive regime._
 
 <ChirikovIslands />
@@ -194,8 +194,8 @@ between the trapping floor and the diffusive value._
 ## The diffusive endpoint is derived, not assumed
 
 The $F^2$ ceiling follows from kinetic theory. The inhomogeneous Balescu-Lenard equation
-describes the secular evolution of a self-gravitating disk by resonant relaxation, and
-its angular-momentum diffusion coefficient is
+describes the secular evolution of a self-gravitating disk by resonant relaxation, with
+the angular-momentum diffusion coefficient
 
 $$
 D_{L_z}(J) = \pi\sum_m |\Psi_m(J)|^2\,C_m(\Omega)
@@ -213,7 +213,7 @@ W(J_z) = \frac{F^2}{1 + b\sqrt{F}}, \qquad b = \frac{\Delta\omega}{W_s} ,
 $$
 
 with the limits $W \to F^2$ for sharp resonances, $b \to 0$, the decorrelated
-quasilinear limit, and $W \propto F^{3/2}$ for broad ones, $b \to \infty$, the coherent,
+quasilinear limit, against $W \propto F^{3/2}$ for broad ones, $b \to \infty$, the coherent,
 resonance-broadened limit.
 
 ```shell
@@ -234,9 +234,9 @@ mechanism is tested in [Section 6](/results/nbody-test), first by direct orbit
 integration in an imposed spiral and then in a self-consistent $N$-body disk.
 
 :::tip What to carry forward
-The Milky Way sits at the Chirikov overlap threshold, $S \sim 1$, and the threshold is
-crossed first by cold stars. Overlap turns trapping, $W \propto F^{1/2}$, into diffusion,
-$W \propto F^2$, and the diffusive bias is a near-parameter-free $-20$ to $-27$ percent.
+The Milky Way sits at the Chirikov overlap threshold, $S \sim 1$, which cold stars
+cross first. Overlap turns trapping, $W \propto F^{1/2}$, into diffusion,
+$W \propto F^2$, whose bias is a near-parameter-free $-20$ to $-27$ percent.
 [Section 5](/results/provenance-bias) turns this into the dispersion offset per
 selection rule and into the slope of the $J_R^{\max}$-$h_Z$ relation.
 :::

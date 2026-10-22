@@ -9,20 +9,9 @@ import RotatingFrame from '@site/src/components/viz/RotatingFrame'
 # 1. Introduction
 
 **Goal of this section.** We state the two observations that this work explains, the
-provenance bias of radial migration and the spiral $J_R^{\max}$-$h_Z$ relation, and we
-introduce the one object that ties them together, the vertical form factor. The section
-ends with the plan of the pages and with a note on how to read them without a
-background in galactic dynamics.
-
-:::note How to read these pages
-The numbered sections 1 to 7 follow the manuscript, derivation by derivation. The
-[Primer](/primer/orbits) carries what the derivations assume: the description of an
-orbit by actions and angles, the pendulum that governs a resonance, and the random walk
-that diffusion amounts to. Each primer page has an interactive figure whose numbers come
-from the same equations as the paper's, and the numbered sections link back to the
-primer where a concept first appears. A reader who knows Binney and Tremaine (2008) can
-skip the primer; a reader with some mechanics and statistics can start there.
-:::
+provenance bias of radial migration and the spiral $J_R^{\max}$-$h_Z$ relation. We then
+introduce the one object that ties them together, the vertical form factor. Most of the 
+discussion here is meant to be introductory, detailed explanations will come later.
 
 ## A disk galaxy as a collection of orbits
 
@@ -31,22 +20,21 @@ of stars moving in a shared gravitational potential $\Phi$. Most of the visible 
 in a flattened disk, so the potential is close to axisymmetric and symmetric about the
 midplane $z = 0$. A star in such a potential goes around the center at close to the
 circular speed $V_c$, oscillates in radius about a guiding circle with the epicyclic
-frequency $\kappa$, and oscillates through the midplane with the vertical frequency
+frequency $\kappa$ and oscillates through the midplane with the vertical frequency
 $\nu_z$. Because the three motions are oscillations, the orbit is described by three
 conserved actions, the angular momentum $L_z$, the radial action $J_R$ and the vertical
 action $J_z$, with three angles that advance linearly in time. A vertically cold star has
-a small $J_z$ and stays near the plane; a vertically hot one rises high above it. The
-[first primer page](/primer/orbits) builds this description from the orbits themselves.
+a small $J_z$ and stays near the plane; a vertically hot one rises high above it. 
 
 ## Radial migration at corotation
 
-Real disks grow spiral arms, and the arms of a galaxy like ours are transient and
+Real disks grow spiral arms, the arms of a galaxy like ours are transient and
 recurrent (Sellwood and Carlberg 1984; D'Onghia, Vogelsberger and Hernquist 2013; Baba,
 Saitoh and Wada 2013). An arm is a rotating, non-axisymmetric perturbation of the
 potential with a pattern speed $\Omega_p$ that differs from the orbital frequency
 $\Omega$ of most stars, except at the corotation radius $R_{\rm CR}$ where
 $\Omega(R_{\rm CR}) = \Omega_p$. There the arm does not rush past the star but hovers
-nearly still in the star's frame, and the sustained torque exchanges angular momentum
+nearly still in the star's frame, so the sustained torque exchanges angular momentum
 with it. Since $L_z$ sets the radius of the guiding circle, the exchange moves the star
 to a new radius while leaving its epicycle nearly untouched: this is radial migration
 (Sellwood and Binney 2002; Roskar et al. 2008), the process that blurs the link between
@@ -58,12 +46,12 @@ _**Migration at corotation, in the frame of the arms.** Stars near the corotatio
 (dotted) of a two-armed pattern, moving under the pendulum of
 [Section 3](/theory/corotation-hamiltonian). The disk turns counterclockwise inside the
 circle and clockwise outside it, so a star approaching an arm from inside is lifted
-outward by the arm's pull, drifts back, and is pushed inward again by the other arm:
-the trapped stars (blue) librate about the inter-arm points of the circle, and their
-radius swings by the island width marked by the dashed circles. The frame selector
+outward by the arm's pull, drifts back and is pushed inward again by the other arm:
+the trapped stars (blue) librate about the inter-arm points of the circle, with a
+radius that swings by the island width marked by the dashed circles. The frame selector
 shows the same stars in the inertial frame, where every star orbits and the arms turn
-with them, and the horseshoes are seen to exist only relative to the pattern. The slider
-$F$ shows what the paper adds: a vertically hot star feels a weaker arm, and its island
+with them, so the horseshoes are seen to exist only relative to the pattern. The slider
+$F$ shows what the paper adds: a vertically hot star feels a weaker arm, so its island
 shrinks as $\sqrt{F}$._
 
 ## The puzzle: migration prefers vertically cold stars
@@ -75,7 +63,7 @@ strongest migrators are drawn from the kinematically cool population, with verti
 velocity dispersions below the local mean. Mikkola, McMillan and Hobbs (2020) confirmed
 that the reach of migration in $J_z$ depends on the spiral strength and flagged the lack
 of an analytic description. The usual explanation is that cold stars spend more of their
-time near the midplane, where the arm's gravity is strongest, and so couple to it more
+time near the midplane, where the arm's gravity is strongest, so they couple to it more
 effectively. The sentence is right but it is not a derivation: it does not say how large
 the bias is, how it depends on the thickness of the disk or on the strength of the arms,
 or whether it connects to anything measurable. Turning it into a quantitative model is
@@ -111,9 +99,9 @@ which equals 1 for a midplane orbit and decreases with $J_z$. Section 3 shows th
 average is not a modeling choice: only the orbit-averaged part of the perturbation
 survives to drive the corotation resonance, so $F$ is the coupling strength itself. It
 is the thread of the argument, although not the sole determinant of either observable.
-The size of the bias also needs the migration weight set by the resonance regime, and
-the slope needs the structural anisotropy of the disk; what $F$ supplies is the link
-between them.
+The size of the bias also needs the migration weight set by the resonance regime,
+just as the slope needs the structural anisotropy of the disk. What $F$ supplies is the
+link between them.
 
 ## The thread of the argument
 
@@ -121,13 +109,13 @@ between them.
    realistic disk model (Section 2).
 2. [The corotation-resonant Hamiltonian](/theory/corotation-hamiltonian) shows that $F$
    is the exact vertical Fourier coefficient of the spiral at corotation, reduces the
-   resonance to a pendulum, and finds that a single resonance floors the bias near
+   resonance to a pendulum and finds that a single resonance floors the bias near
    $-7$ percent (Section 3).
 3. [Resonance overlap and the diffusive regime](/theory/resonance-overlap) shows that the
    Milky Way sits at the overlap threshold of its bar and spiral, where trapping gives
    way to diffusion with a weight steeper in $F$ (Section 4).
 4. [The provenance bias and the $J_R^{\max}$-$h_Z$ relation](/results/provenance-bias)
-   states the dispersion offset per selection rule, derives the slope, and predicts
+   states the dispersion offset per selection rule, derives the slope and predicts
    that the slope flattens with age (Section 5).
 5. [The $N$-body test](/results/nbody-test) measures the model in a self-consistent disk
    of $10^8$ particles (Section 6).
@@ -135,7 +123,7 @@ between them.
    caveats (Section 7).
 
 The companion [library](/library/usage) derives every number and figure of these pages,
-with a full test suite, and the interactive figures run the same equations in the
+with a full test suite. The interactive figures run the same equations in the
 browser.
 
 :::info A note on units

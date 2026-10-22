@@ -5,7 +5,7 @@ title: Usage
 
 # Using the library
 
-The `experiments` package implements every result of these pages, and the
+The `experiments` package implements every result of these pages, whose
 interactive figures run the same equations in the browser.
 
 Scalar diagnostics print a single number:
@@ -20,9 +20,8 @@ uv run experiments overlap --bar-speed 38 --spiral-speed 20
 ```
 
 Each figure has its own command, with per-figure options, or the whole set is
-generated at once. Every figure is written to `assets/figures/` as both a `.png`, for
-this site, and a `.pdf`, for the paper, and is only rewritten when its content
-changed:
+generated at once. Every figure is written to `assets/figures/` as a `.png` for
+this site and a `.pdf` for the paper, rewritten only when its content changed:
 
 ```bash
 uv run experiments form-factor-plot --n-energies 60
@@ -66,20 +65,20 @@ uv run experiments nbody-plot
 
 `nbody-migration --form thin` uses the razor-thin form factor $\langle e^{-k|z|}\rangle$
 instead of the layer factor, `--harmonics m` one harmonic instead of the combined
-$m = 5$ to $8$, and `--k-sweep` adds the exponent against $F_k$ for every wavenumber of
+$m = 5$ to $8$ and `--k-sweep` adds the exponent against $F_k$ for every wavenumber of
 the stored grid.
 
 ## The interactive figures
 
 The figures that respond to sliders are React components drawn with D3 under
-`packages/docs/src/components/viz/`, and the physics behind them lives in
+`packages/docs/src/components/viz/`, with the physics behind them in
 `packages/docs/src/physics/`, a TypeScript mirror of the Python modules: `sheet.ts`
 holds the isothermal sheet, the form factor, every migration weight and the
 reweighting that gives the dispersion ratio; `pendulum.ts` the corotation pendulum and
 the two-resonance map; `overlap.ts` the Chirikov parameter; and `slope.ts` the
-structural slope. The mirror is checked against the Python package on 37 quantities,
-form factors, frequencies, actions, trapped fractions and dispersion ratios, and
-agrees to a relative $2\times10^{-11}$; the quadratures use the same energy grid as the
+structural slope. The mirror is checked against the Python package on 37 quantities
+(form factors, frequencies, actions, trapped fractions and dispersion ratios), agreeing
+to a relative $2\times10^{-11}$; the quadratures use the same energy grid as the
 package, so the readouts of a figure are the numbers of the paper. The N-body explorer
 of Section 6 reads the cached tables of `assets/data/nbody/` directly.
 
