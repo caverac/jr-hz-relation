@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/caverac/jr-hz-relation/compare/v1.1.1...v1.1.2) (2026-10-28)
+
+### Bug Fixes
+
+- write the cached n-body tables as valid json ([87a0448](https://github.com/caverac/jr-hz-relation/commit/87a0448383a5c41eb9853497f10c85c198cfd496))
+
 ## [1.1.1](https://github.com/caverac/jr-hz-relation/compare/v1.1.0...v1.1.1) (2026-10-22)
 
 ### Bug Fixes
