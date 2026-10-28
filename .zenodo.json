@@ -1,0 +1,31 @@
+{
+  "upload_type": "software",
+  "title": "jr-hz-relation: Vertical Form Factor, Corotation Trapping and N-body Migration Analysis for the Provenance Bias in Radial Migration",
+  "description": "<p>Analysis code and cached data for the paper \"An Analytic Origin for the Provenance Bias in Radial Migration: A Vertical Form Factor, Corotation Trapping, and the Spiral J_R-h_Z Relation\" by Carlos Vera-Ciro, accepted for publication in The Astrophysical Journal. The Python package <code>experiments</code> and its command-line interface derive every number and figure in the paper.</p><p>The analytic modules compute the vertical form factor F(J_z, k), the potential of a spiral averaged over the vertical orbit of a star in an isothermal sheet, for a razor-thin arm and for arms of finite thickness. The other analytic modules compute the trapped weight and the trapped-fraction cap of a single corotation resonance, the crossover from trapping to diffusion, the diffusive weight from the Balescu-Lenard equation, the Chirikov overlap parameter of the bar and spiral corotation resonances for any pair of pattern speeds, and the structural slope of the J_R^max-h_Z relation with its age-running. A separate module recomputes F with the orbit integrator of galpy, which shares no code with the quadrature.</p><p>The N-body modules read GADGET format 1 snapshots into orbit tracks of a random subset of disk particles, measure the amplitudes and wavenumbers of the spiral harmonics in radial rings, and compute for each tracked star its actions as loop integrals and its form factor along its own orbit. From these they measure the variance of the change in angular momentum against F, the vertical dispersion ratio of the migrators for three selection rules, and the vertical state of the migrators at their destination. The tables measured in the 10^8-particle LD disk of Vera-Ciro, D'Onghia and Navarro (2016, ApJ 833, 42) are included under assets/data/nbody/, so <code>uv run experiments figures</code> redraws every figure of the paper without the snapshots, which are not part of this archive.</p><p>A reader can reuse the code to evaluate F for another disk thickness, wavenumber or arm thickness, to recompute the overlap threshold for other bar and spiral pattern speeds, or to run the migration measurements on another N-body disk stored as GADGET format 1 files that hold the particle masses in the header. The archive also contains the LaTeX source of the paper and the source of the documentation site, https://caverac.github.io/jr-hz-relation/, which walks through the derivation step by step. Installation needs Python 3.14 and GSL, which galpy builds against: run <code>uv sync</code> at the repository root, then <code>uv run experiments --help</code>.</p>",
+  "creators": [
+    {
+      "name": "Vera-Ciro, Carlos",
+      "affiliation": "Independent Researcher",
+      "orcid": "0000-0002-5727-8025"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "radial migration",
+    "provenance bias",
+    "vertical action",
+    "spiral arms",
+    "corotation resonance",
+    "resonance overlap",
+    "galactic dynamics",
+    "N-body simulations",
+    "Milky Way"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://caverac.github.io/jr-hz-relation/",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    }
+  ]
+}
