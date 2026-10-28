@@ -38,9 +38,10 @@ those of the run: kpc, km/s and kpc/(km/s) for time.
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, NoReturn
 
 import numpy as np
 import numpy.typing as npt
@@ -502,15 +503,40 @@ def report(tables: Tables) -> list[str]:
     return lines
 
 
+def map_leaves(value: Any, leaf: Callable[[Any], Any]) -> Any:
+    """Apply ``leaf`` to every value nested in dicts and lists, keeping the nesting."""
+    if isinstance(value, dict):
+        return {key: map_leaves(item, leaf) for key, item in value.items()}
+    if isinstance(value, list):
+        return [map_leaves(item, leaf) for item in value]
+    return leaf(value)
+
+
 def save_tables(path: Path, tables: Tables) -> None:
-    """Write the tables as JSON."""
+    """Write the tables as JSON, with every NaN written as null.
+
+    NaN marks a quantity without a value, such as the measured ratio of the trapping
+    rule or the ratios of a destination ring without arrivals of one kind. JSON has no
+    NaN, so it is written as null; an infinity has no JSON form either and raises.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(tables, indent=2), encoding="ascii")
+    valid = map_leaves(tables, lambda value: None if isinstance(value, float) and np.isnan(value) else value)
+    path.write_text(json.dumps(valid, indent=2, allow_nan=False), encoding="ascii")
 
 
 def load_tables(path: Path) -> Tables:
-    """Read the tables written by :func:`save_tables`."""
-    loaded: Tables = json.loads(path.read_text(encoding="ascii"))
+    """Read the tables written by :func:`save_tables`, with every null read back as NaN.
+
+    A file that carries a NaN or Infinity token is not JSON and is rejected.
+    """
+
+    def reject(token: str) -> NoReturn:
+        raise ValueError(f"{path}: {token} is not JSON; rewrite the file with save_tables")
+
+    loaded: Tables = map_leaves(
+        json.loads(path.read_text(encoding="ascii"), parse_constant=reject),
+        lambda value: float("nan") if value is None else value,
+    )
     return loaded
 
 

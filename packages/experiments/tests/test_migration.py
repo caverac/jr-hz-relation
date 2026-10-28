@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -26,6 +27,7 @@ from experiments.migration import (
     power_law_fit,
     report,
     safe_median,
+    save_tables,
 )
 
 
@@ -127,6 +129,37 @@ def test_tables_contents(tables_file: Path) -> None:
     assert all(np.isfinite(row["exponent_F"]) for row in tables["core"])
     assert len(tables["rules"]) == 45
     assert tables["collapse"]["F"] > 0.0
+
+
+def test_tables_file_is_json(tables_file: Path) -> None:
+    """The saved tables carry no NaN token, and the trapping rule reads back without a measured ratio."""
+    text = tables_file.read_text(encoding="ascii")
+    assert "NaN" not in text and "null" in text
+    trapping = [row for row in load_tables(tables_file)["rules"] if row["rule"] == "trapping (no overlap)"]
+    assert len(trapping) == 9
+    assert all(np.isnan(row["measured"]) for row in trapping)
+
+
+def test_tables_round_trip(tmp_path: Path) -> None:
+    """Every NaN, in rows and in lists, is written as null and read back as NaN; other values are unchanged."""
+    path = tmp_path / "tables.json"
+    save_tables(path, {"rows": [{"ring": "3 to 4", "measured": float("nan"), "n": 2}], "bins": [0.5, float("nan")]})
+    raw = json.loads(path.read_text(encoding="ascii"))
+    assert raw == {"rows": [{"ring": "3 to 4", "measured": None, "n": 2}], "bins": [0.5, None]}
+    tables = load_tables(path)
+    assert tables["rows"][0]["ring"] == "3 to 4" and tables["rows"][0]["n"] == 2
+    assert np.isnan(tables["rows"][0]["measured"])
+    assert tables["bins"][0] == 0.5 and np.isnan(tables["bins"][1])
+
+
+def test_tables_reject_non_json_floats(tmp_path: Path) -> None:
+    """An infinity cannot be saved, and a file with a NaN token cannot be loaded."""
+    with pytest.raises(ValueError):
+        save_tables(tmp_path / "inf.json", {"bins": [float("inf")]})
+    path = tmp_path / "nan.json"
+    path.write_text('{"bins": [NaN]}', encoding="ascii")
+    with pytest.raises(ValueError, match="NaN is not JSON"):
+        load_tables(path)
 
 
 def test_load_particles_rejects_different_grids(

@@ -70,12 +70,7 @@ export default function NbodyVarianceExplorer(): ReactNode {
         if (!response.ok) {
           throw new Error(`${file}: ${response.status}`)
         }
-        // The tables are written by Python's json module, which emits NaN for
-        // the rule without a measured counterpart and for rings without
-        // arrivals in one direction; the token is not JSON, so it is read as
-        // null. Neither table is used here.
-        const text = (await response.text()).replace(/\bNaN\b/g, 'null')
-        return [file, JSON.parse(text) as Tables] as const
+        return [file, (await response.json()) as Tables] as const
       })
     )
       .then((entries) => {

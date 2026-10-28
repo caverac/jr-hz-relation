@@ -565,7 +565,7 @@
     {
       "ring": "3 to 4",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9436596266691434
     },
@@ -600,7 +600,7 @@
     {
       "ring": "4 to 5",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9400689563827652
     },
@@ -635,7 +635,7 @@
     {
       "ring": "5 to 6",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9517391810734519
     },
@@ -670,7 +670,7 @@
     {
       "ring": "6 to 7",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9500701413336242
     },
@@ -705,7 +705,7 @@
     {
       "ring": "7 to 8",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9558865139262286
     },
@@ -740,7 +740,7 @@
     {
       "ring": "8 to 9",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9566845029688891
     },
@@ -775,7 +775,7 @@
     {
       "ring": "9 to 10",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9723726471586778
     },
@@ -810,7 +810,7 @@
     {
       "ring": "10 to 11",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9611917419296547
     },
@@ -845,7 +845,7 @@
     {
       "ring": "11 to 12",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9495328054185873
     },

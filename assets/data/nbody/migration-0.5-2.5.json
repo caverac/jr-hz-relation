@@ -568,7 +568,7 @@
     {
       "ring": "3 to 4",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9584464656030283
     },
@@ -603,7 +603,7 @@
     {
       "ring": "4 to 5",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9589523505868863
     },
@@ -638,7 +638,7 @@
     {
       "ring": "5 to 6",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9644782956202812
     },
@@ -673,7 +673,7 @@
     {
       "ring": "6 to 7",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9621553203966623
     },
@@ -708,7 +708,7 @@
     {
       "ring": "7 to 8",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9693896386657354
     },
@@ -743,7 +743,7 @@
     {
       "ring": "8 to 9",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9674798330934187
     },
@@ -778,7 +778,7 @@
     {
       "ring": "9 to 10",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9678418490190446
     },
@@ -813,7 +813,7 @@
     {
       "ring": "10 to 11",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9605809380691503
     },
@@ -848,7 +848,7 @@
     {
       "ring": "11 to 12",
       "rule": "trapping (no overlap)",
-      "measured": NaN,
+      "measured": null,
       "model": "sqrt(F)",
       "model_ratio": 0.9567683165566441
     },
@@ -952,9 +952,9 @@
       "pred_Jz_in": 0.7336805161705731,
       "pred_Ez_in": 0.6265324599587468,
       "n_out": 0,
-      "measured_out": NaN,
-      "pred_Jz_out": NaN,
-      "pred_Ez_out": NaN
+      "measured_out": null,
+      "pred_Jz_out": null,
+      "pred_Ez_out": null
     },
     {
       "ring": "4 to 5",
@@ -1044,9 +1044,9 @@
       "ring": "11 to 12",
       "n_local": 28606,
       "n_in": 0,
-      "measured_in": NaN,
-      "pred_Jz_in": NaN,
-      "pred_Ez_in": NaN,
+      "measured_in": null,
+      "pred_Jz_in": null,
+      "pred_Ez_in": null,
       "n_out": 1707,
       "measured_out": 0.8140006732499058,
       "pred_Jz_out": 0.717734540202509,
